@@ -1,0 +1,95 @@
+{
+  "generatedAt": "2026-03-29 08:04 JST",
+  "today": "2026-03-29",
+  "ships": [
+    {
+      "id": "00296",
+      "name": "佐島海楽園",
+      "location": "神奈川県 横須賀市 佐島港",
+      "homeUrl": "https://www.chowari.jp/ship/00296/",
+      "catchUrl": "https://www.chowari.jp/ship/00296/catch/",
+      "species": [
+        {
+          "id": "d414c8da78ca",
+          "label": "イサキ",
+          "unit": "匹",
+          "positiveDays": 25,
+          "tripDays": 41,
+          "file": "data/payloads/00296-d414c8da78ca.json"
+        },
+        {
+          "id": "b21cbad6f0b8",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 16,
+          "tripDays": 41,
+          "file": "data/payloads/00296-b21cbad6f0b8.json"
+        },
+        {
+          "id": "8545d07384df",
+          "label": "イナダ",
+          "unit": "匹",
+          "positiveDays": 15,
+          "tripDays": 41,
+          "file": "data/payloads/00296-8545d07384df.json"
+        },
+        {
+          "id": "a9a8a36dce4e",
+          "label": "カワハギ",
+          "unit": "匹",
+          "positiveDays": 11,
+          "tripDays": 41,
+          "file": "data/payloads/00296-a9a8a36dce4e.json"
+        },
+        {
+          "id": "eeea38cf345c",
+          "label": "メジナ",
+          "unit": "匹",
+          "positiveDays": 8,
+          "tripDays": 41,
+          "file": "data/payloads/00296-eeea38cf345c.json"
+        },
+        {
+          "id": "5f27ba89a120",
+          "label": "アマダイ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 41,
+          "file": "data/payloads/00296-5f27ba89a120.json"
+        },
+        {
+          "id": "776d6d4d6bf6",
+          "label": "マルイカ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 41,
+          "file": "data/payloads/00296-776d6d4d6bf6.json"
+        },
+        {
+          "id": "dd2714633d2e",
+          "label": "ヒラメ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 41,
+          "file": "data/payloads/00296-dd2714633d2e.json"
+        },
+        {
+          "id": "af877395da3d",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 41,
+          "file": "data/payloads/00296-af877395da3d.json"
+        },
+        {
+          "id": "5d4e8067f34a",
+          "label": "ワカシ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 41,
+          "file": "data/payloads/00296-5d4e8067f34a.json"
+        }
+      ]
+    }
+  ]
+}
