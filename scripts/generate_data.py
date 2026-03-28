@@ -656,14 +656,16 @@ def evaluate_split(rows, seed_key):
 def build_species_rows(daily_reports, species_name, unit, archive_map, forecast_map, climatology):
     rows = []
     for day_record in daily_reports:
-        features = resolve_training_feature(day_record, archive_map, forecast_map, climatology)
         measurement = day_record["species"].get(species_name, {}).get(unit)
+        if not measurement:
+            continue
+        features = resolve_training_feature(day_record, archive_map, forecast_map, climatology)
         rows.append(
             {
                 "date": day_record["date"],
-                "catchMin": measurement["min"] if measurement else 0.0,
-                "catchMax": measurement["max"] if measurement else 0.0,
-                "catchText": measurement["raw"] if measurement else None,
+                "catchMin": measurement["min"],
+                "catchMax": measurement["max"],
+                "catchText": measurement["raw"],
                 "airTemp": features["airTemp"],
                 "seaTemp": features["seaTemp"],
                 "moonAge": features["moonAge"],

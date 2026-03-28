@@ -484,7 +484,7 @@ function render(payload) {
   document.title = `${payload.ship.name} ${payload.species.label} Xデー予測`;
   document.getElementById("title").textContent = `${payload.ship.name} ${payload.species.label} Xデー予測`;
   document.getElementById("generatedAt").textContent = `更新 ${payload.generatedAt}`;
-  document.getElementById("summaryMeta").textContent = `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 釣行日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
+  document.getElementById("summaryMeta").textContent = `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
   document.getElementById("rangeLabel").textContent = `${payload.forecastRange.from} - ${payload.forecastRange.to}`;
   document.getElementById("todayLabel").textContent = `基準日 ${payload.today}`;
   document.getElementById("minMetricLabel").textContent = `予測下限${payload.species.unit}`;
