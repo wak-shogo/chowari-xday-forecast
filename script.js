@@ -4,6 +4,7 @@ const maxChart = document.getElementById("maxChart");
 
 const shipSelect = document.getElementById("shipSelect");
 const speciesSelect = document.getElementById("speciesSelect");
+const observedSort = document.getElementById("observedSort");
 
 const simulatorNodes = {
   airTemp: {
@@ -32,6 +33,7 @@ const payloadCache = new Map();
 let catalogState = null;
 let payloadState = null;
 let simulatorBound = false;
+let observedSortBound = false;
 
 function clamp(value, lower, upper) {
   return Math.max(lower, Math.min(upper, value));
@@ -303,6 +305,75 @@ function populateTopDays(payload) {
   });
 }
 
+function buildObservedRecords(payload) {
+  const uniqueRecords = new Map();
+
+  payload.predictions.forEach((point) => {
+    if (!point.observedDate || uniqueRecords.has(point.observedDate)) {
+      return;
+    }
+
+    uniqueRecords.set(point.observedDate, {
+      observedDate: point.observedDate,
+      observedMin: point.observedMin,
+      observedMax: point.observedMax,
+      observedText: point.observedText,
+      forecastDate: point.date,
+    });
+  });
+
+  return Array.from(uniqueRecords.values());
+}
+
+function sortObservedRecords(records, sortKey) {
+  const items = [...records];
+
+  if (sortKey === "catch") {
+    items.sort((left, right) => {
+      if (right.observedMax !== left.observedMax) {
+        return right.observedMax - left.observedMax;
+      }
+      if (right.observedMin !== left.observedMin) {
+        return right.observedMin - left.observedMin;
+      }
+      return left.observedDate.localeCompare(right.observedDate);
+    });
+    return items;
+  }
+
+  items.sort((left, right) => left.observedDate.localeCompare(right.observedDate));
+  return items;
+}
+
+function populateObservedList(payload) {
+  const host = document.getElementById("observedList");
+  const records = sortObservedRecords(buildObservedRecords(payload), observedSort.value);
+
+  document.getElementById("observedLabel").textContent = "前年釣果実績";
+  document.getElementById("observedMeta").textContent = `${records.length}件`;
+  host.innerHTML = "";
+
+  if (!records.length) {
+    const empty = document.createElement("div");
+    empty.className = "observed-empty";
+    empty.textContent = "前年実績がある日だけここに表示します。";
+    host.appendChild(empty);
+    return;
+  }
+
+  records.forEach((item) => {
+    const chip = document.createElement("article");
+    chip.className = "day-chip observed-chip";
+    chip.innerHTML = `
+      <span class="date">${formatDate(item.observedDate)}</span>
+      <strong>${item.observedText || `${amountText(item.observedMin, payload.species.unit)}〜${amountText(item.observedMax, payload.species.unit)}`}</strong>
+      <span class="detail">下限 ${amountText(item.observedMin, payload.species.unit)} / 上限 ${amountText(item.observedMax, payload.species.unit)}</span>
+      <span class="subdetail">対応予測日 ${formatDate(item.forecastDate)}</span>
+    `;
+    host.appendChild(chip);
+  });
+}
+
 function configureSimulator(payload) {
   const update = () => {
     const rawFeatures = {
@@ -495,6 +566,7 @@ function render(payload) {
   document.getElementById("unitLabelMax").textContent = `${payload.species.unit} / 日`;
 
   populateTopDays(payload);
+  populateObservedList(payload);
   configureSimulator(payload);
   drawProbabilityChart(payload);
   drawAmountChart(minChart, payload, "predictedMin", "observedMin", "#4ff0c6", "rgba(79, 240, 198, 0.22)");
@@ -533,6 +605,15 @@ function bindSelectors() {
 bindTooltip("probChart", "probChartScroller", "probTooltip");
 bindTooltip("minChart", "minChartScroller", "minTooltip");
 bindTooltip("maxChart", "maxChartScroller", "maxTooltip");
+
+if (!observedSortBound) {
+  observedSort.addEventListener("change", () => {
+    if (payloadState) {
+      populateObservedList(payloadState);
+    }
+  });
+  observedSortBound = true;
+}
 
 window.addEventListener("resize", () => {
   if (payloadState) {

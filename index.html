@@ -111,6 +111,23 @@
         </div>
       </section>
 
+      <section class="observed-panel">
+        <div class="observed-header">
+          <div class="chart-header">
+            <span id="observedLabel">前年釣果実績</span>
+            <span id="observedMeta">-</span>
+          </div>
+          <label class="sort-card" for="observedSort">
+            <span>並び替え</span>
+            <select id="observedSort">
+              <option value="date">日付順</option>
+              <option value="catch">釣果順</option>
+            </select>
+          </label>
+        </div>
+        <div class="observed-grid" id="observedList" aria-label="前年釣果実績一覧"></div>
+      </section>
+
       <footer class="foot">
         <span>釣割 釣果データ</span>
         <span>Open-Meteo 気象・海況データ</span>
