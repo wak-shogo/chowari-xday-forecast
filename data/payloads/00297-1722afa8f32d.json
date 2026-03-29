@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:19 JST",
+  "generatedAt": "2026-03-29 09:38 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "00297",
@@ -510,16 +510,16 @@
   "predictions": [
     {
       "date": "2026-03-30",
-      "predictedMin": 0.5,
-      "predictedMax": 5.15,
-      "airTemp": 14.9,
+      "predictedMin": 0.53,
+      "predictedMax": 5.18,
+      "airTemp": 15.0,
       "seaTemp": 16.0,
       "moonAge": 11.83,
       "featureSource": "forecast",
       "observedDate": "2025-03-30",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -3851,7 +3851,7 @@
       "observedDate": "2025-11-23",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -3865,7 +3865,7 @@
       "observedDate": "2025-11-24",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -3949,7 +3949,7 @@
       "observedDate": "2025-11-30",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "0～5匹",
+      "observedText": "0~5匹",
       "probability": 0.0
     },
     {
@@ -4383,7 +4383,7 @@
       "observedDate": "2025-12-31",
       "observedMin": 0.0,
       "observedMax": 4.0,
-      "observedText": "0～4匹",
+      "observedText": "0~4匹",
       "probability": 0.0
     },
     {
@@ -5517,7 +5517,7 @@
       "observedDate": "2026-03-22",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {

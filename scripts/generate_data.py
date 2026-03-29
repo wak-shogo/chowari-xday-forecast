@@ -18,6 +18,7 @@ PAYLOAD_DIR = DATA_DIR / "payloads"
 CATALOG_PATH = DATA_DIR / "catalog.json"
 
 CHOWARI_ROOT = "https://www.chowari.jp"
+ICHIROUMARU_ROOT = "https://www.ichiroumaru.jp"
 OPEN_METEO_ARCHIVE = "https://archive-api.open-meteo.com/v1/archive"
 OPEN_METEO_FORECAST = "https://api.open-meteo.com/v1/forecast"
 OPEN_METEO_MARINE = "https://marine-api.open-meteo.com/v1/marine"
@@ -25,7 +26,7 @@ TIMEZONE_NAME = "Asia/Tokyo"
 SYNODIC_MONTH = 29.53058867
 REFERENCE_NEW_MOON = datetime(2000, 1, 6, 18, 14, tzinfo=timezone.utc)
 
-DEFAULT_SHIP_IDS = ["00296", "00297"]
+DEFAULT_SHIP_IDS = ["00296", "00297", "ichiroumaru"]
 TRAINING_DAYS = 365
 FORECAST_DAYS = 365
 WEATHER_HISTORY_DAYS = 365 * 3
@@ -51,6 +52,19 @@ FEATURE_TERMS = [
     "airTemp^2",
     "seaTemp^2",
 ]
+
+ICHIROUMARU_COORDINATES = (35.23999456165066, 139.72319088316416)
+ICHIROUMARU_SHIP_CONFIG = {
+    "id": "ichiroumaru",
+    "source": "ichiroumaru",
+    "name": "鴨居一郎丸",
+    "location": "神奈川県横須賀市鴨居",
+    "homeUrl": f"{ICHIROUMARU_ROOT}/",
+    "catchUrl": f"{ICHIROUMARU_ROOT}/result/",
+    "latitude": ICHIROUMARU_COORDINATES[0],
+    "longitude": ICHIROUMARU_COORDINATES[1],
+}
+FULLWIDTH_TRANSLATION = str.maketrans("０１２３４５６７８９．〜～－", "0123456789.~~-")
 
 
 def parse_args():
@@ -85,6 +99,10 @@ def clean_fragment(raw):
     return re.sub(r"\s+", " ", raw.replace("\u3000", " ")).strip()
 
 
+def fullwidth_to_ascii(text):
+    return text.translate(FULLWIDTH_TRANSLATION)
+
+
 def normalize_species_name(name):
     name = clean_fragment(name)
     name = re.sub(r"[（(].*?[）)]", "", name)
@@ -92,7 +110,7 @@ def normalize_species_name(name):
 
 
 def parse_measurement(text):
-    cleaned = clean_fragment(text)
+    cleaned = fullwidth_to_ascii(clean_fragment(text))
     if not cleaned:
         return None
     range_match = re.search(
@@ -136,6 +154,9 @@ def parse_available_month_codes(page_html):
 
 
 def parse_ship_meta(ship_id):
+    if ship_id == ICHIROUMARU_SHIP_CONFIG["id"]:
+        return parse_ichiroumaru_meta()
+
     url = f"{CHOWARI_ROOT}/ship/{ship_id}/"
     page_html = fetch_text(url)
 
@@ -156,6 +177,29 @@ def parse_ship_meta(ship_id):
         "catchUrl": f"{url}catch/",
         "latitude": float(marker_match.group(1)),
         "longitude": float(marker_match.group(2)),
+    }
+
+
+def parse_ichiroumaru_meta():
+    page_html = fetch_text(f"{ICHIROUMARU_ROOT}/info.html")
+    title_match = re.search(r"<title>([^<]+)</title>", page_html)
+    title = clean_fragment(title_match.group(1)) if title_match else ICHIROUMARU_SHIP_CONFIG["name"]
+    name = title.split("−", 1)[-1].split("【", 1)[0].strip() if "−" in title else ICHIROUMARU_SHIP_CONFIG["name"]
+    coords_match = re.search(r"!2d([0-9.]+)!3d([0-9.]+)", page_html)
+    latitude, longitude = ICHIROUMARU_COORDINATES
+    if coords_match:
+        longitude = float(coords_match.group(1))
+        latitude = float(coords_match.group(2))
+
+    return {
+        "id": ICHIROUMARU_SHIP_CONFIG["id"],
+        "name": name or ICHIROUMARU_SHIP_CONFIG["name"],
+        "location": ICHIROUMARU_SHIP_CONFIG["location"],
+        "homeUrl": ICHIROUMARU_SHIP_CONFIG["homeUrl"],
+        "catchUrl": ICHIROUMARU_SHIP_CONFIG["catchUrl"],
+        "latitude": latitude,
+        "longitude": longitude,
+        "source": "ichiroumaru",
     }
 
 
@@ -243,7 +287,129 @@ def parse_catch_block(block_html, ship_meta, source_url):
     }
 
 
+def parse_ichiroumaru_list_page(page_html):
+    items = []
+    pattern = re.compile(
+        r'<a class="result__list__item__link" href="(\./detail\.html\?[^"]+)".*?<time class="result__list__item__link__date" datetime="([^"]+)"',
+        re.S,
+    )
+    for match in pattern.finditer(page_html):
+        try:
+            report_date = date.fromisoformat(match.group(2))
+        except ValueError:
+            continue
+        items.append(
+            {
+                "date": report_date,
+                "url": urllib.parse.urljoin(f"{ICHIROUMARU_ROOT}/result/", match.group(1)),
+            }
+        )
+    return items
+
+
+def parse_ichiroumaru_species_cards(page_html):
+    pattern = re.compile(
+        r'<div class="result-detail__list__item">.*?<div class="result-detail__list__item__head__title">\s*(.*?)\s*</div>.*?<div class="result-detail__list__item__main__number">\s*(.*?)\s*</div>',
+        re.S,
+    )
+    cards = []
+    for match in pattern.finditer(page_html):
+        species_name = normalize_species_name(match.group(1))
+        number_text = fullwidth_to_ascii(clean_fragment(match.group(2)))
+        max_match = re.search(r"(\d+(?:\.\d+)?)", number_text)
+        cards.append(
+            {
+                "species": species_name,
+                "topMax": float(max_match.group(1)) if max_match else None,
+            }
+        )
+    return cards
+
+
+def extract_text_lines(block_html):
+    text = re.sub(r"<br\s*/?>", "\n", block_html)
+    text = re.sub(r"</p>", "\n", text)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = html.unescape(text).replace("\u3000", " ")
+    lines = []
+    for raw_line in text.splitlines():
+        cleaned = fullwidth_to_ascii(re.sub(r"\s+", " ", raw_line)).strip()
+        if cleaned and cleaned != "&nbsp;":
+            lines.append(cleaned)
+    return lines
+
+
+def parse_ichiroumaru_location_from_line(species_name, line, fallback):
+    match = re.match(
+        rf"^{re.escape(species_name)}\s+(.+?)\s+\d+(?:\.\d+)?\s*[〜~～\-−]\s*\d+(?:\.\d+)?\s*[^\d\s]+",
+        line,
+    )
+    return match.group(1).strip() if match else fallback
+
+
+def parse_ichiroumaru_detail(page_html, ship_meta, source_url):
+    date_match = re.search(r'<time class="result-detail__head__info__date" datetime="([^"]+)"', page_html)
+    if not date_match:
+        return None
+    try:
+        report_date = date.fromisoformat(date_match.group(1))
+    except ValueError:
+        return None
+
+    content_match = re.search(r'<div class="result-detail__content">(.*?)</div>\s*<div class="result-detail__action">', page_html, re.S)
+    if not content_match:
+        return None
+    lines = extract_text_lines(content_match.group(1))
+    species_cards = parse_ichiroumaru_species_cards(page_html)
+    if not species_cards:
+        return None
+
+    species = {}
+    report_location = ship_meta["location"]
+    for card in species_cards:
+        matched_line = None
+        for line in lines:
+            if not line.startswith(f"{card['species']} "):
+                continue
+            measurement = parse_measurement(line)
+            if not measurement:
+                continue
+            matched_line = (line, measurement)
+            break
+
+        if matched_line:
+            line, measurement = matched_line
+            report_location = parse_ichiroumaru_location_from_line(card["species"], line, report_location)
+        elif card["topMax"] is not None:
+            measurement = {
+                "min": 0.0,
+                "max": card["topMax"],
+                "unit": "匹",
+                "raw": f"0〜{int(card['topMax']) if float(card['topMax']).is_integer() else card['topMax']}匹",
+            }
+        else:
+            continue
+
+        species.setdefault(card["species"], {})[measurement["unit"]] = measurement
+
+    if not species:
+        return None
+
+    return {
+        "date": report_date,
+        "sourceUrl": source_url,
+        "location": report_location,
+        "airTemp": None,
+        "seaTemp": None,
+        "moonAge": None,
+        "species": species,
+    }
+
+
 def collect_ship_reports(ship_meta, training_start, today):
+    if ship_meta.get("source") == "ichiroumaru":
+        return collect_ichiroumaru_reports(ship_meta, training_start, today)
+
     index_html = fetch_text(ship_meta["catchUrl"])
     available_months = parse_available_month_codes(index_html)
     month_codes = [code for code in month_codes_between(training_start, today) if code in available_months]
@@ -299,6 +465,78 @@ def collect_ship_reports(ship_meta, training_start, today):
                     else:
                         unit_bucket["min"] = min(unit_bucket["min"], measurement["min"])
                         unit_bucket["max"] = max(unit_bucket["max"], measurement["max"])
+
+    return [daily[key] for key in sorted(daily.keys())]
+
+
+def collect_ichiroumaru_reports(ship_meta, training_start, today):
+    seen_urls = set()
+    daily = {}
+    page_number = 1
+
+    while True:
+        if page_number == 1:
+            page_url = ship_meta["catchUrl"]
+        else:
+            page_url = urllib.parse.urljoin(ship_meta["catchUrl"], f"index.html?page={page_number}")
+        page_html = fetch_text(page_url)
+        items = parse_ichiroumaru_list_page(page_html)
+        if not items:
+            break
+
+        page_has_in_range = False
+        oldest_date = min(item["date"] for item in items)
+        for item in items:
+            if item["url"] in seen_urls:
+                continue
+            seen_urls.add(item["url"])
+            if item["date"] < training_start:
+                continue
+            if item["date"] > today:
+                continue
+
+            page_has_in_range = True
+            report_html = fetch_text(item["url"])
+            report = parse_ichiroumaru_detail(report_html, ship_meta, item["url"])
+            if not report or not (training_start <= report["date"] <= today):
+                continue
+
+            key = report["date"].isoformat()
+            current = daily.get(key)
+            if not current:
+                current = {
+                    "date": report["date"],
+                    "location": report["location"],
+                    "airTemp": report["airTemp"],
+                    "seaTemp": report["seaTemp"],
+                    "moonAge": report["moonAge"],
+                    "sourceUrls": [report["sourceUrl"]],
+                    "tripCount": 0,
+                    "species": {},
+                }
+                daily[key] = current
+
+            current["tripCount"] += 1
+            if report["sourceUrl"] not in current["sourceUrls"]:
+                current["sourceUrls"].append(report["sourceUrl"])
+            if report["location"]:
+                current["location"] = report["location"]
+
+            for species_name, units in report["species"].items():
+                species_bucket = current["species"].setdefault(species_name, {})
+                for unit, measurement in units.items():
+                    unit_bucket = species_bucket.get(unit)
+                    if not unit_bucket:
+                        species_bucket[unit] = dict(measurement)
+                    else:
+                        unit_bucket["min"] = min(unit_bucket["min"], measurement["min"])
+                        unit_bucket["max"] = max(unit_bucket["max"], measurement["max"])
+
+        if oldest_date < training_start and not page_has_in_range:
+            break
+        if oldest_date < training_start:
+            break
+        page_number += 1
 
     return [daily[key] for key in sorted(daily.keys())]
 

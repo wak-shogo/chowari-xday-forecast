@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:19 JST",
+  "generatedAt": "2026-03-29 09:37 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "00296",
@@ -362,7 +362,7 @@
       "min": 6.0,
       "max": 33.0,
       "step": 0.1,
-      "default": 15.4
+      "default": 15.5
     },
     "seaTemp": {
       "min": 14.5,
@@ -450,7 +450,7 @@
       "date": "2026-03-30",
       "predictedMin": 0.0,
       "predictedMax": 19.9,
-      "airTemp": 15.4,
+      "airTemp": 15.5,
       "seaTemp": 15.7,
       "moonAge": 11.83,
       "featureSource": "forecast",
@@ -508,7 +508,7 @@
       "date": "2026-03-30",
       "predictedMin": 0.0,
       "predictedMax": 19.9,
-      "airTemp": 15.4,
+      "airTemp": 15.5,
       "seaTemp": 15.7,
       "moonAge": 11.83,
       "featureSource": "forecast",
@@ -2657,7 +2657,7 @@
       "observedDate": "2025-08-30",
       "observedMin": 0.0,
       "observedMax": 3.0,
-      "observedText": "0～3匹",
+      "observedText": "0~3匹",
       "probability": 0.0034
     },
     {
@@ -3035,7 +3035,7 @@
       "observedDate": "2025-09-26",
       "observedMin": 5.0,
       "observedMax": 14.0,
-      "observedText": "5～14匹",
+      "observedText": "5~14匹",
       "probability": 0.0022
     },
     {
@@ -3063,7 +3063,7 @@
       "observedDate": "2025-09-28",
       "observedMin": 2.0,
       "observedMax": 10.0,
-      "observedText": "2～10匹",
+      "observedText": "2~10匹",
       "probability": 0.0037
     },
     {

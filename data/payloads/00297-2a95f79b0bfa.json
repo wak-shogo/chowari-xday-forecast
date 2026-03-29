@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:19 JST",
+  "generatedAt": "2026-03-29 09:38 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "00297",
@@ -511,15 +511,15 @@
     {
       "date": "2026-03-30",
       "predictedMin": 0.0,
-      "predictedMax": 1.72,
-      "airTemp": 14.9,
+      "predictedMax": 1.71,
+      "airTemp": 15.0,
       "seaTemp": 16.0,
       "moonAge": 11.83,
       "featureSource": "forecast",
       "observedDate": "2025-03-30",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
@@ -911,7 +911,7 @@
       "observedDate": "2025-04-27",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
@@ -939,7 +939,7 @@
       "observedDate": "2025-04-29",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -1219,7 +1219,7 @@
       "observedDate": "2025-05-19",
       "observedMin": 0.0,
       "observedMax": 3.0,
-      "observedText": "0～3匹",
+      "observedText": "0~3匹",
       "probability": 0.0
     },
     {
@@ -1387,7 +1387,7 @@
       "observedDate": "2025-05-31",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
@@ -2185,7 +2185,7 @@
       "observedDate": "2025-07-27",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -3865,7 +3865,7 @@
       "observedDate": "2025-11-24",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
@@ -3949,7 +3949,7 @@
       "observedDate": "2025-11-30",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -4369,7 +4369,7 @@
       "observedDate": "2025-12-30",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -4383,7 +4383,7 @@
       "observedDate": "2025-12-31",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "0～2匹",
+      "observedText": "0~2匹",
       "probability": 0.0
     },
     {
@@ -5531,7 +5531,7 @@
       "observedDate": "2026-03-23",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
@@ -5601,7 +5601,7 @@
       "observedDate": "2026-03-28",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "0～1匹",
+      "observedText": "0~1匹",
       "probability": 0.0
     },
     {
