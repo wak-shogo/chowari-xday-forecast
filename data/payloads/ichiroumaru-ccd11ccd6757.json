@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:41 JST",
+  "generatedAt": "2026-03-29 11:08 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "ichiroumaru",
@@ -461,7 +461,7 @@
       "observedDate": "2025-08-31",
       "observedMin": 0.0,
       "observedMax": 21.0,
-      "observedText": "タチウオ 0~21匹 65~110ｃｍ",
+      "observedText": "タチウオ 0~21匹 65~110cm",
       "probability": 0.0256
     },
     {
@@ -475,7 +475,7 @@
       "observedDate": "2025-08-30",
       "observedMin": 3.0,
       "observedMax": 18.0,
-      "observedText": "タチウオ 3~18匹 70~105ｃｍ",
+      "observedText": "タチウオ 3~18匹 70~105cm",
       "probability": 0.0229
     },
     {
@@ -489,7 +489,7 @@
       "observedDate": "2025-09-01",
       "observedMin": 1.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 1~9匹 70~105ｃｍ",
+      "observedText": "タチウオ 1~9匹 70~105cm",
       "probability": 0.0227
     },
     {
@@ -1107,7 +1107,7 @@
       "observedDate": "2025-05-11",
       "observedMin": 0.0,
       "observedMax": 3.0,
-      "observedText": "タチウオ 0~3匹 70~100ｃｍ",
+      "observedText": "タチウオ 0~3匹 70~100cm",
       "probability": 0.0
     },
     {
@@ -1205,7 +1205,7 @@
       "observedDate": "2025-05-18",
       "observedMin": 0.0,
       "observedMax": 4.0,
-      "observedText": "タチウオ 0~4匹 80~100ｃｍ",
+      "observedText": "タチウオ 0~4匹 80~100cm",
       "probability": 0.0
     },
     {
@@ -1219,7 +1219,7 @@
       "observedDate": "2025-05-19",
       "observedMin": 0.0,
       "observedMax": 3.0,
-      "observedText": "タチウオ 0~3匹 80~115ｃｍ",
+      "observedText": "タチウオ 0~3匹 80~115cm",
       "probability": 0.0
     },
     {
@@ -1247,7 +1247,7 @@
       "observedDate": "2025-05-21",
       "observedMin": 1.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 1~9匹 80~110ｃｍ",
+      "observedText": "タチウオ 1~9匹 80~110cm",
       "probability": 0.0
     },
     {
@@ -1261,7 +1261,7 @@
       "observedDate": "2025-05-22",
       "observedMin": 3.0,
       "observedMax": 7.0,
-      "observedText": "タチウオ 3~7匹 80~110ｃｍ",
+      "observedText": "タチウオ 3~7匹 80~110cm",
       "probability": 0.0
     },
     {
@@ -1289,7 +1289,7 @@
       "observedDate": "2025-05-24",
       "observedMin": 0.0,
       "observedMax": 7.0,
-      "observedText": "タチウオ 0~7匹 80~130ｃｍ",
+      "observedText": "タチウオ 0~7匹 80~130cm",
       "probability": 0.0
     },
     {
@@ -1317,7 +1317,7 @@
       "observedDate": "2025-05-26",
       "observedMin": 2.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 2~5匹 80~110ｃｍ",
+      "observedText": "タチウオ 2~5匹 80~110cm",
       "probability": 0.0
     },
     {
@@ -1331,7 +1331,7 @@
       "observedDate": "2025-05-27",
       "observedMin": 1.0,
       "observedMax": 18.0,
-      "observedText": "タチウオ 1~18匹 80~115ｃｍ",
+      "observedText": "タチウオ 1~18匹 80~115cm",
       "probability": 0.0
     },
     {
@@ -1345,7 +1345,7 @@
       "observedDate": "2025-05-28",
       "observedMin": 0.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 0~9匹 80~115ｃｍ",
+      "observedText": "タチウオ 0~9匹 80~115cm",
       "probability": 0.0
     },
     {
@@ -1359,7 +1359,7 @@
       "observedDate": "2025-05-29",
       "observedMin": 0.0,
       "observedMax": 4.0,
-      "observedText": "タチウオ 0~4匹 80~130ｃｍ",
+      "observedText": "タチウオ 0~4匹 80~130cm",
       "probability": 0.0
     },
     {
@@ -1401,7 +1401,7 @@
       "observedDate": "2025-06-01",
       "observedMin": 0.0,
       "observedMax": 1.0,
-      "observedText": "タチウオ 0~1匹 85~129ｃｍ",
+      "observedText": "タチウオ 0~1匹 85~129cm",
       "probability": 0.0
     },
     {
@@ -1415,7 +1415,7 @@
       "observedDate": "2025-06-02",
       "observedMin": 1.0,
       "observedMax": 4.0,
-      "observedText": "タチウオ 1~4匹 80~118ｃｍ",
+      "observedText": "タチウオ 1~4匹 80~118cm",
       "probability": 0.0
     },
     {
@@ -1443,7 +1443,7 @@
       "observedDate": "2025-06-04",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "タチウオ 0~2匹 85~105ｃｍ",
+      "observedText": "タチウオ 0~2匹 85~105cm",
       "probability": 0.0
     },
     {
@@ -1457,7 +1457,7 @@
       "observedDate": "2025-06-05",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "タチウオ 0~2匹 80~105ｃｍ",
+      "observedText": "タチウオ 0~2匹 80~105cm",
       "probability": 0.0
     },
     {
@@ -1485,7 +1485,7 @@
       "observedDate": "2025-06-07",
       "observedMin": 0.0,
       "observedMax": 2.0,
-      "observedText": "タチウオ 0~2匹 70~118ｃｍ",
+      "observedText": "タチウオ 0~2匹 70~118cm",
       "probability": 0.0002
     },
     {
@@ -1499,7 +1499,7 @@
       "observedDate": "2025-06-08",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 0~5匹 70~110ｃｍ",
+      "observedText": "タチウオ 0~5匹 70~110cm",
       "probability": 0.0005
     },
     {
@@ -1583,7 +1583,7 @@
       "observedDate": "2025-06-14",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 0~5匹 70~123ｃｍ",
+      "observedText": "タチウオ 0~5匹 70~123cm",
       "probability": 0.0002
     },
     {
@@ -1625,7 +1625,7 @@
       "observedDate": "2025-06-17",
       "observedMin": 2.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 2~5匹 60~120ｃｍ",
+      "observedText": "タチウオ 2~5匹 60~120cm",
       "probability": 0.0
     },
     {
@@ -1639,7 +1639,7 @@
       "observedDate": "2025-06-18",
       "observedMin": 0.0,
       "observedMax": 7.0,
-      "observedText": "タチウオ 0~7匹 65~118ｃｍ",
+      "observedText": "タチウオ 0~7匹 65~118cm",
       "probability": 0.0
     },
     {
@@ -1681,7 +1681,7 @@
       "observedDate": "2025-06-21",
       "observedMin": 0.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 0~15匹 85~100ｃｍ",
+      "observedText": "タチウオ 0~15匹 85~100cm",
       "probability": 0.0
     },
     {
@@ -1695,7 +1695,7 @@
       "observedDate": "2025-06-22",
       "observedMin": 0.0,
       "observedMax": 6.0,
-      "observedText": "タチウオ 0~6匹 70~110ｃｍ",
+      "observedText": "タチウオ 0~6匹 70~110cm",
       "probability": 0.0
     },
     {
@@ -1709,7 +1709,7 @@
       "observedDate": "2025-06-23",
       "observedMin": 6.0,
       "observedMax": 12.0,
-      "observedText": "タチウオ 6~12匹 70~110ｃｍ",
+      "observedText": "タチウオ 6~12匹 70~110cm",
       "probability": 0.0
     },
     {
@@ -1779,7 +1779,7 @@
       "observedDate": "2025-06-28",
       "observedMin": 3.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 3~9匹 65~110ｃｍ",
+      "observedText": "タチウオ 3~9匹 65~110cm",
       "probability": 0.0
     },
     {
@@ -1821,7 +1821,7 @@
       "observedDate": "2025-07-01",
       "observedMin": 6.0,
       "observedMax": 12.0,
-      "observedText": "タチウオ 6~12匹 65~110ｃｍ",
+      "observedText": "タチウオ 6~12匹 65~110cm",
       "probability": 0.0
     },
     {
@@ -1835,7 +1835,7 @@
       "observedDate": "2025-07-02",
       "observedMin": 4.0,
       "observedMax": 14.0,
-      "observedText": "タチウオ 4~14匹 60~120ｃｍ",
+      "observedText": "タチウオ 4~14匹 60~120cm",
       "probability": 0.001
     },
     {
@@ -1849,7 +1849,7 @@
       "observedDate": "2025-07-03",
       "observedMin": 2.0,
       "observedMax": 17.0,
-      "observedText": "タチウオ 2~17匹 60~115ｃｍ",
+      "observedText": "タチウオ 2~17匹 60~115cm",
       "probability": 0.0012
     },
     {
@@ -1877,7 +1877,7 @@
       "observedDate": "2025-07-05",
       "observedMin": 3.0,
       "observedMax": 21.0,
-      "observedText": "タチウオ 3~21匹 60~100ｃｍ",
+      "observedText": "タチウオ 3~21匹 60~100cm",
       "probability": 0.0015
     },
     {
@@ -1891,7 +1891,7 @@
       "observedDate": "2025-07-06",
       "observedMin": 1.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 1~23匹 70~105ｃｍ",
+      "observedText": "タチウオ 1~23匹 70~105cm",
       "probability": 0.0022
     },
     {
@@ -1919,7 +1919,7 @@
       "observedDate": "2025-07-08",
       "observedMin": 4.0,
       "observedMax": 11.0,
-      "observedText": "タチウオ 4~11匹 70~105ｃｍ",
+      "observedText": "タチウオ 4~11匹 70~105cm",
       "probability": 0.002
     },
     {
@@ -1933,7 +1933,7 @@
       "observedDate": "2025-07-09",
       "observedMin": 4.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 4~9匹 70~110ｃｍ",
+      "observedText": "タチウオ 4~9匹 70~110cm",
       "probability": 0.002
     },
     {
@@ -1947,7 +1947,7 @@
       "observedDate": "2025-07-10",
       "observedMin": 1.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 1~15匹 70~118ｃｍ",
+      "observedText": "タチウオ 1~15匹 70~118cm",
       "probability": 0.0024
     },
     {
@@ -1975,7 +1975,7 @@
       "observedDate": "2025-07-12",
       "observedMin": 4.0,
       "observedMax": 29.0,
-      "observedText": "タチウオ 4~29匹 65~105ｃｍ",
+      "observedText": "タチウオ 4~29匹 65~105cm",
       "probability": 0.0015
     },
     {
@@ -1989,7 +1989,7 @@
       "observedDate": "2025-07-13",
       "observedMin": 1.0,
       "observedMax": 18.0,
-      "observedText": "タチウオ 1~18匹 65~132ｃｍ",
+      "observedText": "タチウオ 1~18匹 65~132cm",
       "probability": 0.0005
     },
     {
@@ -2045,7 +2045,7 @@
       "observedDate": "2025-07-17",
       "observedMin": 7.0,
       "observedMax": 16.0,
-      "observedText": "タチウオ 7~16匹 70~110ｃｍ",
+      "observedText": "タチウオ 7~16匹 70~110cm",
       "probability": 0.0005
     },
     {
@@ -2073,7 +2073,7 @@
       "observedDate": "2025-07-19",
       "observedMin": 4.0,
       "observedMax": 27.0,
-      "observedText": "タチウオ 4~27匹 65~110ｃｍ",
+      "observedText": "タチウオ 4~27匹 65~110cm",
       "probability": 0.001
     },
     {
@@ -2087,7 +2087,7 @@
       "observedDate": "2025-07-20",
       "observedMin": 6.0,
       "observedMax": 25.0,
-      "observedText": "タチウオ 6~25匹 65~115ｃｍ",
+      "observedText": "タチウオ 6~25匹 65~115cm",
       "probability": 0.002
     },
     {
@@ -2101,7 +2101,7 @@
       "observedDate": "2025-07-21",
       "observedMin": 5.0,
       "observedMax": 21.0,
-      "observedText": "タチウオ 5~21匹 65~110ｃｍ",
+      "observedText": "タチウオ 5~21匹 65~110cm",
       "probability": 0.0012
     },
     {
@@ -2143,7 +2143,7 @@
       "observedDate": "2025-07-24",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 2~15匹 65~123ｃｍ",
+      "observedText": "タチウオ 2~15匹 65~123cm",
       "probability": 0.0032
     },
     {
@@ -2171,7 +2171,7 @@
       "observedDate": "2025-07-26",
       "observedMin": 2.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 2~20匹 70~118ｃｍ",
+      "observedText": "タチウオ 2~20匹 70~118cm",
       "probability": 0.0034
     },
     {
@@ -2199,7 +2199,7 @@
       "observedDate": "2025-07-28",
       "observedMin": 5.0,
       "observedMax": 25.0,
-      "observedText": "タチウオ 5~25匹 65~100ｃｍ",
+      "observedText": "タチウオ 5~25匹 65~100cm",
       "probability": 0.0063
     },
     {
@@ -2213,7 +2213,7 @@
       "observedDate": "2025-07-29",
       "observedMin": 5.0,
       "observedMax": 42.0,
-      "observedText": "タチウオ 5~42匹 65~120ｃｍ",
+      "observedText": "タチウオ 5~42匹 65~120cm",
       "probability": 0.0073
     },
     {
@@ -2283,7 +2283,7 @@
       "observedDate": "2025-08-03",
       "observedMin": 3.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 3~23匹 65~115ｃｍ",
+      "observedText": "タチウオ 3~23匹 65~115cm",
       "probability": 0.0225
     },
     {
@@ -2311,7 +2311,7 @@
       "observedDate": "2025-08-05",
       "observedMin": 5.0,
       "observedMax": 17.0,
-      "observedText": "タチウオ 5~17匹 65~110ｃｍ",
+      "observedText": "タチウオ 5~17匹 65~110cm",
       "probability": 0.0151
     },
     {
@@ -2367,7 +2367,7 @@
       "observedDate": "2025-08-09",
       "observedMin": 4.0,
       "observedMax": 31.0,
-      "observedText": "タチウオ 4~31匹 65~100ｃｍ",
+      "observedText": "タチウオ 4~31匹 65~100cm",
       "probability": 0.0073
     },
     {
@@ -2409,7 +2409,7 @@
       "observedDate": "2025-08-12",
       "observedMin": 4.0,
       "observedMax": 28.0,
-      "observedText": "タチウオ 4~28匹 65~120ｃｍ",
+      "observedText": "タチウオ 4~28匹 65~120cm",
       "probability": 0.0046
     },
     {
@@ -2423,7 +2423,7 @@
       "observedDate": "2025-08-13",
       "observedMin": 6.0,
       "observedMax": 25.0,
-      "observedText": "タチウオ 6~25匹 65~125ｃｍ",
+      "observedText": "タチウオ 6~25匹 65~125cm",
       "probability": 0.0034
     },
     {
@@ -2437,7 +2437,7 @@
       "observedDate": "2025-08-14",
       "observedMin": 2.0,
       "observedMax": 44.0,
-      "observedText": "タチウオ 2~44匹 65~115ｃｍ",
+      "observedText": "タチウオ 2~44匹 65~115cm",
       "probability": 0.0063
     },
     {
@@ -2451,7 +2451,7 @@
       "observedDate": "2025-08-15",
       "observedMin": 5.0,
       "observedMax": 40.0,
-      "observedText": "タチウオ 5~40匹 65~115ｃｍ",
+      "observedText": "タチウオ 5~40匹 65~115cm",
       "probability": 0.0042
     },
     {
@@ -2465,7 +2465,7 @@
       "observedDate": "2025-08-16",
       "observedMin": 5.0,
       "observedMax": 24.0,
-      "observedText": "タチウオ 5~24匹 65~110ｃｍ",
+      "observedText": "タチウオ 5~24匹 65~110cm",
       "probability": 0.0027
     },
     {
@@ -2479,7 +2479,7 @@
       "observedDate": "2025-08-17",
       "observedMin": 2.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 2~23匹 65~100ｃｍ",
+      "observedText": "タチウオ 2~23匹 65~100cm",
       "probability": 0.0027
     },
     {
@@ -2493,7 +2493,7 @@
       "observedDate": "2025-08-18",
       "observedMin": 5.0,
       "observedMax": 40.0,
-      "observedText": "タチウオ 5~40匹 65~120ｃｍ",
+      "observedText": "タチウオ 5~40匹 65~120cm",
       "probability": 0.0054
     },
     {
@@ -2507,7 +2507,7 @@
       "observedDate": "2025-08-19",
       "observedMin": 7.0,
       "observedMax": 16.0,
-      "observedText": "タチウオ 7~16匹 65~127ｃｍ",
+      "observedText": "タチウオ 7~16匹 65~127cm",
       "probability": 0.0046
     },
     {
@@ -2521,7 +2521,7 @@
       "observedDate": "2025-08-20",
       "observedMin": 3.0,
       "observedMax": 22.0,
-      "observedText": "タチウオ 3~22匹 65~110ｃｍ",
+      "observedText": "タチウオ 3~22匹 65~110cm",
       "probability": 0.0066
     },
     {
@@ -2535,7 +2535,7 @@
       "observedDate": "2025-08-21",
       "observedMin": 3.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 3~15匹 70~110ｃｍ",
+      "observedText": "タチウオ 3~15匹 70~110cm",
       "probability": 0.0073
     },
     {
@@ -2563,7 +2563,7 @@
       "observedDate": "2025-08-23",
       "observedMin": 3.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 3~23匹 65~110ｃｍ",
+      "observedText": "タチウオ 3~23匹 65~110cm",
       "probability": 0.0134
     },
     {
@@ -2577,7 +2577,7 @@
       "observedDate": "2025-08-24",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 0~5匹 70~115ｃｍ",
+      "observedText": "タチウオ 0~5匹 70~115cm",
       "probability": 0.0144
     },
     {
@@ -2591,7 +2591,7 @@
       "observedDate": "2025-08-25",
       "observedMin": 1.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 1~9匹 65~100ｃｍ",
+      "observedText": "タチウオ 1~9匹 65~100cm",
       "probability": 0.0205
     },
     {
@@ -2605,7 +2605,7 @@
       "observedDate": "2025-08-26",
       "observedMin": 4.0,
       "observedMax": 22.0,
-      "observedText": "タチウオ 4~22匹 65~115ｃｍ",
+      "observedText": "タチウオ 4~22匹 65~115cm",
       "probability": 0.0266
     },
     {
@@ -2619,7 +2619,7 @@
       "observedDate": "2025-08-27",
       "observedMin": 1.0,
       "observedMax": 8.0,
-      "observedText": "タチウオ 1~8匹 70~100ｃｍ",
+      "observedText": "タチウオ 1~8匹 70~100cm",
       "probability": 0.0227
     },
     {
@@ -2633,7 +2633,7 @@
       "observedDate": "2025-08-28",
       "observedMin": 2.0,
       "observedMax": 14.0,
-      "observedText": "タチウオ 2~14匹 65~105ｃｍ",
+      "observedText": "タチウオ 2~14匹 65~105cm",
       "probability": 0.0232
     },
     {
@@ -2661,7 +2661,7 @@
       "observedDate": "2025-08-30",
       "observedMin": 3.0,
       "observedMax": 18.0,
-      "observedText": "タチウオ 3~18匹 70~105ｃｍ",
+      "observedText": "タチウオ 3~18匹 70~105cm",
       "probability": 0.0229
     },
     {
@@ -2675,7 +2675,7 @@
       "observedDate": "2025-08-31",
       "observedMin": 0.0,
       "observedMax": 21.0,
-      "observedText": "タチウオ 0~21匹 65~110ｃｍ",
+      "observedText": "タチウオ 0~21匹 65~110cm",
       "probability": 0.0256
     },
     {
@@ -2689,7 +2689,7 @@
       "observedDate": "2025-09-01",
       "observedMin": 1.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 1~9匹 70~105ｃｍ",
+      "observedText": "タチウオ 1~9匹 70~105cm",
       "probability": 0.0227
     },
     {
@@ -2717,7 +2717,7 @@
       "observedDate": "2025-09-03",
       "observedMin": 2.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 2~20匹 70~100ｃｍ",
+      "observedText": "タチウオ 2~20匹 70~100cm",
       "probability": 0.0217
     },
     {
@@ -2731,7 +2731,7 @@
       "observedDate": "2025-09-04",
       "observedMin": 11.0,
       "observedMax": 22.0,
-      "observedText": "タチウオ 11~22匹 70~124ｃｍ",
+      "observedText": "タチウオ 11~22匹 70~124cm",
       "probability": 0.0254
     },
     {
@@ -2759,7 +2759,7 @@
       "observedDate": "2025-09-06",
       "observedMin": 4.0,
       "observedMax": 16.0,
-      "observedText": "タチウオ 4~16匹 70~100ｃｍ",
+      "observedText": "タチウオ 4~16匹 70~100cm",
       "probability": 0.0181
     },
     {
@@ -2773,7 +2773,7 @@
       "observedDate": "2025-09-07",
       "observedMin": 0.0,
       "observedMax": 11.0,
-      "observedText": "タチウオ 0~11匹 70~110ｃｍ",
+      "observedText": "タチウオ 0~11匹 70~110cm",
       "probability": 0.0144
     },
     {
@@ -2787,7 +2787,7 @@
       "observedDate": "2025-09-08",
       "observedMin": 11.0,
       "observedMax": 24.0,
-      "observedText": "タチウオ 11~24匹 70~90ｃｍ",
+      "observedText": "タチウオ 11~24匹 70~90cm",
       "probability": 0.0095
     },
     {
@@ -2801,7 +2801,7 @@
       "observedDate": "2025-09-09",
       "observedMin": 3.0,
       "observedMax": 13.0,
-      "observedText": "タチウオ 3~13匹 70~100ｃｍ",
+      "observedText": "タチウオ 3~13匹 70~100cm",
       "probability": 0.0078
     },
     {
@@ -2857,7 +2857,7 @@
       "observedDate": "2025-09-13",
       "observedMin": 1.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 1~20匹 70~105ｃｍ",
+      "observedText": "タチウオ 1~20匹 70~105cm",
       "probability": 0.0046
     },
     {
@@ -2871,7 +2871,7 @@
       "observedDate": "2025-09-14",
       "observedMin": 0.0,
       "observedMax": 13.0,
-      "observedText": "タチウオ 0~13匹 70~122ｃｍ",
+      "observedText": "タチウオ 0~13匹 70~122cm",
       "probability": 0.0032
     },
     {
@@ -2885,7 +2885,7 @@
       "observedDate": "2025-09-15",
       "observedMin": 11.0,
       "observedMax": 30.0,
-      "observedText": "タチウオ 11~30匹 70~100ｃｍ",
+      "observedText": "タチウオ 11~30匹 70~100cm",
       "probability": 0.0039
     },
     {
@@ -2899,7 +2899,7 @@
       "observedDate": "2025-09-16",
       "observedMin": 10.0,
       "observedMax": 32.0,
-      "observedText": "タチウオ 10~32匹 70~105ｃｍ",
+      "observedText": "タチウオ 10~32匹 70~105cm",
       "probability": 0.0059
     },
     {
@@ -2913,7 +2913,7 @@
       "observedDate": "2025-09-17",
       "observedMin": 7.0,
       "observedMax": 27.0,
-      "observedText": "タチウオ 7~27匹 70~120ｃｍ",
+      "observedText": "タチウオ 7~27匹 70~120cm",
       "probability": 0.0046
     },
     {
@@ -2927,7 +2927,7 @@
       "observedDate": "2025-09-18",
       "observedMin": 1.0,
       "observedMax": 8.0,
-      "observedText": "タチウオ 1~8匹 70~120ｃｍ",
+      "observedText": "タチウオ 1~8匹 70~120cm",
       "probability": 0.0039
     },
     {
@@ -2955,7 +2955,7 @@
       "observedDate": "2025-09-20",
       "observedMin": 2.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 2~20匹 70~115ｃｍ",
+      "observedText": "タチウオ 2~20匹 70~115cm",
       "probability": 0.0039
     },
     {
@@ -2969,7 +2969,7 @@
       "observedDate": "2025-09-21",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 0~5匹 75~122ｃｍ",
+      "observedText": "タチウオ 0~5匹 75~122cm",
       "probability": 0.0034
     },
     {
@@ -2983,7 +2983,7 @@
       "observedDate": "2025-09-22",
       "observedMin": 8.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 8~20匹 70~115ｃｍ",
+      "observedText": "タチウオ 8~20匹 70~115cm",
       "probability": 0.0044
     },
     {
@@ -2997,7 +2997,7 @@
       "observedDate": "2025-09-23",
       "observedMin": 0.0,
       "observedMax": 11.0,
-      "observedText": "タチウオ 0~11匹 70~123ｃｍ",
+      "observedText": "タチウオ 0~11匹 70~123cm",
       "probability": 0.0051
     },
     {
@@ -3011,7 +3011,7 @@
       "observedDate": "2025-09-24",
       "observedMin": 9.0,
       "observedMax": 31.0,
-      "observedText": "タチウオ 9~31匹 70~113ｃｍ",
+      "observedText": "タチウオ 9~31匹 70~113cm",
       "probability": 0.0046
     },
     {
@@ -3025,7 +3025,7 @@
       "observedDate": "2025-09-25",
       "observedMin": 1.0,
       "observedMax": 14.0,
-      "observedText": "タチウオ 1~14匹 70~110ｃｍ",
+      "observedText": "タチウオ 1~14匹 70~110cm",
       "probability": 0.0051
     },
     {
@@ -3053,7 +3053,7 @@
       "observedDate": "2025-09-27",
       "observedMin": 4.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 4~23匹 70~127ｃｍ",
+      "observedText": "タチウオ 4~23匹 70~127cm",
       "probability": 0.0076
     },
     {
@@ -3067,7 +3067,7 @@
       "observedDate": "2025-09-28",
       "observedMin": 7.0,
       "observedMax": 24.0,
-      "observedText": "タチウオ 7~24匹 70~127ｃｍ",
+      "observedText": "タチウオ 7~24匹 70~127cm",
       "probability": 0.0093
     },
     {
@@ -3095,7 +3095,7 @@
       "observedDate": "2025-09-30",
       "observedMin": 10.0,
       "observedMax": 35.0,
-      "observedText": "タチウオ 10~35匹 70~105ｃｍ",
+      "observedText": "タチウオ 10~35匹 70~105cm",
       "probability": 0.0107
     },
     {
@@ -3123,7 +3123,7 @@
       "observedDate": "2025-10-02",
       "observedMin": 2.0,
       "observedMax": 13.0,
-      "observedText": "タチウオ 2~13匹 70~115ｃｍ",
+      "observedText": "タチウオ 2~13匹 70~115cm",
       "probability": 0.0132
     },
     {
@@ -3151,7 +3151,7 @@
       "observedDate": "2025-10-04",
       "observedMin": 1.0,
       "observedMax": 11.0,
-      "observedText": "タチウオ 1~11匹 70~115ｃｍ",
+      "observedText": "タチウオ 1~11匹 70~115cm",
       "probability": 0.0205
     },
     {
@@ -3165,7 +3165,7 @@
       "observedDate": "2025-10-05",
       "observedMin": 7.0,
       "observedMax": 16.0,
-      "observedText": "タチウオ 7~16匹 70~121ｃｍ",
+      "observedText": "タチウオ 7~16匹 70~121cm",
       "probability": 0.0188
     },
     {
@@ -3179,7 +3179,7 @@
       "observedDate": "2025-10-06",
       "observedMin": 4.0,
       "observedMax": 10.0,
-      "observedText": "タチウオ 4~10匹 70~120ｃｍ",
+      "observedText": "タチウオ 4~10匹 70~120cm",
       "probability": 0.0168
     },
     {
@@ -3193,7 +3193,7 @@
       "observedDate": "2025-10-07",
       "observedMin": 4.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 4~20匹 70~123ｃｍ",
+      "observedText": "タチウオ 4~20匹 70~123cm",
       "probability": 0.0134
     },
     {
@@ -3207,7 +3207,7 @@
       "observedDate": "2025-10-08",
       "observedMin": 5.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 5~23匹 70~110ｃｍ",
+      "observedText": "タチウオ 5~23匹 70~110cm",
       "probability": 0.0132
     },
     {
@@ -3249,7 +3249,7 @@
       "observedDate": "2025-10-11",
       "observedMin": 18.0,
       "observedMax": 26.0,
-      "observedText": "タチウオ 18~26匹 70~110ｃｍ",
+      "observedText": "タチウオ 18~26匹 70~110cm",
       "probability": 0.0054
     },
     {
@@ -3263,7 +3263,7 @@
       "observedDate": "2025-10-12",
       "observedMin": 5.0,
       "observedMax": 28.0,
-      "observedText": "タチウオ 5~28匹 70~105ｃｍ",
+      "observedText": "タチウオ 5~28匹 70~105cm",
       "probability": 0.0049
     },
     {
@@ -3291,7 +3291,7 @@
       "observedDate": "2025-10-14",
       "observedMin": 4.0,
       "observedMax": 38.0,
-      "observedText": "タチウオ 4~38匹 70~105ｃｍ",
+      "observedText": "タチウオ 4~38匹 70~105cm",
       "probability": 0.002
     },
     {
@@ -3305,7 +3305,7 @@
       "observedDate": "2025-10-15",
       "observedMin": 7.0,
       "observedMax": 44.0,
-      "observedText": "タチウオ 7~44匹 70~105ｃｍ",
+      "observedText": "タチウオ 7~44匹 70~105cm",
       "probability": 0.0012
     },
     {
@@ -3347,7 +3347,7 @@
       "observedDate": "2025-10-18",
       "observedMin": 3.0,
       "observedMax": 25.0,
-      "observedText": "タチウオ 3~25匹 70~110ｃｍ",
+      "observedText": "タチウオ 3~25匹 70~110cm",
       "probability": 0.001
     },
     {
@@ -3361,7 +3361,7 @@
       "observedDate": "2025-10-19",
       "observedMin": 4.0,
       "observedMax": 25.0,
-      "observedText": "タチウオ 4~25匹 70~100ｃｍ",
+      "observedText": "タチウオ 4~25匹 70~100cm",
       "probability": 0.0007
     },
     {
@@ -3375,7 +3375,7 @@
       "observedDate": "2025-10-20",
       "observedMin": 16.0,
       "observedMax": 23.0,
-      "observedText": "タチウオ 16~23匹 70~120ｃｍ",
+      "observedText": "タチウオ 16~23匹 70~120cm",
       "probability": 0.0005
     },
     {
@@ -3389,7 +3389,7 @@
       "observedDate": "2025-10-21",
       "observedMin": 15.0,
       "observedMax": 27.0,
-      "observedText": "タチウオ 15~27匹 70~100ｃｍ",
+      "observedText": "タチウオ 15~27匹 70~100cm",
       "probability": 0.0005
     },
     {
@@ -3403,7 +3403,7 @@
       "observedDate": "2025-10-22",
       "observedMin": 4.0,
       "observedMax": 18.0,
-      "observedText": "タチウオ 4~18匹 70~100ｃｍ",
+      "observedText": "タチウオ 4~18匹 70~100cm",
       "probability": 0.0002
     },
     {
@@ -3417,7 +3417,7 @@
       "observedDate": "2025-10-23",
       "observedMin": 5.0,
       "observedMax": 20.0,
-      "observedText": "タチウオ 5~20匹 70~105ｃｍ",
+      "observedText": "タチウオ 5~20匹 70~105cm",
       "probability": 0.0005
     },
     {
@@ -3445,7 +3445,7 @@
       "observedDate": "2025-10-25",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 2~15匹 70~100ｃｍ",
+      "observedText": "タチウオ 2~15匹 70~100cm",
       "probability": 0.0002
     },
     {
@@ -3459,7 +3459,7 @@
       "observedDate": "2025-10-26",
       "observedMin": 1.0,
       "observedMax": 26.0,
-      "observedText": "タチウオ 1~26匹 70~100ｃｍ",
+      "observedText": "タチウオ 1~26匹 70~100cm",
       "probability": 0.0012
     },
     {
@@ -3473,7 +3473,7 @@
       "observedDate": "2025-10-27",
       "observedMin": 2.0,
       "observedMax": 24.0,
-      "observedText": "タチウオ 2~24匹 70~100ｃｍ",
+      "observedText": "タチウオ 2~24匹 70~100cm",
       "probability": 0.0007
     },
     {
@@ -3487,7 +3487,7 @@
       "observedDate": "2025-10-28",
       "observedMin": 0.0,
       "observedMax": 15.0,
-      "observedText": "タチウオ 0~15匹 70~100ｃｍ",
+      "observedText": "タチウオ 0~15匹 70~100cm",
       "probability": 0.0017
     },
     {
@@ -3543,7 +3543,7 @@
       "observedDate": "2025-11-01",
       "observedMin": 1.0,
       "observedMax": 10.0,
-      "observedText": "タチウオ 1~10匹 70~100ｃｍ",
+      "observedText": "タチウオ 1~10匹 70~100cm",
       "probability": 0.0049
     },
     {
@@ -3557,7 +3557,7 @@
       "observedDate": "2025-11-02",
       "observedMin": 2.0,
       "observedMax": 10.0,
-      "observedText": "タチウオ 2~10匹 70~115ｃｍ",
+      "observedText": "タチウオ 2~10匹 70~115cm",
       "probability": 0.0059
     },
     {
@@ -3571,7 +3571,7 @@
       "observedDate": "2025-11-03",
       "observedMin": 1.0,
       "observedMax": 10.0,
-      "observedText": "タチウオ 1~10匹 70~100ｃｍ",
+      "observedText": "タチウオ 1~10匹 70~100cm",
       "probability": 0.0056
     },
     {
@@ -3585,7 +3585,7 @@
       "observedDate": "2025-11-04",
       "observedMin": 0.0,
       "observedMax": 9.0,
-      "observedText": "タチウオ 0~9匹 70~100ｃｍ",
+      "observedText": "タチウオ 0~9匹 70~100cm",
       "probability": 0.0034
     },
     {
@@ -3613,7 +3613,7 @@
       "observedDate": "2025-11-06",
       "observedMin": 0.0,
       "observedMax": 10.0,
-      "observedText": "タチウオ 0~10匹 70~116ｃｍ",
+      "observedText": "タチウオ 0~10匹 70~116cm",
       "probability": 0.0032
     },
     {
@@ -3641,7 +3641,7 @@
       "observedDate": "2025-11-08",
       "observedMin": 2.0,
       "observedMax": 8.0,
-      "observedText": "タチウオ 2~8匹 70~100ｃｍ",
+      "observedText": "タチウオ 2~8匹 70~100cm",
       "probability": 0.0012
     },
     {
@@ -3669,7 +3669,7 @@
       "observedDate": "2025-11-10",
       "observedMin": 3.0,
       "observedMax": 12.0,
-      "observedText": "タチウオ 3~12匹 70~100ｃｍ",
+      "observedText": "タチウオ 3~12匹 70~100cm",
       "probability": 0.0005
     },
     {
@@ -3683,7 +3683,7 @@
       "observedDate": "2025-11-11",
       "observedMin": 2.0,
       "observedMax": 8.0,
-      "observedText": "タチウオ 2~8匹 70~100ｃｍ",
+      "observedText": "タチウオ 2~8匹 70~100cm",
       "probability": 0.0
     },
     {
@@ -3697,7 +3697,7 @@
       "observedDate": "2025-11-12",
       "observedMin": 2.0,
       "observedMax": 5.0,
-      "observedText": "タチウオ 2~5匹 70~90ｃｍ",
+      "observedText": "タチウオ 2~5匹 70~90cm",
       "probability": 0.0
     },
     {

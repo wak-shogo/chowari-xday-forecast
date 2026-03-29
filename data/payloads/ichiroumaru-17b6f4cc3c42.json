@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:41 JST",
+  "generatedAt": "2026-03-29 11:08 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "ichiroumaru",
@@ -1107,7 +1107,7 @@
       "observedDate": "2025-05-11",
       "observedMin": 11.0,
       "observedMax": 25.0,
-      "observedText": "アジ 11~25匹 23~35ｃｍ",
+      "observedText": "アジ 11~25匹 23~35cm",
       "probability": 0.0144
     },
     {
@@ -1205,7 +1205,7 @@
       "observedDate": "2025-05-18",
       "observedMin": 15.0,
       "observedMax": 20.0,
-      "observedText": "アジ 15~20匹 24~36ｃｍ",
+      "observedText": "アジ 15~20匹 24~36cm",
       "probability": 0.0107
     },
     {
@@ -1219,7 +1219,7 @@
       "observedDate": "2025-05-19",
       "observedMin": 5.0,
       "observedMax": 23.0,
-      "observedText": "アジ 5~23匹 25~38ｃｍ",
+      "observedText": "アジ 5~23匹 25~38cm",
       "probability": 0.0088
     },
     {
@@ -1247,7 +1247,7 @@
       "observedDate": "2025-05-21",
       "observedMin": 10.0,
       "observedMax": 31.0,
-      "observedText": "アジ 10~31匹 25~35ｃｍ",
+      "observedText": "アジ 10~31匹 25~35cm",
       "probability": 0.0039
     },
     {
@@ -1261,7 +1261,7 @@
       "observedDate": "2025-05-22",
       "observedMin": 14.0,
       "observedMax": 36.0,
-      "observedText": "アジ 14~36匹 23~33ｃｍ",
+      "observedText": "アジ 14~36匹 23~33cm",
       "probability": 0.0032
     },
     {
@@ -1289,7 +1289,7 @@
       "observedDate": "2025-05-24",
       "observedMin": 1.0,
       "observedMax": 12.0,
-      "observedText": "アジ 1~12匹 25~42ｃｍ",
+      "observedText": "アジ 1~12匹 25~42cm",
       "probability": 0.0022
     },
     {
@@ -1317,7 +1317,7 @@
       "observedDate": "2025-05-26",
       "observedMin": 15.0,
       "observedMax": 19.0,
-      "observedText": "アジ 15~19匹 25~38ｃｍ",
+      "observedText": "アジ 15~19匹 25~38cm",
       "probability": 0.0005
     },
     {
@@ -1331,7 +1331,7 @@
       "observedDate": "2025-05-27",
       "observedMin": 15.0,
       "observedMax": 40.0,
-      "observedText": "アジ 15~40匹 25~38ｃｍ",
+      "observedText": "アジ 15~40匹 25~38cm",
       "probability": 0.0005
     },
     {
@@ -1345,7 +1345,7 @@
       "observedDate": "2025-05-28",
       "observedMin": 10.0,
       "observedMax": 38.0,
-      "observedText": "アジ 10~38匹 25~38ｃｍ",
+      "observedText": "アジ 10~38匹 25~38cm",
       "probability": 0.0007
     },
     {
@@ -1359,7 +1359,7 @@
       "observedDate": "2025-05-29",
       "observedMin": 6.0,
       "observedMax": 29.0,
-      "observedText": "アジ 6~29匹 25~38ｃｍ",
+      "observedText": "アジ 6~29匹 25~38cm",
       "probability": 0.0005
     },
     {
@@ -1401,7 +1401,7 @@
       "observedDate": "2025-06-01",
       "observedMin": 5.0,
       "observedMax": 29.0,
-      "observedText": "アジ 5~29匹 25~36ｃｍ",
+      "observedText": "アジ 5~29匹 25~36cm",
       "probability": 0.0007
     },
     {
@@ -1415,7 +1415,7 @@
       "observedDate": "2025-06-02",
       "observedMin": 10.0,
       "observedMax": 20.0,
-      "observedText": "アジ 10~20匹 23~35ｃｍ",
+      "observedText": "アジ 10~20匹 23~35cm",
       "probability": 0.001
     },
     {
@@ -1443,7 +1443,7 @@
       "observedDate": "2025-06-04",
       "observedMin": 10.0,
       "observedMax": 21.0,
-      "observedText": "アジ 10~21匹 25~38ｃｍ",
+      "observedText": "アジ 10~21匹 25~38cm",
       "probability": 0.0022
     },
     {
@@ -1457,7 +1457,7 @@
       "observedDate": "2025-06-05",
       "observedMin": 7.0,
       "observedMax": 16.0,
-      "observedText": "アジ 7~16匹 25~40ｃｍ",
+      "observedText": "アジ 7~16匹 25~40cm",
       "probability": 0.0044
     },
     {
@@ -1485,7 +1485,7 @@
       "observedDate": "2025-06-07",
       "observedMin": 2.0,
       "observedMax": 22.0,
-      "observedText": "アジ 2~22匹 20~35ｃｍ",
+      "observedText": "アジ 2~22匹 20~35cm",
       "probability": 0.0054
     },
     {
@@ -1499,7 +1499,7 @@
       "observedDate": "2025-06-08",
       "observedMin": 3.0,
       "observedMax": 17.0,
-      "observedText": "アジ 3~17匹 23~30ｃｍ",
+      "observedText": "アジ 3~17匹 23~30cm",
       "probability": 0.0066
     },
     {
@@ -1583,7 +1583,7 @@
       "observedDate": "2025-06-14",
       "observedMin": 8.0,
       "observedMax": 17.0,
-      "observedText": "アジ 8~17匹 23~33ｃｍ",
+      "observedText": "アジ 8~17匹 23~33cm",
       "probability": 0.0183
     },
     {
@@ -1625,7 +1625,7 @@
       "observedDate": "2025-06-17",
       "observedMin": 13.0,
       "observedMax": 35.0,
-      "observedText": "アジ 13~35匹 23~30ｃｍ",
+      "observedText": "アジ 13~35匹 23~30cm",
       "probability": 0.01
     },
     {
@@ -1639,7 +1639,7 @@
       "observedDate": "2025-06-18",
       "observedMin": 8.0,
       "observedMax": 25.0,
-      "observedText": "アジ 8~25匹 23~30ｃｍ",
+      "observedText": "アジ 8~25匹 23~30cm",
       "probability": 0.0083
     },
     {
@@ -1681,7 +1681,7 @@
       "observedDate": "2025-06-21",
       "observedMin": 5.0,
       "observedMax": 23.0,
-      "observedText": "アジ 5~23匹 22~30ｃｍ",
+      "observedText": "アジ 5~23匹 22~30cm",
       "probability": 0.0037
     },
     {
@@ -1695,7 +1695,7 @@
       "observedDate": "2025-06-22",
       "observedMin": 10.0,
       "observedMax": 28.0,
-      "observedText": "アジ 10~28匹 20~33ｃｍ",
+      "observedText": "アジ 10~28匹 20~33cm",
       "probability": 0.0024
     },
     {
@@ -1709,7 +1709,7 @@
       "observedDate": "2025-06-23",
       "observedMin": 11.0,
       "observedMax": 23.0,
-      "observedText": "アジ 11~23匹 23~38ｃｍ",
+      "observedText": "アジ 11~23匹 23~38cm",
       "probability": 0.0015
     },
     {
@@ -1779,7 +1779,7 @@
       "observedDate": "2025-06-28",
       "observedMin": 6.0,
       "observedMax": 20.0,
-      "observedText": "アジ 6~20匹 22~38ｃｍ",
+      "observedText": "アジ 6~20匹 22~38cm",
       "probability": 0.001
     },
     {
@@ -1821,7 +1821,7 @@
       "observedDate": "2025-07-01",
       "observedMin": 12.0,
       "observedMax": 28.0,
-      "observedText": "アジ 12~28匹 25~38ｃｍ",
+      "observedText": "アジ 12~28匹 25~38cm",
       "probability": 0.0002
     },
     {
@@ -1835,7 +1835,7 @@
       "observedDate": "2025-07-02",
       "observedMin": 20.0,
       "observedMax": 44.0,
-      "observedText": "アジ 20~44匹 23~38ｃｍ",
+      "observedText": "アジ 20~44匹 23~38cm",
       "probability": 0.0005
     },
     {
@@ -1849,7 +1849,7 @@
       "observedDate": "2025-07-03",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "アジ 2~15匹 25~38ｃｍ",
+      "observedText": "アジ 2~15匹 25~38cm",
       "probability": 0.0002
     },
     {
@@ -1877,7 +1877,7 @@
       "observedDate": "2025-07-05",
       "observedMin": 1.0,
       "observedMax": 10.0,
-      "observedText": "アジ 1~10匹 27~40ｃｍ",
+      "observedText": "アジ 1~10匹 27~40cm",
       "probability": 0.001
     },
     {
@@ -1891,7 +1891,7 @@
       "observedDate": "2025-07-06",
       "observedMin": 0.0,
       "observedMax": 13.0,
-      "observedText": "アジ 0~13匹 20~33ｃｍ",
+      "observedText": "アジ 0~13匹 20~33cm",
       "probability": 0.001
     },
     {
@@ -1919,7 +1919,7 @@
       "observedDate": "2025-07-08",
       "observedMin": 5.0,
       "observedMax": 23.0,
-      "observedText": "アジ 5~23匹 22~38ｃｍ",
+      "observedText": "アジ 5~23匹 22~38cm",
       "probability": 0.0032
     },
     {
@@ -1933,7 +1933,7 @@
       "observedDate": "2025-07-09",
       "observedMin": 16.0,
       "observedMax": 32.0,
-      "observedText": "アジ 16~32匹 23~38ｃｍ",
+      "observedText": "アジ 16~32匹 23~38cm",
       "probability": 0.0024
     },
     {
@@ -1947,7 +1947,7 @@
       "observedDate": "2025-07-10",
       "observedMin": 12.0,
       "observedMax": 36.0,
-      "observedText": "アジ 12~36匹 23~38ｃｍ",
+      "observedText": "アジ 12~36匹 23~38cm",
       "probability": 0.0022
     },
     {
@@ -1975,7 +1975,7 @@
       "observedDate": "2025-07-12",
       "observedMin": 3.0,
       "observedMax": 17.0,
-      "observedText": "アジ 3~17匹 23~38ｃｍ",
+      "observedText": "アジ 3~17匹 23~38cm",
       "probability": 0.0049
     },
     {
@@ -1989,7 +1989,7 @@
       "observedDate": "2025-07-13",
       "observedMin": 1.0,
       "observedMax": 19.0,
-      "observedText": "アジ 1~19匹 23~40ｃｍ",
+      "observedText": "アジ 1~19匹 23~40cm",
       "probability": 0.0051
     },
     {
@@ -2045,7 +2045,7 @@
       "observedDate": "2025-07-17",
       "observedMin": 15.0,
       "observedMax": 31.0,
-      "observedText": "アジ 15~31匹 22~40ｃｍ",
+      "observedText": "アジ 15~31匹 22~40cm",
       "probability": 0.0061
     },
     {
@@ -2073,7 +2073,7 @@
       "observedDate": "2025-07-19",
       "observedMin": 17.0,
       "observedMax": 50.0,
-      "observedText": "アジ 17~50匹 20~35ｃｍ",
+      "observedText": "アジ 17~50匹 20~35cm",
       "probability": 0.0054
     },
     {
@@ -2087,7 +2087,7 @@
       "observedDate": "2025-07-20",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "アジ 0~5匹 25~40ｃｍ",
+      "observedText": "アジ 0~5匹 25~40cm",
       "probability": 0.0044
     },
     {
@@ -2101,7 +2101,7 @@
       "observedDate": "2025-07-21",
       "observedMin": 5.0,
       "observedMax": 24.0,
-      "observedText": "アジ 5~24匹 23~38ｃｍ",
+      "observedText": "アジ 5~24匹 23~38cm",
       "probability": 0.0022
     },
     {
@@ -2143,7 +2143,7 @@
       "observedDate": "2025-07-24",
       "observedMin": 6.0,
       "observedMax": 15.0,
-      "observedText": "アジ 6~15匹 27~40ｃｍ",
+      "observedText": "アジ 6~15匹 27~40cm",
       "probability": 0.002
     },
     {
@@ -2171,7 +2171,7 @@
       "observedDate": "2025-07-26",
       "observedMin": 0.0,
       "observedMax": 15.0,
-      "observedText": "アジ 0~15匹 22~42ｃｍ",
+      "observedText": "アジ 0~15匹 22~42cm",
       "probability": 0.0015
     },
     {
@@ -2199,7 +2199,7 @@
       "observedDate": "2025-07-28",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "アジ 2~15匹 23~40ｃｍ",
+      "observedText": "アジ 2~15匹 23~40cm",
       "probability": 0.0005
     },
     {
@@ -2213,7 +2213,7 @@
       "observedDate": "2025-07-29",
       "observedMin": 7.0,
       "observedMax": 28.0,
-      "observedText": "アジ 7~28匹 23~30ｃｍ",
+      "observedText": "アジ 7~28匹 23~30cm",
       "probability": 0.001
     },
     {
@@ -2283,7 +2283,7 @@
       "observedDate": "2025-08-03",
       "observedMin": 5.0,
       "observedMax": 36.0,
-      "observedText": "アジ 5~36匹 20~38ｃｍ",
+      "observedText": "アジ 5~36匹 20~38cm",
       "probability": 0.0007
     },
     {
@@ -2311,7 +2311,7 @@
       "observedDate": "2025-08-05",
       "observedMin": 5.0,
       "observedMax": 18.0,
-      "observedText": "アジ 5~18匹 23~40ｃｍ",
+      "observedText": "アジ 5~18匹 23~40cm",
       "probability": 0.0017
     },
     {
@@ -2367,7 +2367,7 @@
       "observedDate": "2025-08-09",
       "observedMin": 1.0,
       "observedMax": 10.0,
-      "observedText": "アジ 1~10匹 25~40ｃｍ",
+      "observedText": "アジ 1~10匹 25~40cm",
       "probability": 0.0024
     },
     {
@@ -2409,7 +2409,7 @@
       "observedDate": "2025-08-12",
       "observedMin": 0.0,
       "observedMax": 6.0,
-      "observedText": "アジ 0~6匹 23~40ｃｍ",
+      "observedText": "アジ 0~6匹 23~40cm",
       "probability": 0.002
     },
     {
@@ -2423,7 +2423,7 @@
       "observedDate": "2025-08-13",
       "observedMin": 4.0,
       "observedMax": 20.0,
-      "observedText": "アジ 4~20匹 20~38ｃｍ",
+      "observedText": "アジ 4~20匹 20~38cm",
       "probability": 0.0073
     },
     {
@@ -2437,7 +2437,7 @@
       "observedDate": "2025-08-14",
       "observedMin": 3.0,
       "observedMax": 28.0,
-      "observedText": "アジ 3~28匹 20~38ｃｍ",
+      "observedText": "アジ 3~28匹 20~38cm",
       "probability": 0.0054
     },
     {
@@ -2451,7 +2451,7 @@
       "observedDate": "2025-08-15",
       "observedMin": 0.0,
       "observedMax": 10.0,
-      "observedText": "アジ 0~10匹 22~40ｃｍ",
+      "observedText": "アジ 0~10匹 22~40cm",
       "probability": 0.0049
     },
     {
@@ -2465,7 +2465,7 @@
       "observedDate": "2025-08-16",
       "observedMin": 1.0,
       "observedMax": 10.0,
-      "observedText": "アジ 1~10匹 28~40ｃｍ",
+      "observedText": "アジ 1~10匹 28~40cm",
       "probability": 0.0049
     },
     {
@@ -2479,7 +2479,7 @@
       "observedDate": "2025-08-17",
       "observedMin": 4.0,
       "observedMax": 15.0,
-      "observedText": "アジ 4~15匹 27~40ｃｍ",
+      "observedText": "アジ 4~15匹 27~40cm",
       "probability": 0.0051
     },
     {
@@ -2493,7 +2493,7 @@
       "observedDate": "2025-08-18",
       "observedMin": 5.0,
       "observedMax": 19.0,
-      "observedText": "アジ 5~19匹 23~40ｃｍ",
+      "observedText": "アジ 5~19匹 23~40cm",
       "probability": 0.0037
     },
     {
@@ -2507,7 +2507,7 @@
       "observedDate": "2025-08-19",
       "observedMin": 6.0,
       "observedMax": 19.0,
-      "observedText": "アジ 6~19匹 23~41ｃｍ",
+      "observedText": "アジ 6~19匹 23~41cm",
       "probability": 0.0046
     },
     {
@@ -2521,7 +2521,7 @@
       "observedDate": "2025-08-20",
       "observedMin": 0.0,
       "observedMax": 15.0,
-      "observedText": "アジ 0~15匹 23~42ｃｍ",
+      "observedText": "アジ 0~15匹 23~42cm",
       "probability": 0.0022
     },
     {
@@ -2535,7 +2535,7 @@
       "observedDate": "2025-08-21",
       "observedMin": 5.0,
       "observedMax": 47.0,
-      "observedText": "アジ 5~47匹 18~30ｃｍ",
+      "observedText": "アジ 5~47匹 18~30cm",
       "probability": 0.0039
     },
     {
@@ -2563,7 +2563,7 @@
       "observedDate": "2025-08-23",
       "observedMin": 5.0,
       "observedMax": 35.0,
-      "observedText": "アジ 5~35匹 18~30ｃｍ",
+      "observedText": "アジ 5~35匹 18~30cm",
       "probability": 0.002
     },
     {
@@ -2577,7 +2577,7 @@
       "observedDate": "2025-08-24",
       "observedMin": 10.0,
       "observedMax": 28.0,
-      "observedText": "アジ 10~28匹 22~30ｃｍ",
+      "observedText": "アジ 10~28匹 22~30cm",
       "probability": 0.001
     },
     {
@@ -2591,7 +2591,7 @@
       "observedDate": "2025-08-25",
       "observedMin": 10.0,
       "observedMax": 32.0,
-      "observedText": "アジ 10~32匹 22~30ｃｍ",
+      "observedText": "アジ 10~32匹 22~30cm",
       "probability": 0.0024
     },
     {
@@ -2605,7 +2605,7 @@
       "observedDate": "2025-08-26",
       "observedMin": 9.0,
       "observedMax": 25.0,
-      "observedText": "アジ 9~25匹 22~30ｃｍ",
+      "observedText": "アジ 9~25匹 22~30cm",
       "probability": 0.0007
     },
     {
@@ -2619,7 +2619,7 @@
       "observedDate": "2025-08-27",
       "observedMin": 2.0,
       "observedMax": 25.0,
-      "observedText": "アジ 2~25匹 22~30ｃｍ",
+      "observedText": "アジ 2~25匹 22~30cm",
       "probability": 0.001
     },
     {
@@ -2633,7 +2633,7 @@
       "observedDate": "2025-08-28",
       "observedMin": 9.0,
       "observedMax": 30.0,
-      "observedText": "アジ 9~30匹 23~35ｃｍ",
+      "observedText": "アジ 9~30匹 23~35cm",
       "probability": 0.0012
     },
     {
@@ -2661,7 +2661,7 @@
       "observedDate": "2025-08-30",
       "observedMin": 2.0,
       "observedMax": 11.0,
-      "observedText": "アジ 2~11匹 24~32ｃｍ",
+      "observedText": "アジ 2~11匹 24~32cm",
       "probability": 0.0007
     },
     {
@@ -2675,7 +2675,7 @@
       "observedDate": "2025-08-31",
       "observedMin": 6.0,
       "observedMax": 19.0,
-      "observedText": "アジ 6~19匹 25~38ｃｍ",
+      "observedText": "アジ 6~19匹 25~38cm",
       "probability": 0.001
     },
     {
@@ -2689,7 +2689,7 @@
       "observedDate": "2025-09-01",
       "observedMin": 4.0,
       "observedMax": 20.0,
-      "observedText": "アジ 4~20匹 23~33ｃｍ",
+      "observedText": "アジ 4~20匹 23~33cm",
       "probability": 0.0017
     },
     {
@@ -2717,7 +2717,7 @@
       "observedDate": "2025-09-03",
       "observedMin": 10.0,
       "observedMax": 35.0,
-      "observedText": "アジ 10~35匹 23~36ｃｍ",
+      "observedText": "アジ 10~35匹 23~36cm",
       "probability": 0.0017
     },
     {
@@ -2731,7 +2731,7 @@
       "observedDate": "2025-09-04",
       "observedMin": 8.0,
       "observedMax": 34.0,
-      "observedText": "アジ 8~34匹 18~26ｃｍ",
+      "observedText": "アジ 8~34匹 18~26cm",
       "probability": 0.0017
     },
     {
@@ -2759,7 +2759,7 @@
       "observedDate": "2025-09-06",
       "observedMin": 3.0,
       "observedMax": 22.0,
-      "observedText": "アジ 3~22匹 22~30ｃｍ",
+      "observedText": "アジ 3~22匹 22~30cm",
       "probability": 0.002
     },
     {
@@ -2773,7 +2773,7 @@
       "observedDate": "2025-09-07",
       "observedMin": 10.0,
       "observedMax": 31.0,
-      "observedText": "アジ 10~31匹 22~33ｃｍ",
+      "observedText": "アジ 10~31匹 22~33cm",
       "probability": 0.0027
     },
     {
@@ -2787,7 +2787,7 @@
       "observedDate": "2025-09-08",
       "observedMin": 8.0,
       "observedMax": 21.0,
-      "observedText": "アジ 8~21匹 23~35ｃｍ",
+      "observedText": "アジ 8~21匹 23~35cm",
       "probability": 0.0049
     },
     {
@@ -2801,7 +2801,7 @@
       "observedDate": "2025-09-09",
       "observedMin": 7.0,
       "observedMax": 15.0,
-      "observedText": "アジ 7~15匹 22~30ｃｍ",
+      "observedText": "アジ 7~15匹 22~30cm",
       "probability": 0.0063
     },
     {
@@ -2857,7 +2857,7 @@
       "observedDate": "2025-09-13",
       "observedMin": 0.0,
       "observedMax": 21.0,
-      "observedText": "アジ 0~21匹 25~35ｃｍ",
+      "observedText": "アジ 0~21匹 25~35cm",
       "probability": 0.0056
     },
     {
@@ -2871,7 +2871,7 @@
       "observedDate": "2025-09-14",
       "observedMin": 0.0,
       "observedMax": 17.0,
-      "observedText": "アジ 0~17匹 25~33ｃｍ",
+      "observedText": "アジ 0~17匹 25~33cm",
       "probability": 0.0056
     },
     {
@@ -2885,7 +2885,7 @@
       "observedDate": "2025-09-15",
       "observedMin": 15.0,
       "observedMax": 30.0,
-      "observedText": "アジ 15~30匹 23~33ｃｍ",
+      "observedText": "アジ 15~30匹 23~33cm",
       "probability": 0.0059
     },
     {
@@ -2899,7 +2899,7 @@
       "observedDate": "2025-09-16",
       "observedMin": 9.0,
       "observedMax": 27.0,
-      "observedText": "アジ 9~27匹 25~38ｃｍ",
+      "observedText": "アジ 9~27匹 25~38cm",
       "probability": 0.0046
     },
     {
@@ -2913,7 +2913,7 @@
       "observedDate": "2025-09-17",
       "observedMin": 10.0,
       "observedMax": 28.0,
-      "observedText": "アジ 10~28匹 25~38ｃｍ",
+      "observedText": "アジ 10~28匹 25~38cm",
       "probability": 0.0022
     },
     {
@@ -2927,7 +2927,7 @@
       "observedDate": "2025-09-18",
       "observedMin": 4.0,
       "observedMax": 20.0,
-      "observedText": "アジ 4~20匹 25~38ｃｍ",
+      "observedText": "アジ 4~20匹 25~38cm",
       "probability": 0.0066
     },
     {
@@ -2955,7 +2955,7 @@
       "observedDate": "2025-09-20",
       "observedMin": 5.0,
       "observedMax": 37.0,
-      "observedText": "アジ 5~37匹 18~23ｃｍ",
+      "observedText": "アジ 5~37匹 18~23cm",
       "probability": 0.0017
     },
     {
@@ -2969,7 +2969,7 @@
       "observedDate": "2025-09-21",
       "observedMin": 5.0,
       "observedMax": 30.0,
-      "observedText": "アジ 5~30匹 22~28ｃｍ",
+      "observedText": "アジ 5~30匹 22~28cm",
       "probability": 0.0032
     },
     {
@@ -2983,7 +2983,7 @@
       "observedDate": "2025-09-22",
       "observedMin": 13.0,
       "observedMax": 38.0,
-      "observedText": "アジ 13~38匹 22~35ｃｍ",
+      "observedText": "アジ 13~38匹 22~35cm",
       "probability": 0.0027
     },
     {
@@ -2997,7 +2997,7 @@
       "observedDate": "2025-09-23",
       "observedMin": 0.0,
       "observedMax": 25.0,
-      "observedText": "アジ 0~25匹 22~30ｃｍ",
+      "observedText": "アジ 0~25匹 22~30cm",
       "probability": 0.0022
     },
     {
@@ -3011,7 +3011,7 @@
       "observedDate": "2025-09-24",
       "observedMin": 14.0,
       "observedMax": 35.0,
-      "observedText": "アジ 14~35匹 22~35ｃｍ",
+      "observedText": "アジ 14~35匹 22~35cm",
       "probability": 0.0024
     },
     {
@@ -3025,7 +3025,7 @@
       "observedDate": "2025-09-25",
       "observedMin": 8.0,
       "observedMax": 27.0,
-      "observedText": "アジ 8~27匹 22~30ｃｍ",
+      "observedText": "アジ 8~27匹 22~30cm",
       "probability": 0.002
     },
     {
@@ -3053,7 +3053,7 @@
       "observedDate": "2025-09-27",
       "observedMin": 6.0,
       "observedMax": 32.0,
-      "observedText": "アジ 6~32匹 22~33ｃｍ",
+      "observedText": "アジ 6~32匹 22~33cm",
       "probability": 0.0029
     },
     {
@@ -3067,7 +3067,7 @@
       "observedDate": "2025-09-28",
       "observedMin": 13.0,
       "observedMax": 33.0,
-      "observedText": "アジ 13~33匹 22~30ｃｍ",
+      "observedText": "アジ 13~33匹 22~30cm",
       "probability": 0.0042
     },
     {
@@ -3095,7 +3095,7 @@
       "observedDate": "2025-09-30",
       "observedMin": 0.0,
       "observedMax": 5.0,
-      "observedText": "アジ 0~5匹 25~40ｃｍ",
+      "observedText": "アジ 0~5匹 25~40cm",
       "probability": 0.0056
     },
     {
@@ -3123,7 +3123,7 @@
       "observedDate": "2025-10-02",
       "observedMin": 19.0,
       "observedMax": 39.0,
-      "observedText": "アジ 19~39匹 25~38ｃｍ",
+      "observedText": "アジ 19~39匹 25~38cm",
       "probability": 0.0122
     },
     {
@@ -3151,7 +3151,7 @@
       "observedDate": "2025-10-04",
       "observedMin": 7.0,
       "observedMax": 16.0,
-      "observedText": "アジ 7~16匹 25~36ｃｍ",
+      "observedText": "アジ 7~16匹 25~36cm",
       "probability": 0.0095
     },
     {
@@ -3165,7 +3165,7 @@
       "observedDate": "2025-10-05",
       "observedMin": 18.0,
       "observedMax": 32.0,
-      "observedText": "アジ 18~32匹 25~36ｃｍ",
+      "observedText": "アジ 18~32匹 25~36cm",
       "probability": 0.0154
     },
     {
@@ -3179,7 +3179,7 @@
       "observedDate": "2025-10-06",
       "observedMin": 3.0,
       "observedMax": 20.0,
-      "observedText": "アジ 3~20匹 23~38ｃｍ",
+      "observedText": "アジ 3~20匹 23~38cm",
       "probability": 0.0139
     },
     {
@@ -3193,7 +3193,7 @@
       "observedDate": "2025-10-07",
       "observedMin": 10.0,
       "observedMax": 40.0,
-      "observedText": "アジ 10~40匹 18~33ｃｍ",
+      "observedText": "アジ 10~40匹 18~33cm",
       "probability": 0.0129
     },
     {
@@ -3207,7 +3207,7 @@
       "observedDate": "2025-10-08",
       "observedMin": 8.0,
       "observedMax": 31.0,
-      "observedText": "アジ 8~31匹 25~38ｃｍ",
+      "observedText": "アジ 8~31匹 25~38cm",
       "probability": 0.0129
     },
     {
@@ -3249,7 +3249,7 @@
       "observedDate": "2025-10-11",
       "observedMin": 15.0,
       "observedMax": 25.0,
-      "observedText": "アジ 15~25匹 20~30ｃｍ",
+      "observedText": "アジ 15~25匹 20~30cm",
       "probability": 0.0051
     },
     {
@@ -3263,7 +3263,7 @@
       "observedDate": "2025-10-12",
       "observedMin": 15.0,
       "observedMax": 45.0,
-      "observedText": "アジ 15~45匹 23~35ｃｍ",
+      "observedText": "アジ 15~45匹 23~35cm",
       "probability": 0.0032
     },
     {
@@ -3291,7 +3291,7 @@
       "observedDate": "2025-10-14",
       "observedMin": 10.0,
       "observedMax": 40.0,
-      "observedText": "アジ 10~40匹 23~33ｃｍ",
+      "observedText": "アジ 10~40匹 23~33cm",
       "probability": 0.002
     },
     {
@@ -3305,7 +3305,7 @@
       "observedDate": "2025-10-15",
       "observedMin": 6.0,
       "observedMax": 24.0,
-      "observedText": "アジ 6~24匹 23~37ｃｍ",
+      "observedText": "アジ 6~24匹 23~37cm",
       "probability": 0.0012
     },
     {
@@ -3347,7 +3347,7 @@
       "observedDate": "2025-10-18",
       "observedMin": 0.0,
       "observedMax": 27.0,
-      "observedText": "アジ 0~27匹 18~42ｃｍ",
+      "observedText": "アジ 0~27匹 18~42cm",
       "probability": 0.0017
     },
     {
@@ -3361,7 +3361,7 @@
       "observedDate": "2025-10-19",
       "observedMin": 0.0,
       "observedMax": 20.0,
-      "observedText": "アジ 0~20匹 18~40ｃｍ",
+      "observedText": "アジ 0~20匹 18~40cm",
       "probability": 0.0007
     },
     {
@@ -3375,7 +3375,7 @@
       "observedDate": "2025-10-20",
       "observedMin": 10.0,
       "observedMax": 35.0,
-      "observedText": "アジ 10~35匹 18~23ｃｍ",
+      "observedText": "アジ 10~35匹 18~23cm",
       "probability": 0.0005
     },
     {
@@ -3389,7 +3389,7 @@
       "observedDate": "2025-10-21",
       "observedMin": 6.0,
       "observedMax": 20.0,
-      "observedText": "アジ 6~20匹 22~43ｃｍ",
+      "observedText": "アジ 6~20匹 22~43cm",
       "probability": 0.0002
     },
     {
@@ -3403,7 +3403,7 @@
       "observedDate": "2025-10-22",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "アジ 2~15匹 25~42ｃｍ",
+      "observedText": "アジ 2~15匹 25~42cm",
       "probability": 0.0005
     },
     {
@@ -3417,7 +3417,7 @@
       "observedDate": "2025-10-23",
       "observedMin": 1.0,
       "observedMax": 5.0,
-      "observedText": "アジ 1~5匹 25~40ｃｍ",
+      "observedText": "アジ 1~5匹 25~40cm",
       "probability": 0.0012
     },
     {
@@ -3445,7 +3445,7 @@
       "observedDate": "2025-10-25",
       "observedMin": 2.0,
       "observedMax": 12.0,
-      "observedText": "アジ 2~12匹 24~38ｃｍ",
+      "observedText": "アジ 2~12匹 24~38cm",
       "probability": 0.0017
     },
     {
@@ -3459,7 +3459,7 @@
       "observedDate": "2025-10-26",
       "observedMin": 6.0,
       "observedMax": 33.0,
-      "observedText": "アジ 6~33匹 23~35ｃｍ",
+      "observedText": "アジ 6~33匹 23~35cm",
       "probability": 0.0022
     },
     {
@@ -3473,7 +3473,7 @@
       "observedDate": "2025-10-27",
       "observedMin": 10.0,
       "observedMax": 23.0,
-      "observedText": "アジ 10~23匹 23~40ｃｍ",
+      "observedText": "アジ 10~23匹 23~40cm",
       "probability": 0.0022
     },
     {
@@ -3487,7 +3487,7 @@
       "observedDate": "2025-10-28",
       "observedMin": 2.0,
       "observedMax": 15.0,
-      "observedText": "アジ 2~15匹 25~40ｃｍ",
+      "observedText": "アジ 2~15匹 25~40cm",
       "probability": 0.0054
     },
     {
@@ -3543,7 +3543,7 @@
       "observedDate": "2025-11-01",
       "observedMin": 0.0,
       "observedMax": 6.0,
-      "observedText": "アジ 0~6匹 23~30ｃｍ",
+      "observedText": "アジ 0~6匹 23~30cm",
       "probability": 0.0132
     },
     {
@@ -3557,7 +3557,7 @@
       "observedDate": "2025-11-02",
       "observedMin": 0.0,
       "observedMax": 8.0,
-      "observedText": "アジ 0~8匹 20~40ｃｍ",
+      "observedText": "アジ 0~8匹 20~40cm",
       "probability": 0.0115
     },
     {
@@ -3571,7 +3571,7 @@
       "observedDate": "2025-11-03",
       "observedMin": 1.0,
       "observedMax": 12.0,
-      "observedText": "アジ 1~12匹 20~33ｃｍ",
+      "observedText": "アジ 1~12匹 20~33cm",
       "probability": 0.009
     },
     {
@@ -3585,7 +3585,7 @@
       "observedDate": "2025-11-04",
       "observedMin": 4.0,
       "observedMax": 16.0,
-      "observedText": "アジ 4~16匹 20~23ｃｍ",
+      "observedText": "アジ 4~16匹 20~23cm",
       "probability": 0.0093
     },
     {
@@ -3613,7 +3613,7 @@
       "observedDate": "2025-11-06",
       "observedMin": 10.0,
       "observedMax": 25.0,
-      "observedText": "アジ 10~25匹 23~40ｃｍ",
+      "observedText": "アジ 10~25匹 23~40cm",
       "probability": 0.0051
     },
     {
@@ -3641,7 +3641,7 @@
       "observedDate": "2025-11-08",
       "observedMin": 16.0,
       "observedMax": 40.0,
-      "observedText": "アジ 16~40匹 22~30ｃｍ",
+      "observedText": "アジ 16~40匹 22~30cm",
       "probability": 0.0012
     },
     {
@@ -3669,7 +3669,7 @@
       "observedDate": "2025-11-10",
       "observedMin": 8.0,
       "observedMax": 37.0,
-      "observedText": "アジ 8~37匹 22~40ｃｍ",
+      "observedText": "アジ 8~37匹 22~40cm",
       "probability": 0.0
     },
     {
@@ -3683,7 +3683,7 @@
       "observedDate": "2025-11-11",
       "observedMin": 3.0,
       "observedMax": 15.0,
-      "observedText": "アジ 3~15匹 27~40ｃｍ",
+      "observedText": "アジ 3~15匹 27~40cm",
       "probability": 0.0
     },
     {
@@ -3697,7 +3697,7 @@
       "observedDate": "2025-11-12",
       "observedMin": 3.0,
       "observedMax": 20.0,
-      "observedText": "アジ 3~20匹 23~37ｃｍ",
+      "observedText": "アジ 3~20匹 23~37cm",
       "probability": 0.0002
     },
     {

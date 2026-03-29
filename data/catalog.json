@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 09:41 JST",
+  "generatedAt": "2026-03-29 11:08 JST",
   "today": "2026-03-29",
   "ships": [
     {
@@ -206,7 +206,7 @@
         {
           "id": "e19382dcdfbf",
           "label": "ふぐ",
-          "unit": "ｃｍ",
+          "unit": "匹",
           "positiveDays": 223,
           "tripDays": 223,
           "file": "data/payloads/ichiroumaru-e19382dcdfbf.json"
@@ -230,15 +230,15 @@
         {
           "id": "9a0289261d65",
           "label": "トラフグ",
-          "unit": "ｃｍ",
-          "positiveDays": 85,
-          "tripDays": 85,
+          "unit": "匹",
+          "positiveDays": 97,
+          "tripDays": 97,
           "file": "data/payloads/ichiroumaru-9a0289261d65.json"
         },
         {
           "id": "1dc2bcc3219d",
           "label": "カワハギ",
-          "unit": "ｃｍ",
+          "unit": "匹",
           "positiveDays": 72,
           "tripDays": 72,
           "file": "data/payloads/ichiroumaru-1dc2bcc3219d.json"

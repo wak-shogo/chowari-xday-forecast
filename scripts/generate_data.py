@@ -64,7 +64,9 @@ ICHIROUMARU_SHIP_CONFIG = {
     "latitude": ICHIROUMARU_COORDINATES[0],
     "longitude": ICHIROUMARU_COORDINATES[1],
 }
-FULLWIDTH_TRANSLATION = str.maketrans("０１２３４５６７８９．〜～－", "0123456789.~~-")
+FULLWIDTH_TRANSLATION = str.maketrans("０１２３４５６７８９．〜～－ｃｍＣＭｋｇＫＧｇ", "0123456789.~~-cmCMkgKGg")
+MEASUREMENT_UNIT_PATTERN = r"[^\d\s/・,，。、()（）]+"
+COUNT_MEASUREMENT_UNITS = {"匹", "杯", "尾", "本", "枚", "羽", "人"}
 
 
 def parse_args():
@@ -109,29 +111,56 @@ def normalize_species_name(name):
     return re.sub(r"\s+", "", name)
 
 
+def measurement_unit_rank(unit):
+    normalized = fullwidth_to_ascii(unit).lower()
+    return 0 if normalized in COUNT_MEASUREMENT_UNITS else 1
+
+
 def parse_measurement(text):
     cleaned = fullwidth_to_ascii(clean_fragment(text))
     if not cleaned:
         return None
-    range_match = re.search(
-        r"(\d+(?:\.\d+)?)\s*[〜~～\-−]\s*(\d+(?:\.\d+)?)([^\d\s/]+)",
+
+    candidates = []
+    for match in re.finditer(
+        rf"(\d+(?:\.\d+)?)\s*[〜~～\-−]\s*(\d+(?:\.\d+)?)\s*({MEASUREMENT_UNIT_PATTERN})",
         cleaned,
-    )
-    if range_match:
+    ):
+        candidates.append(
+            {
+                "min": float(match.group(1)),
+                "max": float(match.group(2)),
+                "unit": match.group(3),
+                "raw": cleaned,
+                "isRange": True,
+                "start": match.start(),
+            }
+        )
+    for match in re.finditer(rf"(\d+(?:\.\d+)?)\s*({MEASUREMENT_UNIT_PATTERN})", cleaned):
+        candidates.append(
+            {
+                "min": float(match.group(1)),
+                "max": float(match.group(1)),
+                "unit": match.group(2),
+                "raw": cleaned,
+                "isRange": False,
+                "start": match.start(),
+            }
+        )
+    if candidates:
+        best = min(
+            candidates,
+            key=lambda item: (
+                measurement_unit_rank(item["unit"]),
+                0 if item["isRange"] else 1,
+                item["start"],
+            ),
+        )
         return {
-            "min": float(range_match.group(1)),
-            "max": float(range_match.group(2)),
-            "unit": range_match.group(3),
-            "raw": cleaned,
-        }
-    single_match = re.search(r"(\d+(?:\.\d+)?)([^\d\s/]+)", cleaned)
-    if single_match:
-        value = float(single_match.group(1))
-        return {
-            "min": value,
-            "max": value,
-            "unit": single_match.group(2),
-            "raw": cleaned,
+            "min": best["min"],
+            "max": best["max"],
+            "unit": best["unit"],
+            "raw": best["raw"],
         }
     return None
 
@@ -341,7 +370,7 @@ def extract_text_lines(block_html):
 
 def parse_ichiroumaru_location_from_line(species_name, line, fallback):
     match = re.match(
-        rf"^{re.escape(species_name)}\s+(.+?)\s+\d+(?:\.\d+)?\s*[〜~～\-−]\s*\d+(?:\.\d+)?\s*[^\d\s]+",
+        rf"^{re.escape(species_name)}\s+(.+?)\s+\d+(?:\.\d+)?\s*[〜~～\-−]\s*\d+(?:\.\d+)?\s*{MEASUREMENT_UNIT_PATTERN}",
         line,
     )
     return match.group(1).strip() if match else fallback
