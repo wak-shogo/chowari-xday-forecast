@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 11:08 JST",
+  "generatedAt": "2026-03-29 14:47 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "ichiroumaru",
@@ -94,7 +94,6 @@
       47.176,
       47.203,
       47.241,
-      47.262,
       47.265,
       47.359,
       47.426,
@@ -106,7 +105,7 @@
       47.601,
       47.632,
       47.647,
-      47.757,
+      47.772,
       47.777,
       47.798,
       47.799,
@@ -124,6 +123,7 @@
       48.155,
       48.169,
       48.262,
+      48.267,
       48.328,
       48.466,
       48.545,
@@ -292,9 +292,9 @@
       53.805,
       53.932,
       53.933,
-      53.954,
       54.068,
       54.112,
+      54.114,
       54.17,
       54.213,
       54.278,
@@ -315,9 +315,9 @@
       55.279,
       55.284,
       55.326,
-      55.457,
       55.503,
       55.902,
+      55.967,
       56.07,
       56.086,
       56.128,
@@ -380,9 +380,11 @@
   "evaluation": {
     "validationRows": 28,
     "minMae": 4.493,
-    "maxMae": 9.46
+    "maxMae": 9.46,
+    "modelType": "重回帰"
   },
   "regression": {
+    "type": "ridge_regression",
     "featureTerms": [
       "intercept",
       "airTemp",
@@ -412,7 +414,7 @@
       }
     },
     "countCeiling": 68.5,
-    "models": {
+    "baseline": {
       "catchMin": {
         "type": "log_measure",
         "weights": [
@@ -447,7 +449,8 @@
           0.06454283
         ]
       }
-    }
+    },
+    "neighbor": null
   },
   "topDays": [
     {
@@ -510,9 +513,9 @@
   "predictions": [
     {
       "date": "2026-03-30",
-      "predictedMin": 7.85,
-      "predictedMax": 15.85,
-      "airTemp": 14.9,
+      "predictedMin": 7.5,
+      "predictedMax": 15.49,
+      "airTemp": 14.7,
       "seaTemp": 15.4,
       "moonAge": 11.83,
       "featureSource": "forecast",
@@ -524,9 +527,9 @@
     },
     {
       "date": "2026-03-31",
-      "predictedMin": 9.29,
-      "predictedMax": 18.09,
-      "airTemp": 16.4,
+      "predictedMin": 9.48,
+      "predictedMax": 18.24,
+      "airTemp": 16.5,
       "seaTemp": 15.6,
       "moonAge": 12.83,
       "featureSource": "forecast",
@@ -538,9 +541,9 @@
     },
     {
       "date": "2026-04-01",
-      "predictedMin": 6.16,
-      "predictedMax": 15.85,
-      "airTemp": 14.7,
+      "predictedMin": 7.0,
+      "predictedMax": 16.81,
+      "airTemp": 15.4,
       "seaTemp": 15.7,
       "moonAge": 13.83,
       "featureSource": "forecast",
@@ -548,13 +551,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2026-04-02",
-      "predictedMin": 4.63,
-      "predictedMax": 13.96,
-      "airTemp": 12.7,
+      "predictedMin": 4.96,
+      "predictedMax": 14.52,
+      "airTemp": 13.1,
       "seaTemp": 15.5,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -580,9 +583,9 @@
     },
     {
       "date": "2026-04-04",
-      "predictedMin": 7.9,
-      "predictedMax": 19.69,
-      "airTemp": 15.8,
+      "predictedMin": 8.68,
+      "predictedMax": 20.2,
+      "airTemp": 16.4,
       "seaTemp": 15.6,
       "moonAge": 16.83,
       "featureSource": "forecast",
@@ -590,13 +593,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.002
     },
     {
       "date": "2026-04-05",
-      "predictedMin": 9.69,
-      "predictedMax": 21.68,
-      "airTemp": 17.0,
+      "predictedMin": 10.15,
+      "predictedMax": 21.84,
+      "airTemp": 17.3,
       "seaTemp": 15.7,
       "moonAge": 17.83,
       "featureSource": "forecast",
@@ -2872,7 +2875,7 @@
       "observedMin": 0.0,
       "observedMax": 17.0,
       "observedText": "アジ 0~17匹 25~33cm",
-      "probability": 0.0056
+      "probability": 0.0054
     },
     {
       "date": "2026-09-15",
@@ -3992,7 +3995,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0015
+      "probability": 0.0012
     },
     {
       "date": "2026-12-04",

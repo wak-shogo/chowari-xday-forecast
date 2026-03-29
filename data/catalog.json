@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 11:08 JST",
+  "generatedAt": "2026-03-29 14:47 JST",
   "today": "2026-03-29",
   "ships": [
     {
@@ -42,14 +42,6 @@
           "file": "data/payloads/00296-a9a8a36dce4e.json"
         },
         {
-          "id": "eeea38cf345c",
-          "label": "メジナ",
-          "unit": "匹",
-          "positiveDays": 8,
-          "tripDays": 8,
-          "file": "data/payloads/00296-eeea38cf345c.json"
-        },
-        {
           "id": "5f27ba89a120",
           "label": "アマダイ",
           "unit": "匹",
@@ -58,20 +50,28 @@
           "file": "data/payloads/00296-5f27ba89a120.json"
         },
         {
+          "id": "eeea38cf345c",
+          "label": "メジナ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/00296-eeea38cf345c.json"
+        },
+        {
+          "id": "dd2714633d2e",
+          "label": "ヒラメ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 5,
+          "file": "data/payloads/00296-dd2714633d2e.json"
+        },
+        {
           "id": "776d6d4d6bf6",
           "label": "マルイカ",
           "unit": "匹",
           "positiveDays": 5,
           "tripDays": 5,
           "file": "data/payloads/00296-776d6d4d6bf6.json"
-        },
-        {
-          "id": "dd2714633d2e",
-          "label": "ヒラメ",
-          "unit": "匹",
-          "positiveDays": 4,
-          "tripDays": 4,
-          "file": "data/payloads/00296-dd2714633d2e.json"
         },
         {
           "id": "af877395da3d",
@@ -102,8 +102,8 @@
           "id": "01232f14d822",
           "label": "アマダイ",
           "unit": "匹",
-          "positiveDays": 24,
-          "tripDays": 24,
+          "positiveDays": 23,
+          "tripDays": 23,
           "file": "data/payloads/00297-01232f14d822.json"
         },
         {
@@ -134,8 +134,8 @@
           "id": "e986de83f75b",
           "label": "フグ",
           "unit": "匹",
-          "positiveDays": 16,
-          "tripDays": 16,
+          "positiveDays": 15,
+          "tripDays": 15,
           "file": "data/payloads/00297-e986de83f75b.json"
         },
         {
@@ -147,14 +147,6 @@
           "file": "data/payloads/00297-2a95f79b0bfa.json"
         },
         {
-          "id": "b14eb371f2ad",
-          "label": "ハナダイ",
-          "unit": "匹",
-          "positiveDays": 12,
-          "tripDays": 12,
-          "file": "data/payloads/00297-b14eb371f2ad.json"
-        },
-        {
           "id": "2fa81fc2c8d7",
           "label": "マダコ",
           "unit": "匹",
@@ -163,20 +155,28 @@
           "file": "data/payloads/00297-2fa81fc2c8d7.json"
         },
         {
-          "id": "1722afa8f32d",
-          "label": "イトヨリ",
+          "id": "b14eb371f2ad",
+          "label": "ハナダイ",
           "unit": "匹",
-          "positiveDays": 8,
-          "tripDays": 8,
-          "file": "data/payloads/00297-1722afa8f32d.json"
+          "positiveDays": 11,
+          "tripDays": 11,
+          "file": "data/payloads/00297-b14eb371f2ad.json"
         },
         {
           "id": "12311f361ead",
           "label": "マダイ",
           "unit": "匹",
+          "positiveDays": 8,
+          "tripDays": 8,
+          "file": "data/payloads/00297-12311f361ead.json"
+        },
+        {
+          "id": "1722afa8f32d",
+          "label": "イトヨリ",
+          "unit": "匹",
           "positiveDays": 7,
           "tripDays": 7,
-          "file": "data/payloads/00297-12311f361ead.json"
+          "file": "data/payloads/00297-1722afa8f32d.json"
         },
         {
           "id": "a1eea0f47f7b",
@@ -187,12 +187,12 @@
           "file": "data/payloads/00297-a1eea0f47f7b.json"
         },
         {
-          "id": "ee19602e2f7e",
-          "label": "サバ",
+          "id": "8d7efaca03a2",
+          "label": "カイワリ",
           "unit": "匹",
           "positiveDays": 4,
           "tripDays": 4,
-          "file": "data/payloads/00297-ee19602e2f7e.json"
+          "file": "data/payloads/00297-8d7efaca03a2.json"
         }
       ]
     },

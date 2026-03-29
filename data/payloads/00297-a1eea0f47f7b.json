@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 11:05 JST",
+  "generatedAt": "2026-03-29 14:44 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "00297",
@@ -379,6 +379,7 @@
   },
   "evaluation": null,
   "regression": {
+    "type": "ridge_regression",
     "featureTerms": [
       "intercept",
       "airTemp",
@@ -408,7 +409,7 @@
       }
     },
     "countCeiling": 11.8,
-    "models": {
+    "baseline": {
       "catchMin": {
         "type": "log_measure",
         "weights": [
@@ -443,7 +444,8 @@
           0.00150728
         ]
       }
-    }
+    },
+    "neighbor": null
   },
   "topDays": [
     {
@@ -507,8 +509,8 @@
     {
       "date": "2026-03-30",
       "predictedMin": 0.0,
-      "predictedMax": 0.09,
-      "airTemp": 15.0,
+      "predictedMax": 0.07,
+      "airTemp": 14.7,
       "seaTemp": 16.0,
       "moonAge": 11.83,
       "featureSource": "forecast",
@@ -521,8 +523,8 @@
     {
       "date": "2026-03-31",
       "predictedMin": 0.0,
-      "predictedMax": 0.38,
-      "airTemp": 16.5,
+      "predictedMax": 0.39,
+      "airTemp": 16.6,
       "seaTemp": 15.9,
       "moonAge": 12.83,
       "featureSource": "forecast",
@@ -535,8 +537,8 @@
     {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 0.59,
-      "airTemp": 13.9,
+      "predictedMax": 0.69,
+      "airTemp": 15.5,
       "seaTemp": 15.9,
       "moonAge": 13.83,
       "featureSource": "forecast",
@@ -549,8 +551,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 1.11,
-      "airTemp": 11.8,
+      "predictedMax": 1.14,
+      "airTemp": 12.3,
       "seaTemp": 15.8,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -563,8 +565,8 @@
     {
       "date": "2026-04-03",
       "predictedMin": 0.0,
-      "predictedMax": 2.28,
-      "airTemp": 13.5,
+      "predictedMax": 2.29,
+      "airTemp": 13.7,
       "seaTemp": 15.8,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -577,8 +579,8 @@
     {
       "date": "2026-04-04",
       "predictedMin": 0.0,
-      "predictedMax": 4.03,
-      "airTemp": 14.6,
+      "predictedMax": 3.97,
+      "airTemp": 16.0,
       "seaTemp": 15.8,
       "moonAge": 16.83,
       "featureSource": "forecast",
@@ -591,8 +593,8 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 6.45,
-      "airTemp": 16.1,
+      "predictedMax": 5.95,
+      "airTemp": 18.7,
       "seaTemp": 15.9,
       "moonAge": 17.83,
       "featureSource": "forecast",

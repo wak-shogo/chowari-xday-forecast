@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 11:04 JST",
+  "generatedAt": "2026-03-29 14:43 JST",
   "today": "2026-03-29",
   "ship": {
     "id": "00296",
@@ -379,6 +379,7 @@
   },
   "evaluation": null,
   "regression": {
+    "type": "ridge_regression",
     "featureTerms": [
       "intercept",
       "airTemp",
@@ -408,7 +409,7 @@
       }
     },
     "countCeiling": 3.7,
-    "models": {
+    "baseline": {
       "catchMin": {
         "type": "log_measure",
         "weights": [
@@ -443,7 +444,8 @@
           0.02728859
         ]
       }
-    }
+    },
+    "neighbor": null
   },
   "topDays": [
     {
@@ -507,8 +509,8 @@
     {
       "date": "2026-03-30",
       "predictedMin": 0.0,
-      "predictedMax": 0.97,
-      "airTemp": 15.5,
+      "predictedMax": 0.98,
+      "airTemp": 15.1,
       "seaTemp": 15.7,
       "moonAge": 11.83,
       "featureSource": "forecast",
@@ -522,7 +524,7 @@
       "date": "2026-03-31",
       "predictedMin": 0.0,
       "predictedMax": 0.88,
-      "airTemp": 16.6,
+      "airTemp": 16.7,
       "seaTemp": 15.7,
       "moonAge": 12.83,
       "featureSource": "forecast",
@@ -535,8 +537,8 @@
     {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 0.88,
-      "airTemp": 14.7,
+      "predictedMax": 0.85,
+      "airTemp": 15.7,
       "seaTemp": 15.8,
       "moonAge": 13.83,
       "featureSource": "forecast",
@@ -549,8 +551,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 0.91,
-      "airTemp": 12.7,
+      "predictedMax": 0.89,
+      "airTemp": 13.1,
       "seaTemp": 15.6,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -577,8 +579,8 @@
     {
       "date": "2026-04-04",
       "predictedMin": 0.0,
-      "predictedMax": 0.79,
-      "airTemp": 15.8,
+      "predictedMax": 0.77,
+      "airTemp": 16.4,
       "seaTemp": 15.7,
       "moonAge": 16.83,
       "featureSource": "forecast",
@@ -591,8 +593,8 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 0.77,
-      "airTemp": 17.0,
+      "predictedMax": 0.76,
+      "airTemp": 17.3,
       "seaTemp": 15.7,
       "moonAge": 17.83,
       "featureSource": "forecast",

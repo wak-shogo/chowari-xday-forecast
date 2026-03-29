@@ -36,6 +36,9 @@ MIN_VALIDATION_ROWS = 8
 MIN_POSITIVE_DAYS = 4
 XDAY_MONTE_CARLO_SAMPLES = 4096
 SIMULATOR_MAXIMA_SAMPLES = 320
+NEIGHBOR_COUNTS = (4, 6, 8, 12)
+KERNEL_BANDWIDTHS = (0.7, 1.0, 1.4, 1.8)
+KERNEL_PRIOR_WEIGHT = 1.0
 
 FEATURE_KEYS = ("airTemp", "seaTemp", "moonSin", "moonCos")
 FEATURE_TERMS = [
@@ -741,11 +744,20 @@ def compute_base_stats(rows):
     return stats
 
 
-def build_basis(raw_features, stats):
-    air = (raw_features["airTemp"] - stats["means"]["airTemp"]) / stats["scales"]["airTemp"]
-    sea = (raw_features["seaTemp"] - stats["means"]["seaTemp"]) / stats["scales"]["seaTemp"]
-    moon_sin = (raw_features["moonSin"] - stats["means"]["moonSin"]) / stats["scales"]["moonSin"]
-    moon_cos = (raw_features["moonCos"] - stats["means"]["moonCos"]) / stats["scales"]["moonCos"]
+def scale_features(raw_features, stats):
+    return {
+        "airTemp": (raw_features["airTemp"] - stats["means"]["airTemp"]) / stats["scales"]["airTemp"],
+        "seaTemp": (raw_features["seaTemp"] - stats["means"]["seaTemp"]) / stats["scales"]["seaTemp"],
+        "moonSin": (raw_features["moonSin"] - stats["means"]["moonSin"]) / stats["scales"]["moonSin"],
+        "moonCos": (raw_features["moonCos"] - stats["means"]["moonCos"]) / stats["scales"]["moonCos"],
+    }
+
+
+def build_basis_from_scaled(scaled):
+    air = scaled["airTemp"]
+    sea = scaled["seaTemp"]
+    moon_sin = scaled["moonSin"]
+    moon_cos = scaled["moonCos"]
     return [
         1.0,
         air,
@@ -760,6 +772,10 @@ def build_basis(raw_features, stats):
         air * air,
         sea * sea,
     ]
+
+
+def build_basis(raw_features, stats):
+    return build_basis_from_scaled(scale_features(raw_features, stats))
 
 
 def solve_linear_system(matrix, vector):
@@ -813,12 +829,62 @@ def decode_measure(value, ceiling):
     return clamp(math.expm1(value), 0.0, ceiling)
 
 
-def fit_models(rows):
+def dot(weights, values):
+    return sum(weight * value for weight, value in zip(weights, values))
+
+
+def weighted_average(pairs):
+    total_weight = sum(weight for weight, _ in pairs)
+    if total_weight <= 0:
+        return 0.0
+    return sum(weight * value for weight, value in pairs) / total_weight
+
+
+def build_support_rows(rows, stats, min_weights, max_weights):
+    support = []
+    for row in rows:
+        scaled = scale_features(row, stats)
+        basis = build_basis_from_scaled(scaled)
+        min_baseline = dot(min_weights, basis)
+        max_baseline = dot(max_weights, basis)
+        support.append(
+            {
+                "vector": [scaled[key] for key in FEATURE_KEYS],
+                "minResidual": math.log1p(row["catchMin"]) - min_baseline,
+                "maxResidual": math.log1p(row["catchMax"]) - max_baseline,
+            }
+        )
+    return support
+
+
+def estimate_neighbor_residuals(scaled, support_rows, neighbor_count, bandwidth, prior_weight=KERNEL_PRIOR_WEIGHT):
+    if not support_rows:
+        return 0.0, 0.0
+
+    vector = [scaled[key] for key in FEATURE_KEYS]
+    ranked = []
+    for item in support_rows:
+        distance_sq = sum((left - right) ** 2 for left, right in zip(vector, item["vector"]))
+        weight = math.exp(-distance_sq / max(2 * bandwidth * bandwidth, 1e-9))
+        ranked.append((distance_sq, weight, item))
+
+    ranked.sort(key=lambda entry: entry[0])
+    trimmed = ranked[: min(neighbor_count, len(ranked))]
+    min_pairs = [(weight, item["minResidual"]) for _, weight, item in trimmed]
+    max_pairs = [(weight, item["maxResidual"]) for _, weight, item in trimmed]
+    total_weight = sum(weight for weight, _ in min_pairs)
+    shrink = total_weight / (total_weight + prior_weight) if total_weight > 0 else 0.0
+    return weighted_average(min_pairs) * shrink, weighted_average(max_pairs) * shrink
+
+
+def fit_baseline_models(rows):
     stats = compute_base_stats(rows)
     design_matrix = [build_basis(row, stats) for row in rows]
     min_targets = [math.log1p(row["catchMin"]) for row in rows]
     max_targets = [math.log1p(row["catchMax"]) for row in rows]
     count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
+    min_weights = fit_ridge_regression(design_matrix, min_targets, ridge=0.75)
+    max_weights = fit_ridge_regression(design_matrix, max_targets, ridge=0.75)
 
     return {
         "featureTerms": FEATURE_TERMS,
@@ -827,23 +893,81 @@ def fit_models(rows):
             "scales": {key: round(stats["scales"][key], 6) for key in FEATURE_KEYS},
         },
         "countCeiling": round(count_ceiling, 3),
-        "models": {
+        "baseline": {
             "catchMin": {
                 "type": "log_measure",
-                "weights": [round(value, 8) for value in fit_ridge_regression(design_matrix, min_targets, ridge=0.75)],
+                "weights": [round(value, 8) for value in min_weights],
             },
             "catchMax": {
                 "type": "log_measure",
-                "weights": [round(value, 8) for value in fit_ridge_regression(design_matrix, max_targets, ridge=0.75)],
+                "weights": [round(value, 8) for value in max_weights],
             },
         },
+        "_fitStats": stats,
+        "_minWeights": min_weights,
+        "_maxWeights": max_weights,
+    }
+
+
+def build_hybrid_model(rows, neighbor_count, bandwidth):
+    baseline = fit_baseline_models(rows)
+    stats = baseline["_fitStats"]
+    min_weights = baseline["_minWeights"]
+    max_weights = baseline["_maxWeights"]
+    support = build_support_rows(rows, stats, min_weights, max_weights)
+    return {
+        "type": "hybrid_kernel_residual",
+        "featureTerms": baseline["featureTerms"],
+        "stats": baseline["stats"],
+        "countCeiling": baseline["countCeiling"],
+        "baseline": baseline["baseline"],
+        "neighbor": {
+            "type": "gaussian_knn_residual",
+            "neighborCount": min(neighbor_count, len(rows)),
+            "bandwidth": round(bandwidth, 4),
+            "priorWeight": KERNEL_PRIOR_WEIGHT,
+            "support": [
+                {
+                    "vector": [round(value, 6) for value in item["vector"]],
+                    "minResidual": round(item["minResidual"], 8),
+                    "maxResidual": round(item["maxResidual"], 8),
+                }
+                for item in support
+            ],
+        },
+    }
+
+def fit_models(rows, mode="baseline", neighbor_count=None, bandwidth=None):
+    if mode == "hybrid" and neighbor_count and bandwidth:
+        return build_hybrid_model(rows, neighbor_count, bandwidth)
+
+    baseline = fit_baseline_models(rows)
+    return {
+        "type": "ridge_regression",
+        "featureTerms": baseline["featureTerms"],
+        "stats": baseline["stats"],
+        "countCeiling": baseline["countCeiling"],
+        "baseline": baseline["baseline"],
+        "neighbor": None,
     }
 
 
 def predict_models(raw_features, regression):
-    basis = build_basis(raw_features, regression["stats"])
-    min_score = sum(weight * feature for weight, feature in zip(regression["models"]["catchMin"]["weights"], basis))
-    max_score = sum(weight * feature for weight, feature in zip(regression["models"]["catchMax"]["weights"], basis))
+    scaled = scale_features(raw_features, regression["stats"])
+    basis = build_basis_from_scaled(scaled)
+    min_score = dot(regression["baseline"]["catchMin"]["weights"], basis)
+    max_score = dot(regression["baseline"]["catchMax"]["weights"], basis)
+    neighbor = regression.get("neighbor")
+    if neighbor and neighbor.get("support"):
+        min_residual, max_residual = estimate_neighbor_residuals(
+            scaled,
+            neighbor["support"],
+            neighbor["neighborCount"],
+            neighbor["bandwidth"],
+            neighbor.get("priorWeight", KERNEL_PRIOR_WEIGHT),
+        )
+        min_score += min_residual
+        max_score += max_residual
 
     predicted_min = decode_measure(min_score, regression["countCeiling"])
     predicted_max = max(predicted_min, decode_measure(max_score, regression["countCeiling"]))
@@ -891,9 +1015,32 @@ def build_xday_distribution(predictions, sigma, seed_key):
     return sorted(maxima_samples)
 
 
-def evaluate_split(rows, seed_key):
+def weighted_error(prediction, row):
+    return abs(prediction["predictedMin"] - row["catchMin"]) * 0.35 + abs(prediction["predictedMax"] - row["catchMax"])
+
+
+def evaluate_config(train_rows, validation_rows, config):
+    model = fit_models(train_rows, **config)
+    min_errors = []
+    max_errors = []
+    weighted_errors = []
+    for row in validation_rows:
+        prediction = predict_models(row, model)
+        min_errors.append(abs(prediction["predictedMin"] - row["catchMin"]))
+        max_errors.append(abs(prediction["predictedMax"] - row["catchMax"]))
+        weighted_errors.append(weighted_error(prediction, row))
+    return {
+        "score": sum(weighted_errors) / len(weighted_errors),
+        "validationRows": len(validation_rows),
+        "minMae": round(sum(min_errors) / len(min_errors), 3),
+        "maxMae": round(sum(max_errors) / len(max_errors), 3),
+    }
+
+
+def select_model_config(rows, seed_key):
+    default_config = {"mode": "baseline"}
     if len(rows) < MIN_VALIDATION_ROWS:
-        return None
+        return default_config, None
 
     indices = list(range(len(rows)))
     random.Random(seed_key).shuffle(indices)
@@ -903,20 +1050,34 @@ def evaluate_split(rows, seed_key):
     train_rows = [row for index, row in enumerate(rows) if index not in validation_indices]
     validation_rows = [row for index, row in enumerate(rows) if index in validation_indices]
     if len(train_rows) < 2 or len(validation_rows) < 2:
-        return None
+        return default_config, None
 
-    regression = fit_models(train_rows)
-    min_errors = []
-    max_errors = []
-    for row in validation_rows:
-        prediction = predict_models(row, regression)
-        min_errors.append(abs(prediction["predictedMin"] - row["catchMin"]))
-        max_errors.append(abs(prediction["predictedMax"] - row["catchMax"]))
+    candidate_configs = [default_config]
+    for candidate_neighbors in NEIGHBOR_COUNTS:
+        if candidate_neighbors > len(train_rows):
+            continue
+        for candidate_bandwidth in KERNEL_BANDWIDTHS:
+            candidate_configs.append(
+                {
+                    "mode": "hybrid",
+                    "neighbor_count": candidate_neighbors,
+                    "bandwidth": candidate_bandwidth,
+                }
+            )
 
-    return {
-        "validationRows": len(validation_rows),
-        "minMae": round(sum(min_errors) / len(min_errors), 3),
-        "maxMae": round(sum(max_errors) / len(max_errors), 3),
+    best_config = default_config
+    best_metrics = None
+    for config in candidate_configs:
+        metrics = evaluate_config(train_rows, validation_rows, config)
+        if best_metrics is None or metrics["score"] < best_metrics["score"]:
+            best_config = config
+            best_metrics = metrics
+
+    return best_config, {
+        "validationRows": best_metrics["validationRows"],
+        "minMae": best_metrics["minMae"],
+        "maxMae": best_metrics["maxMae"],
+        "modelType": "近傍補正つき" if best_config["mode"] == "hybrid" else "重回帰",
     }
 
 
@@ -983,8 +1144,8 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
         if len(positive_rows) < MIN_POSITIVE_DAYS:
             continue
 
-        evaluation = evaluate_split(rows, f'{ship_meta["id"]}:{species_name}')
-        regression = fit_models(rows)
+        selected_config, evaluation = select_model_config(rows, f'{ship_meta["id"]}:{species_name}')
+        regression = fit_models(rows, **selected_config)
         max_sigma = estimate_max_sigma(rows, regression)
         observed_by_date = {row["date"]: row for row in rows}
 

@@ -257,23 +257,72 @@ function drawAmountChart(canvas, payload, field, observedField, color, fillColor
 
 function buildBasis(rawFeatures, regression) {
   const stats = regression.stats;
-  const air = (rawFeatures.airTemp - stats.means.airTemp) / stats.scales.airTemp;
-  const sea = (rawFeatures.seaTemp - stats.means.seaTemp) / stats.scales.seaTemp;
   const angle = (rawFeatures.moonAge / 29.53058867) * Math.PI * 2;
-  const moonSin = (Math.sin(angle) - stats.means.moonSin) / stats.scales.moonSin;
-  const moonCos = (Math.cos(angle) - stats.means.moonCos) / stats.scales.moonCos;
-  return [1, air, sea, moonSin, moonCos, air * sea, air * moonSin, air * moonCos, sea * moonSin, sea * moonCos, air * air, sea * sea];
+  const scaled = {
+    airTemp: (rawFeatures.airTemp - stats.means.airTemp) / stats.scales.airTemp,
+    seaTemp: (rawFeatures.seaTemp - stats.means.seaTemp) / stats.scales.seaTemp,
+    moonSin: (Math.sin(angle) - stats.means.moonSin) / stats.scales.moonSin,
+    moonCos: (Math.cos(angle) - stats.means.moonCos) / stats.scales.moonCos,
+  };
+  const air = scaled.airTemp;
+  const sea = scaled.seaTemp;
+  const moonSin = scaled.moonSin;
+  const moonCos = scaled.moonCos;
+  return {
+    scaled,
+    basis: [1, air, sea, moonSin, moonCos, air * sea, air * moonSin, air * moonCos, sea * moonSin, sea * moonCos, air * air, sea * sea],
+  };
 }
 
 function dot(weights, vector) {
   return weights.reduce((sum, weight, index) => sum + weight * vector[index], 0);
 }
 
+function weightedAverage(pairs) {
+  const totalWeight = pairs.reduce((sum, [weight]) => sum + weight, 0);
+  if (totalWeight <= 0) {
+    return 0;
+  }
+  return pairs.reduce((sum, [weight, value]) => sum + weight * value, 0) / totalWeight;
+}
+
+function estimateNeighborResiduals(scaled, neighbor) {
+  if (!neighbor || !Array.isArray(neighbor.support) || !neighbor.support.length) {
+    return { minResidual: 0, maxResidual: 0 };
+  }
+
+  const vector = [scaled.airTemp, scaled.seaTemp, scaled.moonSin, scaled.moonCos];
+  const ranked = neighbor.support
+    .map((item) => {
+      const distanceSq = item.vector.reduce((sum, value, index) => sum + (vector[index] - value) ** 2, 0);
+      const weight = Math.exp(-distanceSq / Math.max(2 * neighbor.bandwidth * neighbor.bandwidth, 1e-9));
+      return { distanceSq, weight, item };
+    })
+    .sort((left, right) => left.distanceSq - right.distanceSq)
+    .slice(0, neighbor.neighborCount);
+
+  const minPairs = ranked.map(({ weight, item }) => [weight, item.minResidual]);
+  const maxPairs = ranked.map(({ weight, item }) => [weight, item.maxResidual]);
+  const totalWeight = minPairs.reduce((sum, [weight]) => sum + weight, 0);
+  const priorWeight = neighbor.priorWeight || 1;
+  const shrink = totalWeight > 0 ? totalWeight / (totalWeight + priorWeight) : 0;
+  return {
+    minResidual: weightedAverage(minPairs) * shrink,
+    maxResidual: weightedAverage(maxPairs) * shrink,
+  };
+}
+
 function simulate(rawFeatures, payload) {
   const regression = payload.regression;
-  const basis = buildBasis(rawFeatures, regression);
-  const predictedMin = clamp(Math.expm1(dot(regression.models.catchMin.weights, basis)), 0, regression.countCeiling);
-  const predictedMaxRaw = clamp(Math.expm1(dot(regression.models.catchMax.weights, basis)), 0, regression.countCeiling);
+  const { scaled, basis } = buildBasis(rawFeatures, regression);
+  let minScore = dot(regression.baseline.catchMin.weights, basis);
+  let maxScore = dot(regression.baseline.catchMax.weights, basis);
+  const neighborResiduals = estimateNeighborResiduals(scaled, regression.neighbor);
+  minScore += neighborResiduals.minResidual;
+  maxScore += neighborResiduals.maxResidual;
+
+  const predictedMin = clamp(Math.expm1(minScore), 0, regression.countCeiling);
+  const predictedMaxRaw = clamp(Math.expm1(maxScore), 0, regression.countCeiling);
   const predictedMax = Math.max(predictedMin, predictedMaxRaw);
   const xDayModel = payload.xDayModel || {};
   const xDayPeak = payload.xDayPeak || {};
