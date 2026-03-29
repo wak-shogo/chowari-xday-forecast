@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-29 08:16 JST",
+  "generatedAt": "2026-03-29 09:19 JST",
   "today": "2026-03-29",
   "ships": [
     {
@@ -88,6 +88,111 @@
           "positiveDays": 4,
           "tripDays": 4,
           "file": "data/payloads/00296-5d4e8067f34a.json"
+        }
+      ]
+    },
+    {
+      "id": "00297",
+      "name": "池田丸",
+      "location": "神奈川県 鎌倉市 腰越漁港",
+      "homeUrl": "https://www.chowari.jp/ship/00297/",
+      "catchUrl": "https://www.chowari.jp/ship/00297/catch/",
+      "species": [
+        {
+          "id": "01232f14d822",
+          "label": "アマダイ",
+          "unit": "匹",
+          "positiveDays": 24,
+          "tripDays": 24,
+          "file": "data/payloads/00297-01232f14d822.json"
+        },
+        {
+          "id": "7d7eddaf1250",
+          "label": "イナダ",
+          "unit": "匹",
+          "positiveDays": 23,
+          "tripDays": 23,
+          "file": "data/payloads/00297-7d7eddaf1250.json"
+        },
+        {
+          "id": "d1dc7b4cca53",
+          "label": "カワハギ",
+          "unit": "匹",
+          "positiveDays": 18,
+          "tripDays": 18,
+          "file": "data/payloads/00297-d1dc7b4cca53.json"
+        },
+        {
+          "id": "123cf369ad55",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 16,
+          "tripDays": 16,
+          "file": "data/payloads/00297-123cf369ad55.json"
+        },
+        {
+          "id": "e986de83f75b",
+          "label": "フグ",
+          "unit": "匹",
+          "positiveDays": 16,
+          "tripDays": 16,
+          "file": "data/payloads/00297-e986de83f75b.json"
+        },
+        {
+          "id": "2a95f79b0bfa",
+          "label": "シロアマダイ",
+          "unit": "匹",
+          "positiveDays": 12,
+          "tripDays": 12,
+          "file": "data/payloads/00297-2a95f79b0bfa.json"
+        },
+        {
+          "id": "b14eb371f2ad",
+          "label": "ハナダイ",
+          "unit": "匹",
+          "positiveDays": 12,
+          "tripDays": 12,
+          "file": "data/payloads/00297-b14eb371f2ad.json"
+        },
+        {
+          "id": "2fa81fc2c8d7",
+          "label": "マダコ",
+          "unit": "匹",
+          "positiveDays": 12,
+          "tripDays": 12,
+          "file": "data/payloads/00297-2fa81fc2c8d7.json"
+        },
+        {
+          "id": "1722afa8f32d",
+          "label": "イトヨリ",
+          "unit": "匹",
+          "positiveDays": 8,
+          "tripDays": 8,
+          "file": "data/payloads/00297-1722afa8f32d.json"
+        },
+        {
+          "id": "12311f361ead",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/00297-12311f361ead.json"
+        },
+        {
+          "id": "a1eea0f47f7b",
+          "label": "カンパチ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 5,
+          "file": "data/payloads/00297-a1eea0f47f7b.json"
+        },
+        {
+          "id": "ee19602e2f7e",
+          "label": "サバ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 4,
+          "file": "data/payloads/00297-ee19602e2f7e.json"
         }
       ]
     }
