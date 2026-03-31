@@ -2,6 +2,7 @@ const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
 const maxChart = document.getElementById("maxChart");
 const surfaceMap = document.getElementById("surfaceMap");
+const surfaceTooltip = document.getElementById("surfaceTooltip");
 
 const shipTab = document.getElementById("shipTab");
 const aggregateTab = document.getElementById("aggregateTab");
@@ -43,6 +44,8 @@ let simulatorListenersBound = false;
 let observedSortBound = false;
 let selectorBound = false;
 let tabsBound = false;
+let surfaceMapBound = false;
+let surfaceState = null;
 
 function clamp(value, lower, upper) {
   return Math.max(lower, Math.min(upper, value));
@@ -621,6 +624,16 @@ function drawSurfaceMap(payload) {
   ctx.fillText("海水温", 10, margin.top - 8);
   ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
   document.getElementById("surfaceMeta").textContent = `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`;
+  surfaceState = {
+    margin,
+    width,
+    height,
+    moonConfig,
+    seaConfig,
+    airTemp,
+    minValue,
+    maxValue,
+  };
 }
 
 function updateSimulator() {
@@ -628,6 +641,7 @@ function updateSimulator() {
     return;
   }
 
+  hideSurfaceTooltip();
   const rawFeatures = getSimulatorRawFeatures();
   Object.entries(simulatorNodes).forEach(([key, node]) => {
     node.value.textContent = formatControlValue(key, Number(node.input.value));
@@ -640,13 +654,16 @@ function updateSimulator() {
   drawSurfaceMap(payloadState);
 }
 
-function configureSimulator(payload) {
+function configureSimulator(payload, options = {}) {
+  const { preserveValues = false } = options;
   Object.entries(simulatorNodes).forEach(([key, node]) => {
     const config = payload.featureRanges[key];
     node.input.min = config.min;
     node.input.max = config.max;
     node.input.step = config.step;
-    node.input.value = config.default;
+    const currentValue = Number(node.input.value);
+    const nextValue = preserveValues && Number.isFinite(currentValue) ? clamp(currentValue, config.min, config.max) : config.default;
+    node.input.value = nextValue;
   });
 
   if (!simulatorListenersBound) {
@@ -657,6 +674,92 @@ function configureSimulator(payload) {
   }
 
   updateSimulator();
+}
+
+function hideSurfaceTooltip() {
+  surfaceTooltip.hidden = true;
+}
+
+function showSurfaceTooltip(clientX, clientY) {
+  if (!payloadState || !surfaceState) {
+    return;
+  }
+
+  const rect = surfaceMap.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const { margin, width, height, moonConfig, seaConfig, airTemp } = surfaceState;
+  const withinX = x >= margin.left && x <= margin.left + width;
+  const withinY = y >= margin.top && y <= margin.top + height;
+
+  if (!withinX || !withinY) {
+    hideSurfaceTooltip();
+    return;
+  }
+
+  const moonRatio = clamp((x - margin.left) / Math.max(width, 1e-6), 0, 1);
+  const seaRatio = clamp((y - margin.top) / Math.max(height, 1e-6), 0, 1);
+  const moonAge = moonConfig.min + moonRatio * (moonConfig.max - moonConfig.min);
+  const seaTemp = seaConfig.max - seaRatio * (seaConfig.max - seaConfig.min);
+  const result = simulate({ airTemp, seaTemp, moonAge }, payloadState);
+  const aggregateMode = payloadState.scope && payloadState.scope.mode === "aggregate";
+  const maxLabel = aggregateMode ? "平均予測上限" : "予測上限";
+  const minLabel = aggregateMode ? "平均予測下限" : "予測下限";
+
+  surfaceTooltip.innerHTML = `
+    <strong>${maxLabel} ${amountText(result.predictedMax, payloadState.species.unit)}</strong>
+    <span>${minLabel} ${amountText(result.predictedMin, payloadState.species.unit)}</span>
+    <span>海水温 ${seaTemp.toFixed(1)}℃ / 月齢 ${moonAge.toFixed(1)}日</span>
+    <span>気温 ${airTemp.toFixed(1)}℃ で固定</span>
+  `;
+  surfaceTooltip.hidden = false;
+
+  const wrapRect = surfaceMap.parentElement.getBoundingClientRect();
+  const tooltipWidth = surfaceTooltip.offsetWidth;
+  const tooltipHeight = surfaceTooltip.offsetHeight;
+  const localX = clientX - wrapRect.left;
+  const localY = clientY - wrapRect.top;
+  const padding = 12;
+  const preferredRight = localX + 18;
+  const fallbackLeft = localX - tooltipWidth - 18;
+  const maxLeft = wrapRect.width - tooltipWidth - padding;
+  const left = preferredRight <= maxLeft ? preferredRight : Math.max(padding, fallbackLeft);
+  const top = clamp(localY - tooltipHeight * 0.5, padding, Math.max(padding, wrapRect.height - tooltipHeight - padding));
+  surfaceTooltip.style.left = `${left}px`;
+  surfaceTooltip.style.top = `${top}px`;
+}
+
+function bindSurfaceMap() {
+  if (surfaceMapBound) {
+    return;
+  }
+
+  const handlePointer = (clientX, clientY) => showSurfaceTooltip(clientX, clientY);
+  surfaceMap.addEventListener("click", (event) => handlePointer(event.clientX, event.clientY));
+  surfaceMap.addEventListener("mousemove", (event) => handlePointer(event.clientX, event.clientY));
+  surfaceMap.addEventListener(
+    "touchstart",
+    (event) => {
+      const touch = event.touches[0];
+      if (touch) {
+        handlePointer(touch.clientX, touch.clientY);
+      }
+    },
+    { passive: true },
+  );
+  surfaceMap.addEventListener(
+    "touchmove",
+    (event) => {
+      const touch = event.touches[0];
+      if (touch) {
+        handlePointer(touch.clientX, touch.clientY);
+      }
+    },
+    { passive: true },
+  );
+  surfaceMap.addEventListener("mouseleave", hideSurfaceTooltip);
+  surfaceMap.addEventListener("touchcancel", hideSurfaceTooltip);
+  surfaceMapBound = true;
 }
 
 function showTooltip(canvas, tooltip, scroller, clientX, clientY) {
@@ -826,8 +929,10 @@ async function fetchPayload(file) {
   return payloadCache.get(file);
 }
 
-function render(payload) {
+function render(payload, options = {}) {
+  const { preserveSimulator = false } = options;
   payloadState = payload;
+  hideSurfaceTooltip();
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
   setView(aggregateMode ? "aggregate" : "ship");
 
@@ -851,7 +956,7 @@ function render(payload) {
   populateTopDays(payload);
   populateRanking(payload);
   populateObservedList(payload);
-  configureSimulator(payload);
+  configureSimulator(payload, { preserveValues: preserveSimulator });
   drawProbabilityChart(payload);
   drawAmountChart(minChart, payload, "predictedMin", "observedMin", "#4ff0c6", "rgba(79, 240, 198, 0.22)");
   drawAmountChart(maxChart, payload, "predictedMax", "observedMax", "#ffd16b", "rgba(255, 209, 107, 0.20)");
@@ -935,6 +1040,7 @@ function bindTabs() {
 bindTooltip("probChart", "probChartScroller", "probTooltip");
 bindTooltip("minChart", "minChartScroller", "minTooltip");
 bindTooltip("maxChart", "maxChartScroller", "maxTooltip");
+bindSurfaceMap();
 
 if (!observedSortBound) {
   observedSort.addEventListener("change", () => {
@@ -947,7 +1053,7 @@ if (!observedSortBound) {
 
 window.addEventListener("resize", () => {
   if (payloadState) {
-    render(payloadState);
+    render(payloadState, { preserveSimulator: true });
   }
 });
 
