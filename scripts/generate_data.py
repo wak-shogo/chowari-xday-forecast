@@ -6,6 +6,7 @@ import json
 import math
 import random
 import re
+import time as time_module
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -24,6 +25,7 @@ OPEN_METEO_FORECAST = "https://api.open-meteo.com/v1/forecast"
 OPEN_METEO_MARINE = "https://marine-api.open-meteo.com/v1/marine"
 TIMEZONE_NAME = "Asia/Tokyo"
 SYNODIC_MONTH = 29.53058867
+YEAR_CYCLE_DAYS = 365.2425
 REFERENCE_NEW_MOON = datetime(2000, 1, 6, 18, 14, tzinfo=timezone.utc)
 
 DEFAULT_SHIP_IDS = [
@@ -64,7 +66,17 @@ GLOBAL_BALANCE_FIELD = "contextKey"
 
 NEURAL_FEATURE_SETS = {
     "compact": {
-        "featureKeys": ("airTemp", "seaTemp", "moonAge", "moonSin", "moonCos", "airSeaGap", "airSeaMean"),
+        "featureKeys": (
+            "airTemp",
+            "seaTemp",
+            "moonAge",
+            "moonSin",
+            "moonCos",
+            "yearSin",
+            "yearCos",
+            "airSeaGap",
+            "airSeaMean",
+        ),
     },
     "extended": {
         "featureKeys": (
@@ -75,6 +87,10 @@ NEURAL_FEATURE_SETS = {
             "moonCos",
             "moonSin2",
             "moonCos2",
+            "yearSin",
+            "yearCos",
+            "yearSin2",
+            "yearCos2",
             "airSeaGap",
             "airSeaMean",
             "airSeaAbsGap",
@@ -92,6 +108,10 @@ NEURAL_FEATURE_SETS = {
             "moonCos2",
             "moonSin3",
             "moonCos3",
+            "yearSin",
+            "yearCos",
+            "yearSin2",
+            "yearCos2",
             "airSeaGap",
             "airSeaMean",
             "airSeaAbsGap",
@@ -183,15 +203,24 @@ def parse_args():
 def fetch_text(url, params=None):
     if params:
         url = f"{url}?{urllib.parse.urlencode(params)}"
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0",
-            "X-Requested-With": "XMLHttpRequest",
-        },
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return response.read().decode("utf-8", "ignore")
+    last_error = None
+    for attempt in range(4):
+        request = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return response.read().decode("utf-8", "ignore")
+        except Exception as error:
+            last_error = error
+            if attempt == 3:
+                raise
+            time_module.sleep(0.7 * (2**attempt))
+    raise last_error
 
 
 def fetch_json(url, params=None):
@@ -693,6 +722,13 @@ def fetch_open_meteo_daily(base_url, latitude, longitude, start_date, end_date, 
     return output
 
 
+def fetch_open_meteo_daily_safe(base_url, latitude, longitude, start_date, end_date, fields):
+    try:
+        return fetch_open_meteo_daily(base_url, latitude, longitude, start_date, end_date, fields)
+    except Exception:
+        return {}
+
+
 def combine_feature_sources(air_map, sea_map):
     combined = {}
     for day, values in air_map.items():
@@ -756,23 +792,34 @@ def moon_phase_components(moon_age, harmonic=1):
     return math.sin(angle), math.cos(angle)
 
 
-def build_feature_map(air_temp, sea_temp, moon_age):
-    angle = (moon_age / SYNODIC_MONTH) * math.tau
+def year_phase_components(day_of_year, harmonic=1):
+    angle = ((day_of_year - 1) / YEAR_CYCLE_DAYS) * math.tau * harmonic
+    return math.sin(angle), math.cos(angle)
+
+
+def build_feature_map(air_temp, sea_temp, moon_age, day_of_year=1):
+    moon_angle = (moon_age / SYNODIC_MONTH) * math.tau
+    year_angle = ((day_of_year - 1) / YEAR_CYCLE_DAYS) * math.tau
     air_sea_gap = air_temp - sea_temp
     return {
         "airTemp": air_temp,
         "seaTemp": sea_temp,
         "moonAge": moon_age,
-        "moonSin": math.sin(angle),
-        "moonCos": math.cos(angle),
-        "moonSin2": math.sin(angle * 2),
-        "moonCos2": math.cos(angle * 2),
-        "moonSin3": math.sin(angle * 3),
-        "moonCos3": math.cos(angle * 3),
+        "dayOfYear": day_of_year,
+        "moonSin": math.sin(moon_angle),
+        "moonCos": math.cos(moon_angle),
+        "moonSin2": math.sin(moon_angle * 2),
+        "moonCos2": math.cos(moon_angle * 2),
+        "moonSin3": math.sin(moon_angle * 3),
+        "moonCos3": math.cos(moon_angle * 3),
+        "yearSin": math.sin(year_angle),
+        "yearCos": math.cos(year_angle),
+        "yearSin2": math.sin(year_angle * 2),
+        "yearCos2": math.cos(year_angle * 2),
         "airSeaGap": air_sea_gap,
         "airSeaMean": (air_temp + sea_temp) * 0.5,
         "airSeaAbsGap": abs(air_sea_gap),
-        "moonFullness": 0.5 * (1 - math.cos(angle)),
+        "moonFullness": 0.5 * (1 - math.cos(moon_angle)),
     }
 
 
@@ -817,7 +864,7 @@ def resolve_training_feature(day_record, archive_map, forecast_map, climatology)
     if sea is None:
         sea = forecast.get("sea_surface_temperature_mean", baseline["sea_surface_temperature_mean"])
     moon_age = day_record["moonAge"] if day_record["moonAge"] is not None else moon_age_for(day_record["date"])
-    return build_feature_map(air, sea, moon_age)
+    return build_feature_map(air, sea, moon_age, day_record["date"].timetuple().tm_yday)
 
 
 def quantile(values, q):
@@ -863,7 +910,12 @@ def compute_base_stats(rows, feature_keys):
 
 
 def scale_features(raw_features, stats, feature_keys):
-    feature_map = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+    feature_map = build_feature_map(
+        raw_features["airTemp"],
+        raw_features["seaTemp"],
+        raw_features["moonAge"],
+        raw_features.get("dayOfYear", 1),
+    )
     return {
         key: (feature_map[key] - stats["means"][key]) / stats["scales"][key]
         for key in feature_keys
@@ -953,7 +1005,12 @@ def weighted_average(pairs):
 
 
 def build_model_feature_row(raw_features, context_features=None):
-    feature_row = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+    feature_row = build_feature_map(
+        raw_features["airTemp"],
+        raw_features["seaTemp"],
+        raw_features["moonAge"],
+        raw_features.get("dayOfYear", 1),
+    )
     if context_features:
         feature_row.update(context_features)
     return feature_row
@@ -1622,7 +1679,12 @@ def fit_models(rows, mode="baseline", feature_spec_key=DEFAULT_FEATURE_SPEC, nei
 def predict_models(raw_features, regression):
     if regression["type"] == "random_forest":
         feature_keys = regression["forest"]["featureKeys"]
-        feature_map = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+        feature_map = build_feature_map(
+            raw_features["airTemp"],
+            raw_features["seaTemp"],
+            raw_features["moonAge"],
+            raw_features.get("dayOfYear", 1),
+        )
         feature_row = [feature_map[key] for key in feature_keys]
         min_score = sum(predict_tree(tree, feature_row) for tree in regression["forest"]["catchMin"]) / len(
             regression["forest"]["catchMin"]
@@ -1745,12 +1807,17 @@ def build_species_rows(daily_reports, species_name, unit, archive_map, forecast_
                 "airTemp": features["airTemp"],
                 "seaTemp": features["seaTemp"],
                 "moonAge": features["moonAge"],
+                "dayOfYear": features["dayOfYear"],
                 "moonSin": features["moonSin"],
                 "moonCos": features["moonCos"],
                 "moonSin2": features["moonSin2"],
                 "moonCos2": features["moonCos2"],
                 "moonSin3": features["moonSin3"],
                 "moonCos3": features["moonCos3"],
+                "yearSin": features["yearSin"],
+                "yearCos": features["yearCos"],
+                "yearSin2": features["yearSin2"],
+                "yearCos2": features["yearCos2"],
                 "airSeaGap": features["airSeaGap"],
                 "airSeaMean": features["airSeaMean"],
                 "airSeaAbsGap": features["airSeaAbsGap"],
@@ -2191,6 +2258,7 @@ def build_ship_payloads(ship_meta, daily_reports, ship_species_contexts, today, 
                 "airTemp": resolved["temperature_2m_mean"],
                 "seaTemp": resolved["sea_surface_temperature_mean"],
                 "moonAge": moon_age_for(current_day),
+                "dayOfYear": current_day.timetuple().tm_yday,
             }
             prediction = predict_shared_model(raw_features, global_model, context["contextFeatures"])
             prior_year_day = same_day_last_year(current_day)
@@ -2288,6 +2356,10 @@ def build_ship_payloads(ship_meta, daily_reports, ship_species_contexts, today, 
                 "maxSigma": max_sigma,
                 "maximaSamples": maxima_samples,
             },
+            "simulatorContext": {
+                "referenceDate": default_point["date"],
+                "dayOfYear": date.fromisoformat(default_point["date"]).timetuple().tm_yday,
+            },
             "featureRanges": feature_ranges,
             "evaluation": evaluation,
             "model": global_model,
@@ -2370,6 +2442,7 @@ def build_aggregate_payloads(ship_species_contexts, today, global_model, aggrega
                     "airTemp": resolved["temperature_2m_mean"],
                     "seaTemp": resolved["sea_surface_temperature_mean"],
                     "moonAge": current_moon_age,
+                    "dayOfYear": current_day.timetuple().tm_yday,
                 }
                 prediction = predict_shared_model(raw_features, global_model, context["contextFeatures"])
                 ship_predictions.append(
@@ -2494,6 +2567,10 @@ def build_aggregate_payloads(ship_species_contexts, today, global_model, aggrega
                 "maxSigma": max_sigma,
                 "maximaSamples": maxima_samples,
             },
+            "simulatorContext": {
+                "referenceDate": default_point["date"],
+                "dayOfYear": date.fromisoformat(default_point["date"]).timetuple().tm_yday,
+            },
             "featureRanges": feature_ranges,
             "evaluation": evaluation,
             "model": global_model,
@@ -2570,7 +2647,7 @@ def main():
         )
         archive_map = combine_feature_sources(air_archive, sea_archive)
 
-        air_forecast = fetch_open_meteo_daily(
+        air_forecast = fetch_open_meteo_daily_safe(
             OPEN_METEO_FORECAST,
             ship_meta["latitude"],
             ship_meta["longitude"],
@@ -2578,7 +2655,7 @@ def main():
             forecast_end,
             ["temperature_2m_mean"],
         )
-        sea_forecast = fetch_open_meteo_daily(
+        sea_forecast = fetch_open_meteo_daily_safe(
             OPEN_METEO_MARINE,
             ship_meta["latitude"],
             ship_meta["longitude"],

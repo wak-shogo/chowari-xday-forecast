@@ -1,4 +1,4 @@
-const APP_VERSION = "20260401-balanced1";
+const APP_VERSION = "20260401-seasonal1";
 
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
@@ -336,17 +336,24 @@ function drawAmountChart(canvas, payload, field, observedField, color, fillColor
 
 function buildFeatureMap(rawFeatures) {
   const angle = (rawFeatures.moonAge / 29.53058867) * Math.PI * 2;
+  const dayOfYear = rawFeatures.dayOfYear || 1;
+  const yearAngle = ((dayOfYear - 1) / 365.2425) * Math.PI * 2;
   const airSeaGap = rawFeatures.airTemp - rawFeatures.seaTemp;
   return {
     airTemp: rawFeatures.airTemp,
     seaTemp: rawFeatures.seaTemp,
     moonAge: rawFeatures.moonAge,
+    dayOfYear,
     moonSin: Math.sin(angle),
     moonCos: Math.cos(angle),
     moonSin2: Math.sin(angle * 2),
     moonCos2: Math.cos(angle * 2),
     moonSin3: Math.sin(angle * 3),
     moonCos3: Math.cos(angle * 3),
+    yearSin: Math.sin(yearAngle),
+    yearCos: Math.cos(yearAngle),
+    yearSin2: Math.sin(yearAngle * 2),
+    yearCos2: Math.cos(yearAngle * 2),
     airSeaGap,
     airSeaMean: (rawFeatures.airTemp + rawFeatures.seaTemp) * 0.5,
     airSeaAbsGap: Math.abs(airSeaGap),
@@ -474,6 +481,10 @@ function predictNeuralWithContext(rawFeatures, model, contextFeatures = {}) {
 }
 
 function simulate(rawFeatures, payload) {
+  const resolvedRawFeatures = {
+    ...rawFeatures,
+    dayOfYear: rawFeatures.dayOfYear || (payload.simulatorContext ? payload.simulatorContext.dayOfYear : 1),
+  };
   const model = payload.model || payload.regression;
   let predictedMin;
   let predictedMax;
@@ -481,11 +492,11 @@ function simulate(rawFeatures, payload) {
   if (model.type === "neural_network") {
     const aggregateContexts = payload.aggregate && Array.isArray(payload.aggregate.modelContexts) ? payload.aggregate.modelContexts : [];
     if (payload.scope && payload.scope.mode === "aggregate" && aggregateContexts.length) {
-      const predictions = aggregateContexts.map((context) => predictNeuralWithContext(rawFeatures, model, context.contextFeatures || {}));
+      const predictions = aggregateContexts.map((context) => predictNeuralWithContext(resolvedRawFeatures, model, context.contextFeatures || {}));
       predictedMin = predictions.reduce((sum, item) => sum + item.predictedMin, 0) / Math.max(predictions.length, 1);
       predictedMax = predictions.reduce((sum, item) => sum + item.predictedMax, 0) / Math.max(predictions.length, 1);
     } else {
-      const prediction = predictNeuralWithContext(rawFeatures, model, payload.contextFeatures || {});
+      const prediction = predictNeuralWithContext(resolvedRawFeatures, model, payload.contextFeatures || {});
       predictedMin = prediction.predictedMin;
       predictedMax = prediction.predictedMax;
     }
@@ -493,7 +504,7 @@ function simulate(rawFeatures, payload) {
     const aggregateContexts = payload.aggregate && Array.isArray(payload.aggregate.modelContexts) ? payload.aggregate.modelContexts : [];
     if (payload.scope && payload.scope.mode === "aggregate" && aggregateContexts.length) {
       const predictions = aggregateContexts.map((context) => {
-        const forestPrediction = predictForest(rawFeatures, model, context.contextFeatures || {});
+        const forestPrediction = predictForest(resolvedRawFeatures, model, context.contextFeatures || {});
         const contextMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
         const contextMax = Math.max(contextMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
         return { predictedMin: contextMin, predictedMax: contextMax };
@@ -501,12 +512,12 @@ function simulate(rawFeatures, payload) {
       predictedMin = predictions.reduce((sum, item) => sum + item.predictedMin, 0) / Math.max(predictions.length, 1);
       predictedMax = predictions.reduce((sum, item) => sum + item.predictedMax, 0) / Math.max(predictions.length, 1);
     } else {
-      const forestPrediction = predictForest(rawFeatures, model, payload.contextFeatures || {});
+      const forestPrediction = predictForest(resolvedRawFeatures, model, payload.contextFeatures || {});
       predictedMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
       predictedMax = Math.max(predictedMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
     }
   } else {
-    const { scaled, basis } = buildBasis(rawFeatures, model);
+    const { scaled, basis } = buildBasis(resolvedRawFeatures, model);
     let minScore = dot(model.baseline.catchMin.weights, basis);
     let maxScore = dot(model.baseline.catchMax.weights, basis);
     const featureKeys = model.featureSpec ? model.featureSpec.featureKeys : [];
@@ -535,6 +546,7 @@ function getSimulatorRawFeatures() {
     airTemp: Number(simulatorNodes.airTemp.input.value),
     seaTemp: Number(simulatorNodes.seaTemp.input.value),
     moonAge: Number(simulatorNodes.moonAge.input.value),
+    dayOfYear: payloadState && payloadState.simulatorContext ? payloadState.simulatorContext.dayOfYear : 1,
   };
 }
 
@@ -891,7 +903,13 @@ function drawSurfaceMap(payload) {
   ctx.fillText(amountText(maxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
   ctx.fillText("海水温", 10, margin.top - 8);
   ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
-  setText("surfaceMeta", `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`);
+  const referenceDate = payload.simulatorContext && payload.simulatorContext.referenceDate ? formatDate(payload.simulatorContext.referenceDate) : null;
+  setText(
+    "surfaceMeta",
+    referenceDate
+      ? `気温 ${airTemp.toFixed(1)}℃ で固定 / 年内位相 ${referenceDate} 相当 / 色は予測上限`
+      : `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`,
+  );
   surfaceState = {
     margin,
     width,
