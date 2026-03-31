@@ -8,7 +8,7 @@
       name="description"
       content="釣割の船宿釣果から、魚種ごとのXデー確率と予測下限・上限を日別に可視化する静的ページ。"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260401-balanced1" />
+    <link rel="stylesheet" href="./styles.css?v=20260401-surface2" />
   </head>
   <body>
     <main class="shell">
@@ -52,11 +52,6 @@
         </div>
         <div class="sim-grid">
           <div class="sim-controls">
-            <label class="slider-card" for="airSlider">
-              <span>気温</span>
-              <strong id="airValue">-</strong>
-              <input id="airSlider" type="range" />
-            </label>
             <label class="slider-card" for="seaSlider">
               <span>水温</span>
               <strong id="seaValue">-</strong>
@@ -107,7 +102,41 @@
           <canvas id="surfaceMap" width="1200" height="540" aria-label="海水温と月齢の予測マップ"></canvas>
           <div class="tooltip surface-tooltip" id="surfaceTooltip" hidden></div>
         </div>
+        <div class="surface-controls">
+          <label class="slider-card map-slider-card" for="airSlider">
+            <span>気温</span>
+            <strong id="airValue">-</strong>
+            <input id="airSlider" type="range" />
+          </label>
+        </div>
       </section>
+
+      <details class="chart-panel compact fold-panel">
+        <summary class="fold-summary">
+          <span>月齢と潮回りの目安</span>
+          <span>タップして表示</span>
+        </summary>
+        <div class="fold-body tide-guide">
+          <p>月齢は新月を 0 日前後、満月を 14.8 日前後とした日数です。潮回りは場所ごとに少しずれるので、実釣では潮汐表を優先してください。</p>
+          <div class="tide-guide-grid">
+            <article class="tide-chip">
+              <strong>大潮の目安</strong>
+              <span>新月・満月の前後</span>
+              <span>月齢 0 日前後 / 14.8 日前後 / 29 日前後</span>
+            </article>
+            <article class="tide-chip">
+              <strong>小潮の目安</strong>
+              <span>上弦・下弦の前後</span>
+              <span>月齢 7.4 日前後 / 22.1 日前後</span>
+            </article>
+            <article class="tide-chip">
+              <strong>長潮・若潮</strong>
+              <span>小潮の後半から新月へ向かう区間</span>
+              <span>月齢 9 から 12 日前後が目安</span>
+            </article>
+          </div>
+        </div>
+      </details>
 
       <section class="observed-panel" id="rankingPanel" hidden>
         <div class="chart-header">
@@ -173,6 +202,6 @@
         <a href="https://x.com/data_angler?s=20" target="_blank" rel="noreferrer">Xアカウント</a>
       </footer>
     </main>
-    <script src="./script.js?v=20260401-balanced1" type="module"></script>
+    <script src="./script.js?v=20260401-surface2" type="module"></script>
   </body>
 </html>

@@ -218,7 +218,7 @@ h1 {
 
 .sim-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -336,6 +336,14 @@ h1 {
     linear-gradient(180deg, rgba(8, 20, 31, 0.95), rgba(6, 15, 24, 0.98));
 }
 
+.surface-controls {
+  margin-top: 14px;
+}
+
+.map-slider-card {
+  max-width: 420px;
+}
+
 .evaluation-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -372,6 +380,43 @@ h1 {
 
 .fold-body {
   padding: 0 22px 22px;
+}
+
+.tide-guide {
+  display: grid;
+  gap: 14px;
+}
+
+.tide-guide p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.tide-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tide-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--chip);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tide-chip strong {
+  font-size: 1rem;
+}
+
+.tide-chip span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 canvas {
@@ -445,7 +490,8 @@ canvas {
 @media (max-width: 960px) {
   .top-days,
   .sim-metrics,
-  .observed-grid {
+  .observed-grid,
+  .tide-guide-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -481,8 +527,13 @@ canvas {
   .sim-controls,
   .top-days,
   .sim-metrics,
-  .observed-grid {
+  .observed-grid,
+  .tide-guide-grid {
     grid-template-columns: 1fr;
+  }
+
+  .map-slider-card {
+    max-width: none;
   }
 
   canvas {
