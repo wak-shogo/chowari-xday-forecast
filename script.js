@@ -1,3 +1,5 @@
+const APP_VERSION = "20260331-fix1";
+
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
 const maxChart = document.getElementById("maxChart");
@@ -49,6 +51,29 @@ let tabsBound = false;
 let surfaceMapBound = false;
 let evaluationPanelBound = false;
 let surfaceState = null;
+
+function setText(id, value) {
+  const node = document.getElementById(id);
+  if (node) {
+    node.textContent = value;
+  }
+}
+
+function formatRange(range, fallback = "-") {
+  return range && range.from && range.to ? `${range.from} - ${range.to}` : fallback;
+}
+
+function shipName(payload) {
+  return payload && payload.ship && payload.ship.name ? payload.ship.name : "船宿";
+}
+
+function speciesLabel(payload) {
+  return payload && payload.species && payload.species.label ? payload.species.label : "魚種";
+}
+
+function speciesUnit(payload) {
+  return payload && payload.species && payload.species.unit ? payload.species.unit : "";
+}
 
 function clamp(value, lower, upper) {
   return Math.max(lower, Math.min(upper, value));
@@ -135,6 +160,10 @@ function currentSpeciesSelection() {
 }
 
 function setView(view) {
+  if (!shipTab || !aggregateTab || !shipSelectCard) {
+    currentView = view === "aggregate" ? "aggregate" : "ship";
+    return;
+  }
   currentView = view === "aggregate" ? "aggregate" : "ship";
   const aggregateMode = currentView === "aggregate";
   shipTab.classList.toggle("is-active", !aggregateMode);
@@ -145,7 +174,13 @@ function setView(view) {
 }
 
 function prepareCanvas(canvas) {
+  if (!canvas) {
+    return null;
+  }
   const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return null;
+  }
   const dpr = window.devicePixelRatio || 1;
   const cssWidth = canvas.clientWidth;
   const cssHeight = canvas.clientHeight;
@@ -192,7 +227,11 @@ function drawBottomTicks(ctx, geometry, points) {
 }
 
 function drawProbabilityChart(payload) {
-  const { ctx, cssWidth, cssHeight } = prepareCanvas(probChart);
+  const prepared = prepareCanvas(probChart);
+  if (!prepared) {
+    return;
+  }
+  const { ctx, cssWidth, cssHeight } = prepared;
   const margin = { top: 28, right: 26, bottom: 48, left: 48 };
   const width = cssWidth - margin.left - margin.right;
   const height = cssHeight - margin.top - margin.bottom;
@@ -227,7 +266,11 @@ function drawProbabilityChart(payload) {
 }
 
 function drawAmountChart(canvas, payload, field, observedField, color, fillColor) {
-  const { ctx, cssWidth, cssHeight } = prepareCanvas(canvas);
+  const prepared = prepareCanvas(canvas);
+  if (!prepared) {
+    return;
+  }
+  const { ctx, cssWidth, cssHeight } = prepared;
   const margin = { top: 22, right: 26, bottom: 42, left: 48 };
   const width = cssWidth - margin.left - margin.right;
   const height = cssHeight - margin.top - margin.bottom;
@@ -481,6 +524,9 @@ function getSimulatorRawFeatures() {
 
 function populateTopDays(payload) {
   const host = document.getElementById("topDays");
+  if (!host) {
+    return;
+  }
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
   const maxLabel = aggregateMode ? "平均上限" : "上限";
   const minLabel = aggregateMode ? "平均下限" : "下限";
@@ -541,11 +587,14 @@ function sortObservedRecords(records, sortKey) {
 
 function populateObservedList(payload) {
   const host = document.getElementById("observedList");
+  if (!host) {
+    return;
+  }
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
-  const records = sortObservedRecords(buildObservedRecords(payload), observedSort.value);
+  const records = sortObservedRecords(buildObservedRecords(payload), observedSort ? observedSort.value : "date");
 
-  document.getElementById("observedLabel").textContent = aggregateMode ? "前年釣果実績平均" : "前年釣果実績";
-  document.getElementById("observedMeta").textContent = `${records.length}件`;
+  setText("observedLabel", aggregateMode ? "前年釣果実績平均" : "前年釣果実績");
+  setText("observedMeta", `${records.length}件`);
   host.innerHTML = "";
 
   if (!records.length) {
@@ -573,7 +622,12 @@ function populateObservedList(payload) {
 
 function populateRanking(payload) {
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
-  rankingPanel.hidden = !aggregateMode;
+  if (rankingPanel) {
+    rankingPanel.hidden = !aggregateMode;
+  }
+  if (!rankingList) {
+    return;
+  }
   rankingList.innerHTML = "";
 
   if (!aggregateMode) {
@@ -581,8 +635,8 @@ function populateRanking(payload) {
   }
 
   const ranking = (payload.aggregate && payload.aggregate.ranking) || [];
-  document.getElementById("rankingLabel").textContent = `${payload.species.label} 船宿ランキング`;
-  document.getElementById("rankingMeta").textContent = `${ranking.length}船 / 平均上限順`;
+  setText("rankingLabel", `${speciesLabel(payload)} 船宿ランキング`);
+  setText("rankingMeta", `${ranking.length}船 / 平均上限順`);
 
   if (!ranking.length) {
     const empty = document.createElement("div");
@@ -607,7 +661,11 @@ function populateRanking(payload) {
 
 function drawYYChart(payload) {
   const points = payload.evaluation ? payload.evaluation.yyPoints : [];
-  const { ctx, cssWidth, cssHeight } = prepareCanvas(yyChart);
+  const prepared = prepareCanvas(yyChart);
+  if (!prepared) {
+    return;
+  }
+  const { ctx, cssWidth, cssHeight } = prepared;
   const margin = { top: 28, right: 24, bottom: 46, left: 58 };
   const width = cssWidth - margin.left - margin.right;
   const height = cssHeight - margin.top - margin.bottom;
@@ -682,15 +740,17 @@ function drawYYChart(payload) {
 
 function populateEvaluation(payload) {
   const evaluation = payload.evaluation;
+  if (!evaluationPanel) {
+    return;
+  }
   evaluationPanel.hidden = !evaluation;
 
   if (!evaluation) {
     return;
   }
 
-  document.getElementById("evaluationLabel").textContent = `${payload.species.label} 上限 yyプロット`;
-  document.getElementById("evaluationMeta").textContent =
-    `タップして表示 / 検証 ${evaluation.validationRows}件 / 上限MAE ${evaluation.maxMae.toFixed(2)}`;
+  setText("evaluationLabel", `${speciesLabel(payload)} 上限 yyプロット`);
+  setText("evaluationMeta", `タップして表示 / 検証 ${evaluation.validationRows}件 / 上限MAE ${evaluation.maxMae.toFixed(2)}`);
 }
 
 function surfaceColor(ratio) {
@@ -701,11 +761,15 @@ function surfaceColor(ratio) {
 }
 
 function drawSurfaceMap(payload) {
-  if (!payload) {
+  if (!payload || !surfaceMap) {
     return;
   }
 
-  const { ctx, cssWidth, cssHeight } = prepareCanvas(surfaceMap);
+  const prepared = prepareCanvas(surfaceMap);
+  if (!prepared) {
+    return;
+  }
+  const { ctx, cssWidth, cssHeight } = prepared;
   const margin = { top: 28, right: 34, bottom: 56, left: 66 };
   const width = cssWidth - margin.left - margin.right;
   const height = cssHeight - margin.top - margin.bottom;
@@ -811,7 +875,7 @@ function drawSurfaceMap(payload) {
   ctx.fillText(amountText(maxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
   ctx.fillText("海水温", 10, margin.top - 8);
   ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
-  document.getElementById("surfaceMeta").textContent = `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`;
+  setText("surfaceMeta", `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`);
   surfaceState = {
     margin,
     width,
@@ -832,19 +896,31 @@ function updateSimulator() {
   hideSurfaceTooltip();
   const rawFeatures = getSimulatorRawFeatures();
   Object.entries(simulatorNodes).forEach(([key, node]) => {
+    if (!node.input || !node.value) {
+      return;
+    }
     node.value.textContent = formatControlValue(key, Number(node.input.value));
   });
 
   const result = simulate(rawFeatures, payloadState);
-  outputNodes.probability.textContent = percent(result.probability);
-  outputNodes.min.textContent = amountText(result.predictedMin, payloadState.species.unit);
-  outputNodes.max.textContent = amountText(result.predictedMax, payloadState.species.unit);
+  if (outputNodes.probability) {
+    outputNodes.probability.textContent = percent(result.probability);
+  }
+  if (outputNodes.min) {
+    outputNodes.min.textContent = amountText(result.predictedMin, speciesUnit(payloadState));
+  }
+  if (outputNodes.max) {
+    outputNodes.max.textContent = amountText(result.predictedMax, speciesUnit(payloadState));
+  }
   drawSurfaceMap(payloadState);
 }
 
 function configureSimulator(payload, options = {}) {
   const { preserveValues = false } = options;
   Object.entries(simulatorNodes).forEach(([key, node]) => {
+    if (!node.input) {
+      return;
+    }
     const config = payload.featureRanges[key];
     node.input.min = config.min;
     node.input.max = config.max;
@@ -856,7 +932,9 @@ function configureSimulator(payload, options = {}) {
 
   if (!simulatorListenersBound) {
     Object.values(simulatorNodes).forEach((node) => {
-      node.input.addEventListener("input", updateSimulator);
+      if (node.input) {
+        node.input.addEventListener("input", updateSimulator);
+      }
     });
     simulatorListenersBound = true;
   }
@@ -865,7 +943,9 @@ function configureSimulator(payload, options = {}) {
 }
 
 function hideSurfaceTooltip() {
-  surfaceTooltip.hidden = true;
+  if (surfaceTooltip) {
+    surfaceTooltip.hidden = true;
+  }
 }
 
 function syncSimulatorToSurfacePoint(seaTemp, moonAge) {
@@ -875,13 +955,16 @@ function syncSimulatorToSurfacePoint(seaTemp, moonAge) {
     return;
   }
 
+  if (!simulatorNodes.seaTemp.input || !simulatorNodes.moonAge.input) {
+    return;
+  }
   simulatorNodes.seaTemp.input.value = clamp(seaTemp, seaConfig.min, seaConfig.max).toFixed(1);
   simulatorNodes.moonAge.input.value = clamp(moonAge, moonConfig.min, moonConfig.max).toFixed(1);
   updateSimulator();
 }
 
 function showSurfaceTooltip(clientX, clientY, options = {}) {
-  if (!payloadState || !surfaceState) {
+  if (!payloadState || !surfaceState || !surfaceMap || !surfaceTooltip) {
     return;
   }
 
@@ -934,7 +1017,7 @@ function showSurfaceTooltip(clientX, clientY, options = {}) {
 }
 
 function bindSurfaceMap() {
-  if (surfaceMapBound) {
+  if (surfaceMapBound || !surfaceMap) {
     return;
   }
 
@@ -968,7 +1051,7 @@ function bindSurfaceMap() {
 }
 
 function bindEvaluationPanel() {
-  if (evaluationPanelBound) {
+  if (evaluationPanelBound || !evaluationPanel) {
     return;
   }
 
@@ -1048,6 +1131,9 @@ function bindTooltip(canvasId, scrollerId, tooltipId) {
   const canvas = document.getElementById(canvasId);
   const scroller = document.getElementById(scrollerId);
   const tooltip = document.getElementById(tooltipId);
+  if (!canvas || !scroller || !tooltip) {
+    return;
+  }
 
   const handleMove = (clientX, clientY) => showTooltip(canvas, tooltip, scroller, clientX, clientY);
   canvas.addEventListener("click", (event) => handleMove(event.clientX, event.clientY));
@@ -1097,6 +1183,9 @@ function updateUrl(view, shipId, speciesId) {
 }
 
 function populateShipSelect() {
+  if (!shipSelect) {
+    return;
+  }
   shipSelect.innerHTML = "";
   catalogState.ships.forEach((ship) => {
     const option = document.createElement("option");
@@ -1107,6 +1196,9 @@ function populateShipSelect() {
 }
 
 function populateSpeciesSelect(ship, preferredSpeciesId = null) {
+  if (!speciesSelect) {
+    return;
+  }
   speciesSelect.innerHTML = "";
   ship.species.forEach((species) => {
     const option = document.createElement("option");
@@ -1120,6 +1212,9 @@ function populateSpeciesSelect(ship, preferredSpeciesId = null) {
 }
 
 function populateAggregateSpeciesSelect(preferredSpeciesId = null) {
+  if (!speciesSelect || !catalogState.aggregateSpecies.length) {
+    return;
+  }
   speciesSelect.innerHTML = "";
   catalogState.aggregateSpecies.forEach((species) => {
     const option = document.createElement("option");
@@ -1136,7 +1231,7 @@ async function fetchPayload(file) {
   if (!payloadCache.has(file)) {
     payloadCache.set(
       file,
-      fetch(`./${file}`).then((response) => {
+      fetch(`./${file}?v=${APP_VERSION}`).then((response) => {
         if (!response.ok) {
           throw new Error(`データ取得失敗: ${file}`);
         }
@@ -1154,33 +1249,36 @@ function render(payload, options = {}) {
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
   setView(aggregateMode ? "aggregate" : "ship");
 
-  document.title = aggregateMode ? `${payload.species.label} 魚種統合 Xデー予測` : `${payload.ship.name} ${payload.species.label} Xデー予測`;
-  document.getElementById("title").textContent = aggregateMode
-    ? `${payload.species.label} 魚種統合 Xデー予測`
-    : `${payload.ship.name} ${payload.species.label} Xデー予測`;
-  document.getElementById("generatedAt").textContent = `更新 ${payload.generatedAt}`;
-  document.getElementById("summaryMeta").textContent = aggregateMode
-    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`
-    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
-  document.getElementById("rangeLabel").textContent = `${payload.forecastRange.from} - ${payload.forecastRange.to}`;
-  document.getElementById("todayLabel").textContent = `基準日 ${payload.today}`;
-  document.getElementById("minMetricLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
-  document.getElementById("maxMetricLabel").textContent = `${aggregateMode ? "平均予測上限" : "予測上限"}${payload.species.unit}`;
-  document.getElementById("minChartLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
-  document.getElementById("maxChartLabel").textContent = `${aggregateMode ? "平均予測上限" : "予測上限"}${payload.species.unit}`;
-  document.getElementById("unitLabelMin").textContent = `${payload.species.unit} / 日`;
-  document.getElementById("unitLabelMax").textContent = `${payload.species.unit} / 日`;
+  document.title = aggregateMode ? `${speciesLabel(payload)} 魚種統合 Xデー予測` : `${shipName(payload)} ${speciesLabel(payload)} Xデー予測`;
+  setText("title", aggregateMode ? `${speciesLabel(payload)} 魚種統合 Xデー予測` : `${shipName(payload)} ${speciesLabel(payload)} Xデー予測`);
+  setText("generatedAt", payload.generatedAt ? `更新 ${payload.generatedAt}` : "更新時刻 不明");
+  setText(
+    "summaryMeta",
+    aggregateMode
+      ? `統合 ${payload.aggregate && payload.aggregate.shipCount ? payload.aggregate.shipCount : "-"}船 / 学習 ${formatRange(payload.trainingRange, "期間不明")} / 記録日 ${payload.tripDays || "-"} / Xデー ${payload.xDayRule || "-"}`
+      : `学習 ${formatRange(payload.trainingRange, "期間不明")} / 記録日 ${payload.tripDays || "-"} / Xデー ${payload.xDayRule || "-"}`,
+  );
+  setText("rangeLabel", formatRange(payload.forecastRange, "予測期間 不明"));
+  setText("todayLabel", payload.today ? `基準日 ${payload.today}` : "基準日 不明");
+  setText("minMetricLabel", `${aggregateMode ? "平均予測下限" : "予測下限"}${speciesUnit(payload)}`);
+  setText("maxMetricLabel", `${aggregateMode ? "平均予測上限" : "予測上限"}${speciesUnit(payload)}`);
+  setText("minChartLabel", `${aggregateMode ? "平均予測下限" : "予測下限"}${speciesUnit(payload)}`);
+  setText("maxChartLabel", `${aggregateMode ? "平均予測上限" : "予測上限"}${speciesUnit(payload)}`);
+  setText("unitLabelMin", `${speciesUnit(payload)} / 日`);
+  setText("unitLabelMax", `${speciesUnit(payload)} / 日`);
 
   populateTopDays(payload);
   populateRanking(payload);
   populateObservedList(payload);
-  evaluationPanel.open = preserveEvaluationOpen && !!payload.evaluation;
+  if (evaluationPanel) {
+    evaluationPanel.open = preserveEvaluationOpen && !!payload.evaluation;
+  }
   populateEvaluation(payload);
   configureSimulator(payload, { preserveValues: preserveSimulator });
   drawProbabilityChart(payload);
   drawAmountChart(minChart, payload, "predictedMin", "observedMin", "#4ff0c6", "rgba(79, 240, 198, 0.22)");
   drawAmountChart(maxChart, payload, "predictedMax", "observedMax", "#ffd16b", "rgba(255, 209, 107, 0.20)");
-  if (evaluationPanel.open && payload.evaluation) {
+  if (evaluationPanel && evaluationPanel.open && payload.evaluation) {
     drawYYChart(payload);
   }
 }
@@ -1207,7 +1305,7 @@ async function loadSelection(view, shipId, speciesId) {
 }
 
 function bindSelectors() {
-  if (selectorBound) {
+  if (selectorBound || !shipSelect || !speciesSelect) {
     return;
   }
 
@@ -1239,7 +1337,7 @@ function bindSelectors() {
 }
 
 function bindTabs() {
-  if (tabsBound) {
+  if (tabsBound || !shipTab || !aggregateTab) {
     return;
   }
 
@@ -1267,22 +1365,24 @@ bindSurfaceMap();
 bindEvaluationPanel();
 
 if (!observedSortBound) {
-  observedSort.addEventListener("change", () => {
-    if (payloadState) {
-      populateObservedList(payloadState);
-    }
-  });
-  observedSortBound = true;
+  if (observedSort) {
+    observedSort.addEventListener("change", () => {
+      if (payloadState) {
+        populateObservedList(payloadState);
+      }
+    });
+    observedSortBound = true;
+  }
 }
 
 window.addEventListener("resize", () => {
   if (payloadState) {
-    render(payloadState, { preserveSimulator: true, preserveEvaluationOpen: evaluationPanel.open });
+    render(payloadState, { preserveSimulator: true, preserveEvaluationOpen: evaluationPanel ? evaluationPanel.open : false });
   }
 });
 
 async function main() {
-  const response = await fetch("./data/catalog.json");
+  const response = await fetch(`./data/catalog.json?v=${APP_VERSION}`);
   if (!response.ok) {
     throw new Error("カタログを読み込めませんでした");
   }
