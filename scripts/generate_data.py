@@ -49,6 +49,8 @@ MIN_VALIDATION_ROWS = 8
 MIN_POSITIVE_DAYS = 4
 XDAY_MONTE_CARLO_SAMPLES = 4096
 SIMULATOR_MAXIMA_SAMPLES = 320
+NEURAL_GRAD_CLIP = 3.5
+NEURAL_OUTPUT_WEIGHTS = (0.4, 0.6)
 NEIGHBOR_COUNTS = (4, 6, 8, 12)
 KERNEL_BANDWIDTHS = (0.7, 1.0, 1.4, 1.8)
 KERNEL_PRIOR_WEIGHT = 1.0
@@ -58,6 +60,52 @@ RANDOM_FOREST_MIN_LEAF = 3
 RANDOM_FOREST_MAX_FEATURES = 4
 RANDOM_FOREST_THRESHOLD_STEPS = 8
 MIN_RANDOM_FOREST_ROWS = 18
+
+NEURAL_FEATURE_SETS = {
+    "compact": {
+        "featureKeys": ("airTemp", "seaTemp", "moonSin", "moonCos", "airSeaGap", "airSeaMean"),
+    },
+    "extended": {
+        "featureKeys": (
+            "airTemp",
+            "seaTemp",
+            "moonSin",
+            "moonCos",
+            "moonSin2",
+            "moonCos2",
+            "airSeaGap",
+            "airSeaMean",
+            "airSeaAbsGap",
+            "moonFullness",
+        ),
+    },
+    "rich": {
+        "featureKeys": (
+            "airTemp",
+            "seaTemp",
+            "moonSin",
+            "moonCos",
+            "moonSin2",
+            "moonCos2",
+            "moonSin3",
+            "moonCos3",
+            "airSeaGap",
+            "airSeaMean",
+            "airSeaAbsGap",
+            "moonFullness",
+        ),
+    },
+}
+GLOBAL_CONTEXT_PROFILE_KEYS = (
+    "contextAvgMin",
+    "contextAvgMax",
+    "contextPositiveRate",
+    "contextAvgSpread",
+    "contextTripScale",
+    "speciesAvgMax",
+    "speciesPositiveRate",
+    "speciesTripScale",
+)
 
 FEATURE_SPECS = {
     "harmonic1": {
@@ -707,6 +755,7 @@ def moon_phase_components(moon_age, harmonic=1):
 
 def build_feature_map(air_temp, sea_temp, moon_age):
     angle = (moon_age / SYNODIC_MONTH) * math.tau
+    air_sea_gap = air_temp - sea_temp
     return {
         "airTemp": air_temp,
         "seaTemp": sea_temp,
@@ -715,6 +764,12 @@ def build_feature_map(air_temp, sea_temp, moon_age):
         "moonCos": math.cos(angle),
         "moonSin2": math.sin(angle * 2),
         "moonCos2": math.cos(angle * 2),
+        "moonSin3": math.sin(angle * 3),
+        "moonCos3": math.cos(angle * 3),
+        "airSeaGap": air_sea_gap,
+        "airSeaMean": (air_temp + sea_temp) * 0.5,
+        "airSeaAbsGap": abs(air_sea_gap),
+        "moonFullness": 0.5 * (1 - math.cos(angle)),
     }
 
 
@@ -796,7 +851,7 @@ def feature_spec(spec_key):
 def compute_base_stats(rows, feature_keys):
     stats = {"means": {}, "scales": {}}
     for key in feature_keys:
-        values = [row[key] for row in rows]
+        values = [row.get(key, 0.0) for row in rows]
         mean = sum(values) / len(values)
         variance = sum((value - mean) ** 2 for value in values) / len(values)
         stats["means"][key] = mean
@@ -1130,6 +1185,231 @@ def fit_random_forest_model(rows, seed_key, spec_key=RANDOM_FOREST_FEATURE_SPEC)
     }
 
 
+def split_rows_for_validation(rows, seed_key):
+    if len(rows) < MIN_VALIDATION_ROWS:
+        return rows, []
+
+    indices = list(range(len(rows)))
+    random.Random(seed_key).shuffle(indices)
+    validation_size = max(2, int(round(len(rows) * VALIDATION_RATIO)))
+    validation_size = min(validation_size, len(rows) - 2)
+    validation_indices = set(indices[:validation_size])
+    train_rows = [row for index, row in enumerate(rows) if index not in validation_indices]
+    validation_rows = [row for index, row in enumerate(rows) if index in validation_indices]
+    if len(train_rows) < 2 or len(validation_rows) < 2:
+        return rows, []
+    return train_rows, validation_rows
+
+
+def neural_feature_keys(config):
+    return tuple(config.get("featureKeys") or NEURAL_FEATURE_SETS[config["feature_set"]]["featureKeys"])
+
+
+def neural_input_vector(row, stats, feature_keys):
+    return [(row.get(key, 0.0) - stats["means"][key]) / stats["scales"][key] for key in feature_keys]
+
+
+def neural_targets(row):
+    return (
+        math.log1p(row["catchMin"]),
+        math.log1p(max(row["catchMax"] - row["catchMin"], 0.0)),
+    )
+
+
+def initialize_dense_layers(layer_sizes, rng):
+    layers = []
+    for input_size, output_size in zip(layer_sizes, layer_sizes[1:]):
+        limit = math.sqrt(6.0 / max(input_size + output_size, 1))
+        layers.append(
+            {
+                "weights": [
+                    [rng.uniform(-limit, limit) for _ in range(input_size)]
+                    for _ in range(output_size)
+                ],
+                "biases": [0.0 for _ in range(output_size)],
+            }
+        )
+    return layers
+
+
+def zeros_like_layers(layers):
+    return [
+        {
+            "weights": [[0.0 for _ in row] for row in layer["weights"]],
+            "biases": [0.0 for _ in layer["biases"]],
+        }
+        for layer in layers
+    ]
+
+
+def forward_dense_layers(input_vector, layers):
+    activations = [input_vector]
+    for layer_index, layer in enumerate(layers):
+        previous = activations[-1]
+        outputs = []
+        for weights, bias in zip(layer["weights"], layer["biases"]):
+            total = bias + sum(weight * value for weight, value in zip(weights, previous))
+            if layer_index < len(layers) - 1:
+                total = math.tanh(total)
+            outputs.append(total)
+        activations.append(outputs)
+    return activations
+
+
+def predict_dense_layers(input_vector, layers):
+    values = input_vector
+    for layer_index, layer in enumerate(layers):
+        outputs = []
+        for weights, bias in zip(layer["weights"], layer["biases"]):
+            total = bias + sum(weight * value for weight, value in zip(weights, values))
+            if layer_index < len(layers) - 1:
+                total = math.tanh(total)
+            outputs.append(total)
+        values = outputs
+    return values
+
+
+def clip_gradient(value):
+    return clamp(value, -NEURAL_GRAD_CLIP, NEURAL_GRAD_CLIP)
+
+
+def train_neural_layers(input_rows, target_rows, config, seed_key):
+    layer_sizes = [len(input_rows[0]), *config["hidden_sizes"], 2]
+    rng = random.Random(seed_key)
+    layers = initialize_dense_layers(layer_sizes, rng)
+    grad_layers = zeros_like_layers(layers)
+    momentum = zeros_like_layers(layers)
+    velocity = zeros_like_layers(layers)
+
+    beta1 = 0.9
+    beta2 = 0.999
+    epsilon = 1e-8
+    sample_count = len(input_rows)
+    learning_rate = config["learning_rate"]
+    weight_decay = config["weight_decay"]
+
+    for step in range(1, config["epochs"] + 1):
+        for grad_layer in grad_layers:
+            for weight_row in grad_layer["weights"]:
+                for index in range(len(weight_row)):
+                    weight_row[index] = 0.0
+            for index in range(len(grad_layer["biases"])):
+                grad_layer["biases"][index] = 0.0
+
+        for inputs, targets in zip(input_rows, target_rows):
+            activations = forward_dense_layers(inputs, layers)
+            outputs = activations[-1]
+            delta = [
+                (outputs[index] - targets[index]) * NEURAL_OUTPUT_WEIGHTS[index] / sample_count
+                for index in range(len(outputs))
+            ]
+
+            for layer_index in range(len(layers) - 1, -1, -1):
+                previous = activations[layer_index]
+                current = layers[layer_index]
+                current_grads = grad_layers[layer_index]
+
+                for output_index, delta_value in enumerate(delta):
+                    current_grads["biases"][output_index] += delta_value
+                    for input_index, previous_value in enumerate(previous):
+                        current_grads["weights"][output_index][input_index] += delta_value * previous_value
+
+                if layer_index == 0:
+                    continue
+
+                propagated = []
+                for previous_index, previous_value in enumerate(previous):
+                    backward = sum(
+                        current["weights"][output_index][previous_index] * delta[output_index]
+                        for output_index in range(len(delta))
+                    )
+                    propagated.append(backward * (1.0 - previous_value * previous_value))
+                delta = propagated
+
+        for layer_index, layer in enumerate(layers):
+            grad_layer = grad_layers[layer_index]
+            momentum_layer = momentum[layer_index]
+            velocity_layer = velocity[layer_index]
+            for output_index, weight_row in enumerate(layer["weights"]):
+                for input_index, weight in enumerate(weight_row):
+                    gradient = clip_gradient(grad_layer["weights"][output_index][input_index] + weight_decay * weight)
+                    momentum_layer["weights"][output_index][input_index] = (
+                        beta1 * momentum_layer["weights"][output_index][input_index] + (1 - beta1) * gradient
+                    )
+                    velocity_layer["weights"][output_index][input_index] = (
+                        beta2 * velocity_layer["weights"][output_index][input_index] + (1 - beta2) * gradient * gradient
+                    )
+                    momentum_hat = momentum_layer["weights"][output_index][input_index] / (1 - beta1**step)
+                    velocity_hat = velocity_layer["weights"][output_index][input_index] / (1 - beta2**step)
+                    weight_row[input_index] -= learning_rate * momentum_hat / (math.sqrt(velocity_hat) + epsilon)
+
+                bias_gradient = clip_gradient(grad_layer["biases"][output_index])
+                momentum_layer["biases"][output_index] = beta1 * momentum_layer["biases"][output_index] + (
+                    1 - beta1
+                ) * bias_gradient
+                velocity_layer["biases"][output_index] = beta2 * velocity_layer["biases"][output_index] + (
+                    1 - beta2
+                ) * bias_gradient * bias_gradient
+                momentum_hat = momentum_layer["biases"][output_index] / (1 - beta1**step)
+                velocity_hat = velocity_layer["biases"][output_index] / (1 - beta2**step)
+                layer["biases"][output_index] -= learning_rate * momentum_hat / (math.sqrt(velocity_hat) + epsilon)
+
+    return layers
+
+
+def fit_neural_model(rows, config, seed_key):
+    feature_keys = neural_feature_keys(config)
+    stats = compute_base_stats(rows, feature_keys)
+    inputs = [neural_input_vector(row, stats, feature_keys) for row in rows]
+    targets = [neural_targets(row) for row in rows]
+    layers = train_neural_layers(inputs, targets, config, seed_key)
+    count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
+
+    return {
+        "type": "neural_network",
+        "countCeiling": round(count_ceiling, 3),
+        "input": {
+            "featureKeys": list(feature_keys),
+            "means": {key: round(stats["means"][key], 6) for key in feature_keys},
+            "scales": {key: round(stats["scales"][key], 6) for key in feature_keys},
+        },
+        "network": {
+            "activation": "tanh",
+            "hiddenSizes": list(config["hidden_sizes"]),
+            "layers": [
+                {
+                    "weights": [[round(value, 8) for value in row] for row in layer["weights"]],
+                    "biases": [round(value, 8) for value in layer["biases"]],
+                }
+                for layer in layers
+            ],
+        },
+    }
+
+
+def predict_neural_row(feature_row, model):
+    feature_keys = model["input"]["featureKeys"]
+    input_vector = [
+        (feature_row.get(key, 0.0) - model["input"]["means"][key]) / model["input"]["scales"][key]
+        for key in feature_keys
+    ]
+    min_score, gap_score = predict_dense_layers(input_vector, model["network"]["layers"])
+    predicted_min = decode_measure(min_score, model["countCeiling"])
+    predicted_gap = decode_measure(gap_score, model["countCeiling"])
+    predicted_max = clamp(predicted_min + predicted_gap, predicted_min, model["countCeiling"])
+    return {
+        "predictedMin": round(predicted_min, 2),
+        "predictedMax": round(predicted_max, 2),
+    }
+
+
+def predict_neural_model(raw_features, model, context_features=None):
+    feature_row = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+    if context_features:
+        feature_row.update(context_features)
+    return predict_neural_row(feature_row, model)
+
+
 def fit_models(rows, mode="baseline", feature_spec=DEFAULT_FEATURE_SPEC, neighbor_count=None, bandwidth=None, seed_key="fit"):
     if mode == "hybrid" and neighbor_count and bandwidth:
         return build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=feature_spec)
@@ -1187,8 +1467,8 @@ def predict_models(raw_features, regression):
     }
 
 
-def estimate_max_sigma(rows, regression):
-    residuals = [row["catchMax"] - predict_models(row, regression)["predictedMax"] for row in rows]
+def estimate_max_sigma(rows, model):
+    residuals = [row["catchMax"] - predict_neural_row(row, model)["predictedMax"] for row in rows]
     squared = sum(value * value for value in residuals) / len(residuals)
     return round(max(math.sqrt(squared), 0.35), 4)
 
@@ -1229,24 +1509,14 @@ def weighted_error(prediction, row):
     return abs(prediction["predictedMin"] - row["catchMin"]) * 0.35 + abs(prediction["predictedMax"] - row["catchMax"])
 
 
-def config_labels(config):
-    model_labels = {
-        "baseline": "重回帰",
-        "hybrid": "近傍補正つき重回帰",
-        "random_forest": "ランダムフォレスト",
-    }
-    spec = feature_spec(config["feature_spec"])
-    return model_labels.get(config["mode"], config["mode"]), spec["label"]
-
-
-def evaluate_config(train_rows, validation_rows, config, seed_key):
-    model = fit_models(train_rows, **config, seed_key=seed_key)
+def evaluate_neural_config(train_rows, validation_rows, config, seed_key):
+    model = fit_neural_model(train_rows, config, seed_key=seed_key)
     min_errors = []
     max_errors = []
     weighted_errors = []
     yy_points = []
     for row in validation_rows:
-        prediction = predict_models(row, model)
+        prediction = predict_neural_model(row, model)
         min_errors.append(abs(prediction["predictedMin"] - row["catchMin"]))
         max_errors.append(abs(prediction["predictedMax"] - row["catchMax"]))
         weighted_errors.append(weighted_error(prediction, row))
@@ -1259,91 +1529,12 @@ def evaluate_config(train_rows, validation_rows, config, seed_key):
                 "predictedMax": prediction["predictedMax"],
             }
         )
-    model_label, feature_label = config_labels(config)
     return {
         "score": sum(weighted_errors) / len(weighted_errors),
         "validationRows": len(validation_rows),
         "minMae": round(sum(min_errors) / len(min_errors), 3),
         "maxMae": round(sum(max_errors) / len(max_errors), 3),
-        "modelType": model_label,
-        "moonFeature": feature_label,
         "yyPoints": yy_points,
-    }
-
-
-def select_model_config(rows, seed_key):
-    default_config = {"mode": "baseline", "feature_spec": DEFAULT_FEATURE_SPEC}
-    if len(rows) < MIN_VALIDATION_ROWS:
-        return default_config, None
-
-    indices = list(range(len(rows)))
-    random.Random(seed_key).shuffle(indices)
-    validation_size = max(2, int(round(len(rows) * VALIDATION_RATIO)))
-    validation_size = min(validation_size, len(rows) - 2)
-    validation_indices = set(indices[:validation_size])
-    train_rows = [row for index, row in enumerate(rows) if index not in validation_indices]
-    validation_rows = [row for index, row in enumerate(rows) if index in validation_indices]
-    if len(train_rows) < 2 or len(validation_rows) < 2:
-        return default_config, None
-
-    candidate_configs = []
-    for spec_key in FEATURE_SPECS:
-        candidate_configs.append({"mode": "baseline", "feature_spec": spec_key})
-        for candidate_neighbors in NEIGHBOR_COUNTS:
-            if candidate_neighbors > len(train_rows):
-                continue
-            for candidate_bandwidth in KERNEL_BANDWIDTHS:
-                candidate_configs.append(
-                    {
-                        "mode": "hybrid",
-                        "feature_spec": spec_key,
-                        "neighbor_count": candidate_neighbors,
-                        "bandwidth": candidate_bandwidth,
-                    }
-                )
-
-    if len(train_rows) >= MIN_RANDOM_FOREST_ROWS:
-        candidate_configs.append(
-            {
-                "mode": "random_forest",
-                "feature_spec": RANDOM_FOREST_FEATURE_SPEC,
-            }
-        )
-
-    best_config = default_config
-    best_metrics = None
-    candidate_results = []
-    for config in candidate_configs:
-        metrics = evaluate_config(train_rows, validation_rows, config, seed_key=f"{seed_key}:{config['mode']}:{config['feature_spec']}")
-        candidate_results.append(
-            {
-                "selected": False,
-                "modelType": metrics["modelType"],
-                "moonFeature": metrics["moonFeature"],
-                "score": round(metrics["score"], 3),
-                "validationRows": metrics["validationRows"],
-                "minMae": metrics["minMae"],
-                "maxMae": metrics["maxMae"],
-            }
-        )
-        if best_metrics is None or metrics["score"] < best_metrics["score"]:
-            best_config = config
-            best_metrics = metrics
-
-    for candidate in candidate_results:
-        if candidate["modelType"] == best_metrics["modelType"] and candidate["moonFeature"] == best_metrics["moonFeature"]:
-            candidate["selected"] = True
-            break
-
-    return best_config, {
-        "validationRows": best_metrics["validationRows"],
-        "minMae": best_metrics["minMae"],
-        "maxMae": best_metrics["maxMae"],
-        "score": round(best_metrics["score"], 3),
-        "modelType": best_metrics["modelType"],
-        "moonFeature": best_metrics["moonFeature"],
-        "yyPoints": best_metrics["yyPoints"],
-        "candidates": sorted(candidate_results, key=lambda item: (item["score"], item["maxMae"], item["modelType"])),
     }
 
 
@@ -1367,6 +1558,12 @@ def build_species_rows(daily_reports, species_name, unit, archive_map, forecast_
                 "moonCos": features["moonCos"],
                 "moonSin2": features["moonSin2"],
                 "moonCos2": features["moonCos2"],
+                "moonSin3": features["moonSin3"],
+                "moonCos3": features["moonCos3"],
+                "airSeaGap": features["airSeaGap"],
+                "airSeaMean": features["airSeaMean"],
+                "airSeaAbsGap": features["airSeaAbsGap"],
+                "moonFullness": features["moonFullness"],
             }
         )
     return rows
@@ -1375,6 +1572,10 @@ def build_species_rows(daily_reports, species_name, unit, archive_map, forecast_
 def species_key(ship_id, species_name):
     digest = hashlib.sha1(f"{ship_id}:{species_name}".encode("utf-8")).hexdigest()[:12]
     return digest
+
+
+def species_feature_id(species_name, unit):
+    return hashlib.sha1(f"{species_name}:{unit}".encode("utf-8")).hexdigest()[:10]
 
 
 def summarize_species_activity(daily_reports):
@@ -1391,6 +1592,59 @@ def summarize_species_activity(daily_reports):
 
 def average_rows(rows, field):
     return round(sum(row[field] for row in rows) / len(rows), 2)
+
+
+def build_context_profile(rows):
+    positive_rows = [row for row in rows if row["catchMax"] > 0]
+    average_spread = sum(max(row["catchMax"] - row["catchMin"], 0.0) for row in rows) / len(rows)
+    return {
+        "contextAvgMin": round(sum(row["catchMin"] for row in rows) / len(rows), 4),
+        "contextAvgMax": round(sum(row["catchMax"] for row in rows) / len(rows), 4),
+        "contextPositiveRate": round(len(positive_rows) / len(rows), 6),
+        "contextAvgSpread": round(average_spread, 4),
+        "contextTripScale": round(math.log1p(len(rows)), 6),
+    }
+
+
+def build_species_profiles(contexts):
+    buckets = {}
+    for context in contexts:
+        bucket = buckets.setdefault(context["speciesFeatureId"], [])
+        bucket.extend(context["rows"])
+
+    profiles = {}
+    for key, rows in buckets.items():
+        positive_rows = [row for row in rows if row["catchMax"] > 0]
+        profiles[key] = {
+            "speciesAvgMax": round(sum(row["catchMax"] for row in rows) / len(rows), 4),
+            "speciesPositiveRate": round(len(positive_rows) / len(rows), 6),
+            "speciesTripScale": round(math.log1p(len(rows)), 6),
+        }
+    return profiles
+
+
+def build_global_model_space(contexts):
+    ship_feature_keys = tuple(f'ship::{ship_id}' for ship_id in sorted({context["shipMeta"]["id"] for context in contexts}))
+    species_feature_keys = tuple(
+        f'species::{feature_id}' for feature_id in sorted({context["speciesFeatureId"] for context in contexts})
+    )
+    return {
+        "shipFeatureKeys": ship_feature_keys,
+        "speciesFeatureKeys": species_feature_keys,
+    }
+
+
+def build_context_feature_map(context, model_space, species_profiles):
+    features = {}
+    features.update(context["profile"])
+    features.update(species_profiles.get(context["speciesFeatureId"], {}))
+    for key in GLOBAL_CONTEXT_PROFILE_KEYS:
+        features.setdefault(key, 0.0)
+    for key in model_space["shipFeatureKeys"]:
+        features[key] = 1.0 if key == f'ship::{context["shipMeta"]["id"]}' else 0.0
+    for key in model_space["speciesFeatureKeys"]:
+        features[key] = 1.0 if key == f'species::{context["speciesFeatureId"]}' else 0.0
+    return features
 
 
 def build_aggregate_observed_text(rows, unit):
@@ -1419,9 +1673,212 @@ def build_ship_ranking_entry(ship_meta, rows, unit):
     }
 
 
-def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_map, climatology):
-    species_summaries = summarize_species_activity(daily_reports)
+def build_ship_species_contexts(ship_contexts):
+    contexts = []
+    for source_context in ship_contexts:
+        ship_meta = source_context["ship_meta"]
+        daily_reports = source_context["daily_reports"]
+        species_summaries = summarize_species_activity(daily_reports)
+        for species_name, summary in species_summaries.items():
+            unit, positive_days = summary["positiveDays"].most_common(1)[0] if summary["positiveDays"] else ("", 0)
+            if positive_days < MIN_POSITIVE_DAYS:
+                continue
+            rows = build_species_rows(
+                daily_reports,
+                species_name,
+                unit,
+                source_context["archive_map"],
+                source_context["forecast_map"],
+                source_context["climatology"],
+            )
+            positive_rows = [row for row in rows if row["catchMax"] > 0]
+            if len(positive_rows) < MIN_POSITIVE_DAYS:
+                continue
+            contexts.append(
+                {
+                    "contextKey": f'{ship_meta["id"]}:{species_name}:{unit}',
+                    "shipMeta": ship_meta,
+                    "sourceContext": source_context,
+                    "speciesName": species_name,
+                    "speciesUnit": unit,
+                    "speciesFeatureId": species_feature_id(species_name, unit),
+                    "rows": rows,
+                    "positiveRows": positive_rows,
+                    "profile": build_context_profile(rows),
+                }
+            )
 
+    model_space = build_global_model_space(contexts)
+    species_profiles = build_species_profiles(contexts)
+    for context in contexts:
+        context["contextFeatures"] = build_context_feature_map(context, model_space, species_profiles)
+        context["modelRows"] = [
+            {
+                **row,
+                **context["contextFeatures"],
+                "contextKey": context["contextKey"],
+                "shipId": context["shipMeta"]["id"],
+                "speciesFeatureId": context["speciesFeatureId"],
+            }
+            for row in context["rows"]
+        ]
+    return contexts, model_space
+
+
+def build_global_model_candidates(model_space):
+    profile_keys = list(GLOBAL_CONTEXT_PROFILE_KEYS)
+    ship_keys = list(model_space["shipFeatureKeys"])
+    species_keys = list(model_space["speciesFeatureKeys"])
+    return (
+        {
+            "id": "shared_profile_18x10",
+            "feature_set": "extended",
+            "featureKeys": [*NEURAL_FEATURE_SETS["extended"]["featureKeys"], *profile_keys],
+            "hidden_sizes": (18, 10),
+            "epochs": 260,
+            "learning_rate": 0.022,
+            "weight_decay": 0.001,
+        },
+        {
+            "id": "shared_context_24x12",
+            "feature_set": "extended",
+            "featureKeys": [*NEURAL_FEATURE_SETS["extended"]["featureKeys"], *profile_keys, *ship_keys, *species_keys],
+            "hidden_sizes": (24, 12),
+            "epochs": 320,
+            "learning_rate": 0.018,
+            "weight_decay": 0.0011,
+        },
+        {
+            "id": "shared_context_rich_32x16",
+            "feature_set": "rich",
+            "featureKeys": [*NEURAL_FEATURE_SETS["rich"]["featureKeys"], *profile_keys, *ship_keys, *species_keys],
+            "hidden_sizes": (32, 16),
+            "epochs": 420,
+            "learning_rate": 0.014,
+            "weight_decay": 0.0014,
+        },
+    )
+
+
+def split_global_training_rows(contexts):
+    split_contexts = []
+    train_rows = []
+    validation_rows = []
+    for context in contexts:
+        context_train_rows, context_validation_rows = split_rows_for_validation(context["modelRows"], context["contextKey"])
+        train_rows.extend(context_train_rows)
+        validation_rows.extend(context_validation_rows)
+        split_contexts.append(
+            {
+                **context,
+                "trainRows": context_train_rows,
+                "validationRows": context_validation_rows,
+            }
+        )
+    return split_contexts, train_rows, validation_rows
+
+
+def build_evaluation_summary(points):
+    if len(points) < 2:
+        return None
+    min_mae = sum(abs(point["predictedMin"] - point["actualMin"]) for point in points) / len(points)
+    max_mae = sum(abs(point["predictedMax"] - point["actualMax"]) for point in points) / len(points)
+    score = sum(
+        abs(point["predictedMin"] - point["actualMin"]) * 0.35 + abs(point["predictedMax"] - point["actualMax"])
+        for point in points
+    ) / len(points)
+    return {
+        "validationRows": len(points),
+        "minMae": round(min_mae, 3),
+        "maxMae": round(max_mae, 3),
+        "score": round(score, 3),
+        "yyPoints": points,
+    }
+
+
+def select_global_model_config(contexts, model_space):
+    candidates = build_global_model_candidates(model_space)
+    _, train_rows, validation_rows = split_global_training_rows(contexts)
+    if not validation_rows:
+        return candidates[0]
+
+    best_config = None
+    best_summary = None
+    for config in candidates:
+        model = fit_neural_model(train_rows, config, seed_key=f'global:{config["id"]}:selection')
+        points = []
+        for row in validation_rows:
+            prediction = predict_neural_row(row, model)
+            points.append(
+                {
+                    "actualMin": round(row["catchMin"], 2),
+                    "predictedMin": prediction["predictedMin"],
+                    "actualMax": round(row["catchMax"], 2),
+                    "predictedMax": prediction["predictedMax"],
+                }
+            )
+        summary = build_evaluation_summary(points)
+        if summary is None:
+            continue
+        if best_summary is None or (
+            summary["score"],
+            summary["maxMae"],
+            summary["minMae"],
+        ) < (
+            best_summary["score"],
+            best_summary["maxMae"],
+            best_summary["minMae"],
+        ):
+            best_config = config
+            best_summary = summary
+    return best_config or candidates[0]
+
+
+def build_global_evaluations(contexts, config):
+    split_contexts, train_rows, _ = split_global_training_rows(contexts)
+    if not train_rows:
+        return {}, {}
+
+    evaluation_model = fit_neural_model(train_rows, config, seed_key=f'global:{config["id"]}:evaluation')
+    ship_evaluations = {}
+    aggregate_groups = {}
+
+    for context in split_contexts:
+        yy_points = []
+        for row in context["validationRows"]:
+            prediction = predict_neural_row(row, evaluation_model)
+            point = {
+                "date": row["date"].isoformat(),
+                "actualMin": round(row["catchMin"], 2),
+                "predictedMin": prediction["predictedMin"],
+                "actualMax": round(row["catchMax"], 2),
+                "predictedMax": prediction["predictedMax"],
+            }
+            yy_points.append(point)
+            aggregate_groups.setdefault((context["speciesFeatureId"], row["date"]), []).append(point)
+        ship_evaluations[context["contextKey"]] = build_evaluation_summary(yy_points)
+
+    aggregate_evaluations = {}
+    grouped_points_by_species = {}
+    for (species_feature_id, row_date), points in aggregate_groups.items():
+        grouped_points_by_species.setdefault(species_feature_id, []).append(
+            {
+                "date": row_date.isoformat(),
+                "actualMin": round(sum(point["actualMin"] for point in points) / len(points), 2),
+                "predictedMin": round(sum(point["predictedMin"] for point in points) / len(points), 2),
+                "actualMax": round(sum(point["actualMax"] for point in points) / len(points), 2),
+                "predictedMax": round(sum(point["predictedMax"] for point in points) / len(points), 2),
+            }
+        )
+
+    for species_feature_id, points in grouped_points_by_species.items():
+        points.sort(key=lambda item: item["date"])
+        aggregate_evaluations[species_feature_id] = build_evaluation_summary(points)
+
+    return ship_evaluations, aggregate_evaluations
+
+
+def build_ship_payloads(ship_meta, daily_reports, ship_species_contexts, today, global_model, ship_evaluations):
     ship_catalog_entry = {
         "id": ship_meta["id"],
         "name": ship_meta["name"],
@@ -1434,35 +1891,34 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
     future_start = today + timedelta(days=1)
     future_end = today + timedelta(days=FORECAST_DAYS)
     payloads = []
-    for species_name, summary in sorted(
-        species_summaries.items(),
-        key=lambda item: (-max(item[1]["positiveDays"].values() or [0]), item[0]),
-    ):
-        unit, positive_days = summary["positiveDays"].most_common(1)[0] if summary["positiveDays"] else ("", 0)
-        if positive_days < MIN_POSITIVE_DAYS:
-            continue
+    ship_contexts = sorted(
+        [context for context in ship_species_contexts if context["shipMeta"]["id"] == ship_meta["id"]],
+        key=lambda item: (-len(item["positiveRows"]), item["speciesName"]),
+    )
 
-        rows = build_species_rows(daily_reports, species_name, unit, archive_map, forecast_map, climatology)
-        positive_rows = [row for row in rows if row["catchMax"] > 0]
-        if len(positive_rows) < MIN_POSITIVE_DAYS:
-            continue
-
-        selected_config, evaluation = select_model_config(rows, f'{ship_meta["id"]}:{species_name}')
-        regression = fit_models(rows, **selected_config, seed_key=f'{ship_meta["id"]}:{species_name}:fit')
-        max_sigma = estimate_max_sigma(rows, regression)
+    for context in ship_contexts:
+        rows = context["rows"]
+        positive_rows = context["positiveRows"]
+        source_context = context["sourceContext"]
+        evaluation = ship_evaluations.get(context["contextKey"])
+        max_sigma = estimate_max_sigma(context["modelRows"], global_model)
         observed_by_date = {row["date"]: row for row in rows}
 
         future_predictions = []
         current_day = future_start
         while current_day <= future_end:
-            resolved, source = resolve_prediction_feature(current_day, archive_map, forecast_map, climatology)
-            moon_age = moon_age_for(current_day)
-            raw_features = build_feature_map(
-                resolved["temperature_2m_mean"],
-                resolved["sea_surface_temperature_mean"],
-                moon_age,
+            resolved, source = resolve_prediction_feature(
+                current_day,
+                source_context["archive_map"],
+                source_context["forecast_map"],
+                source_context["climatology"],
             )
-            prediction = predict_models(raw_features, regression)
+            raw_features = {
+                "airTemp": resolved["temperature_2m_mean"],
+                "seaTemp": resolved["sea_surface_temperature_mean"],
+                "moonAge": moon_age_for(current_day),
+            }
+            prediction = predict_neural_model(raw_features, global_model, context["contextFeatures"])
             prior_year_day = same_day_last_year(current_day)
             observed_row = observed_by_date.get(prior_year_day)
             future_predictions.append(
@@ -1485,7 +1941,7 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
         maxima_samples = build_xday_distribution(
             future_predictions,
             max_sigma,
-            f'{ship_meta["id"]}:{species_name}:{today.isoformat()}',
+            f'{ship_meta["id"]}:{context["speciesName"]}:{today.isoformat()}',
         )
         peak_day = min(future_predictions, key=lambda item: (-item["predictedMax"], item["date"]))
         top_days = sorted(future_predictions, key=lambda item: (-item["predictedMax"], item["date"]))[:4]
@@ -1514,7 +1970,7 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
             },
         }
 
-        species_id = species_key(ship_meta["id"], species_name)
+        species_id = species_key(ship_meta["id"], context["speciesName"])
         file_name = f'{ship_meta["id"]}-{species_id}.json'
         payload = {
             "generatedAt": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"),
@@ -1532,8 +1988,8 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
             },
             "species": {
                 "id": species_id,
-                "label": species_name,
-                "unit": unit,
+                "label": context["speciesName"],
+                "unit": context["speciesUnit"],
             },
             "trainingRange": {
                 "from": rows[0]["date"].isoformat(),
@@ -1550,7 +2006,7 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
                 "date": peak_day["date"],
                 "predictedMax": peak_day["predictedMax"],
                 "probability": peak_day["probability"],
-                "unit": unit,
+                "unit": context["speciesUnit"],
             },
             "xDayModel": {
                 "method": "monte_carlo_peak",
@@ -1560,7 +2016,8 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
             },
             "featureRanges": feature_ranges,
             "evaluation": evaluation,
-            "regression": regression,
+            "model": global_model,
+            "contextFeatures": context["contextFeatures"],
             "topDays": top_days,
             "predictions": future_predictions,
         }
@@ -1568,8 +2025,8 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
         ship_catalog_entry["species"].append(
             {
                 "id": species_id,
-                "label": species_name,
-                "unit": unit,
+                "label": context["speciesName"],
+                "unit": context["speciesUnit"],
                 "positiveDays": len(positive_rows),
                 "tripDays": len(rows),
                 "file": f"data/payloads/{file_name}",
@@ -1580,52 +2037,33 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
     return ship_catalog_entry, payloads
 
 
-def build_aggregate_payloads(ship_contexts, today):
-    species_summaries = {}
-    for context in ship_contexts:
-        for species_name, summary in summarize_species_activity(context["daily_reports"]).items():
-            merged = species_summaries.setdefault(species_name, {"units": Counter(), "positiveDays": Counter()})
-            merged["units"].update(summary["units"])
-            merged["positiveDays"].update(summary["positiveDays"])
-
+def build_aggregate_payloads(ship_species_contexts, today, global_model, aggregate_evaluations):
     future_start = today + timedelta(days=1)
     future_end = today + timedelta(days=FORECAST_DAYS)
     catalog_entries = []
     payloads = []
 
-    for species_name, summary in sorted(
-        species_summaries.items(),
-        key=lambda item: (-max(item[1]["positiveDays"].values() or [0]), item[0]),
-    ):
-        unit, positive_days = summary["positiveDays"].most_common(1)[0] if summary["positiveDays"] else ("", 0)
-        if positive_days < MIN_POSITIVE_DAYS:
-            continue
+    grouped_contexts = {}
+    for context in ship_species_contexts:
+        key = (context["speciesName"], context["speciesUnit"], context["speciesFeatureId"])
+        grouped_contexts.setdefault(key, []).append(context)
 
+    for (species_name, unit, species_feature_id), contexts in sorted(
+        grouped_contexts.items(),
+        key=lambda item: (-sum(len(context["positiveRows"]) for context in item[1]), item[0][0]),
+    ):
         rows = []
         ship_rankings = []
-        active_contexts = []
         observed_by_date = {}
-        for context in ship_contexts:
-            ship_rows = build_species_rows(
-                context["daily_reports"],
-                species_name,
-                unit,
-                context["archive_map"],
-                context["forecast_map"],
-                context["climatology"],
-            )
-            if not ship_rows:
-                continue
-
-            ship_rankings.append(build_ship_ranking_entry(context["ship_meta"], ship_rows, unit))
-            active_contexts.append(context)
-            for row in ship_rows:
+        for context in contexts:
+            ship_rankings.append(build_ship_ranking_entry(context["shipMeta"], context["rows"], unit))
+            for row in context["rows"]:
                 observed_by_date.setdefault(row["date"], []).append(row)
                 rows.append(
                     {
                         **row,
-                        "shipId": context["ship_meta"]["id"],
-                        "shipName": context["ship_meta"]["name"],
+                        "shipId": context["shipMeta"]["id"],
+                        "shipName": context["shipMeta"]["name"],
                     }
                 )
 
@@ -1634,9 +2072,11 @@ def build_aggregate_payloads(ship_contexts, today):
             continue
         rows.sort(key=lambda item: (item["date"], item["shipId"]))
 
-        selected_config, evaluation = select_model_config(rows, f"aggregate:{species_name}")
-        regression = fit_models(rows, **selected_config, seed_key=f"aggregate:{species_name}:fit")
-        max_sigma = estimate_max_sigma(rows, regression)
+        evaluation = aggregate_evaluations.get(species_feature_id)
+        aggregate_sigma_rows = []
+        for context in contexts:
+            aggregate_sigma_rows.extend(context["modelRows"])
+        max_sigma = estimate_max_sigma(aggregate_sigma_rows, global_model)
 
         future_predictions = []
         current_day = future_start
@@ -1644,19 +2084,20 @@ def build_aggregate_payloads(ship_contexts, today):
             ship_predictions = []
             current_moon_age = moon_age_for(current_day)
             source_counts = Counter()
-            for context in active_contexts:
+            for context in contexts:
+                source_context = context["sourceContext"]
                 resolved, source = resolve_prediction_feature(
                     current_day,
-                    context["archive_map"],
-                    context["forecast_map"],
-                    context["climatology"],
+                    source_context["archive_map"],
+                    source_context["forecast_map"],
+                    source_context["climatology"],
                 )
-                raw_features = build_feature_map(
-                    resolved["temperature_2m_mean"],
-                    resolved["sea_surface_temperature_mean"],
-                    current_moon_age,
-                )
-                prediction = predict_models(raw_features, regression)
+                raw_features = {
+                    "airTemp": resolved["temperature_2m_mean"],
+                    "seaTemp": resolved["sea_surface_temperature_mean"],
+                    "moonAge": current_moon_age,
+                }
+                prediction = predict_neural_model(raw_features, global_model, context["contextFeatures"])
                 ship_predictions.append(
                     {
                         "prediction": prediction,
@@ -1743,6 +2184,13 @@ def build_aggregate_payloads(ship_contexts, today):
             "aggregate": {
                 "shipCount": len(ranking),
                 "ranking": ranking,
+                "modelContexts": [
+                    {
+                        "shipId": context["shipMeta"]["id"],
+                        "contextFeatures": context["contextFeatures"],
+                    }
+                    for context in contexts
+                ],
             },
             "species": {
                 "id": species_id,
@@ -1774,7 +2222,7 @@ def build_aggregate_payloads(ship_contexts, today):
             },
             "featureRanges": feature_ranges,
             "evaluation": evaluation,
-            "regression": regression,
+            "model": global_model,
             "topDays": top_days,
             "predictions": future_predictions,
         }
@@ -1877,16 +2325,22 @@ def main():
             }
         )
 
+    ship_species_contexts, model_space = build_ship_species_contexts(ship_contexts)
+    global_model_config = select_global_model_config(ship_species_contexts, model_space)
+    ship_evaluations, aggregate_evaluations = build_global_evaluations(ship_species_contexts, global_model_config)
+    global_training_rows = [row for context in ship_species_contexts for row in context["modelRows"]]
+    global_model = fit_neural_model(global_training_rows, global_model_config, seed_key=f'global:{global_model_config["id"]}:final')
+
     all_catalog_ships = []
     all_payloads = []
     for context in ship_contexts:
         ship_catalog_entry, ship_payloads = build_ship_payloads(
             context["ship_meta"],
             context["daily_reports"],
+            ship_species_contexts,
             today,
-            context["archive_map"],
-            context["forecast_map"],
-            context["climatology"],
+            global_model,
+            ship_evaluations,
         )
         if not ship_catalog_entry["species"]:
             raise RuntimeError(f'No qualifying species were generated for ship {context["ship_meta"]["id"]}.')
@@ -1894,7 +2348,12 @@ def main():
         all_catalog_ships.append(ship_catalog_entry)
         all_payloads.extend(ship_payloads)
 
-    aggregate_catalog_entries, aggregate_payloads = build_aggregate_payloads(ship_contexts, today)
+    aggregate_catalog_entries, aggregate_payloads = build_aggregate_payloads(
+        ship_species_contexts,
+        today,
+        global_model,
+        aggregate_evaluations,
+    )
     all_payloads.extend(aggregate_payloads)
 
     catalog = {

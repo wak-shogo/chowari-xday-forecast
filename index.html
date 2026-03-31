@@ -47,7 +47,7 @@
 
       <section class="sim-panel">
         <div class="sim-head">
-          <span>回帰シミュレーター</span>
+          <span>予測シミュレーター</span>
           <span id="simHint">即時計算</span>
         </div>
         <div class="sim-grid">
@@ -86,18 +86,17 @@
         </div>
       </section>
 
-      <section class="observed-panel" id="evaluationPanel">
-        <div class="chart-header">
-          <span id="evaluationLabel">モデル評価</span>
-          <span id="evaluationMeta">-</span>
-        </div>
-        <div class="evaluation-layout">
+      <details class="observed-panel fold-panel" id="evaluationPanel">
+        <summary class="fold-summary">
+          <span id="evaluationLabel">yyプロット</span>
+          <span id="evaluationMeta">タップして表示</span>
+        </summary>
+        <div class="evaluation-layout fold-body">
           <div class="chart-scroller evaluation-chart-wrap">
             <canvas id="yyChart" width="920" height="420" aria-label="予測上限のyyプロット"></canvas>
           </div>
-          <div class="candidate-list" id="candidateList" aria-label="候補モデル比較"></div>
         </div>
-      </section>
+      </details>
 
       <section class="chart-panel compact">
         <div class="chart-header">

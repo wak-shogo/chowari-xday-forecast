@@ -14,7 +14,6 @@ const observedSort = document.getElementById("observedSort");
 const rankingPanel = document.getElementById("rankingPanel");
 const rankingList = document.getElementById("rankingList");
 const evaluationPanel = document.getElementById("evaluationPanel");
-const candidateList = document.getElementById("candidateList");
 
 const simulatorNodes = {
   airTemp: {
@@ -48,6 +47,7 @@ let observedSortBound = false;
 let selectorBound = false;
 let tabsBound = false;
 let surfaceMapBound = false;
+let evaluationPanelBound = false;
 let surfaceState = null;
 
 function clamp(value, lower, upper) {
@@ -293,6 +293,7 @@ function drawAmountChart(canvas, payload, field, observedField, color, fillColor
 
 function buildFeatureMap(rawFeatures) {
   const angle = (rawFeatures.moonAge / 29.53058867) * Math.PI * 2;
+  const airSeaGap = rawFeatures.airTemp - rawFeatures.seaTemp;
   return {
     airTemp: rawFeatures.airTemp,
     seaTemp: rawFeatures.seaTemp,
@@ -301,6 +302,12 @@ function buildFeatureMap(rawFeatures) {
     moonCos: Math.cos(angle),
     moonSin2: Math.sin(angle * 2),
     moonCos2: Math.cos(angle * 2),
+    moonSin3: Math.sin(angle * 3),
+    moonCos3: Math.cos(angle * 3),
+    airSeaGap,
+    airSeaMean: (rawFeatures.airTemp + rawFeatures.seaTemp) * 0.5,
+    airSeaAbsGap: Math.abs(airSeaGap),
+    moonFullness: 0.5 * (1 - Math.cos(angle)),
   };
 }
 
@@ -395,28 +402,61 @@ function predictForest(rawFeatures, regression) {
   return { minScore, maxScore };
 }
 
-function simulate(rawFeatures, payload) {
-  const regression = payload.regression;
-  let minScore = 0;
-  let maxScore = 0;
+function buildNeuralInput(rawFeatures, model, contextFeatures = {}) {
+  const featureMap = { ...buildFeatureMap(rawFeatures), ...contextFeatures };
+  const featureKeys = model.input ? model.input.featureKeys : [];
+  return featureKeys.map((key) => (((featureMap[key] !== undefined ? featureMap[key] : 0) - model.input.means[key]) / model.input.scales[key]));
+}
 
-  if (regression.type === "random_forest") {
-    const forestPrediction = predictForest(rawFeatures, regression);
-    minScore = forestPrediction.minScore;
-    maxScore = forestPrediction.maxScore;
+function predictDenseLayers(inputVector, layers) {
+  return layers.reduce((values, layer, layerIndex) => {
+    const outputs = layer.weights.map((weights, outputIndex) => {
+      const total = weights.reduce((sum, weight, inputIndex) => sum + weight * values[inputIndex], layer.biases[outputIndex]);
+      return layerIndex < layers.length - 1 ? Math.tanh(total) : total;
+    });
+    return outputs;
+  }, inputVector);
+}
+
+function predictNeuralWithContext(rawFeatures, model, contextFeatures = {}) {
+  const [predictedMinScore, predictedGapScore] = predictDenseLayers(buildNeuralInput(rawFeatures, model, contextFeatures), model.network.layers);
+  const predictedMin = clamp(Math.expm1(predictedMinScore), 0, model.countCeiling);
+  const predictedGap = clamp(Math.expm1(predictedGapScore), 0, model.countCeiling);
+  const predictedMax = clamp(predictedMin + predictedGap, predictedMin, model.countCeiling);
+  return { predictedMin, predictedMax };
+}
+
+function simulate(rawFeatures, payload) {
+  const model = payload.model || payload.regression;
+  let predictedMin;
+  let predictedMax;
+
+  if (model.type === "neural_network") {
+    const aggregateContexts = payload.aggregate && Array.isArray(payload.aggregate.modelContexts) ? payload.aggregate.modelContexts : [];
+    if (payload.scope && payload.scope.mode === "aggregate" && aggregateContexts.length) {
+      const predictions = aggregateContexts.map((context) => predictNeuralWithContext(rawFeatures, model, context.contextFeatures || {}));
+      predictedMin = predictions.reduce((sum, item) => sum + item.predictedMin, 0) / Math.max(predictions.length, 1);
+      predictedMax = predictions.reduce((sum, item) => sum + item.predictedMax, 0) / Math.max(predictions.length, 1);
+    } else {
+      const prediction = predictNeuralWithContext(rawFeatures, model, payload.contextFeatures || {});
+      predictedMin = prediction.predictedMin;
+      predictedMax = prediction.predictedMax;
+    }
+  } else if (model.type === "random_forest") {
+    const forestPrediction = predictForest(rawFeatures, model);
+    predictedMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
+    predictedMax = Math.max(predictedMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
   } else {
-    const { scaled, basis } = buildBasis(rawFeatures, regression);
-    minScore = dot(regression.baseline.catchMin.weights, basis);
-    maxScore = dot(regression.baseline.catchMax.weights, basis);
-    const featureKeys = regression.featureSpec ? regression.featureSpec.featureKeys : [];
-    const neighborResiduals = estimateNeighborResiduals(scaled, featureKeys, regression.neighbor);
+    const { scaled, basis } = buildBasis(rawFeatures, model);
+    let minScore = dot(model.baseline.catchMin.weights, basis);
+    let maxScore = dot(model.baseline.catchMax.weights, basis);
+    const featureKeys = model.featureSpec ? model.featureSpec.featureKeys : [];
+    const neighborResiduals = estimateNeighborResiduals(scaled, featureKeys, model.neighbor);
     minScore += neighborResiduals.minResidual;
     maxScore += neighborResiduals.maxResidual;
+    predictedMin = clamp(Math.expm1(minScore), 0, model.countCeiling);
+    predictedMax = Math.max(predictedMin, clamp(Math.expm1(maxScore), 0, model.countCeiling));
   }
-
-  const predictedMin = clamp(Math.expm1(minScore), 0, regression.countCeiling);
-  const predictedMaxRaw = clamp(Math.expm1(maxScore), 0, regression.countCeiling);
-  const predictedMax = Math.max(predictedMin, predictedMaxRaw);
   const xDayModel = payload.xDayModel || {};
   const xDayPeak = payload.xDayPeak || {};
   const sigma = Math.max(xDayModel.maxSigma || 0, 0.01);
@@ -643,7 +683,6 @@ function drawYYChart(payload) {
 function populateEvaluation(payload) {
   const evaluation = payload.evaluation;
   evaluationPanel.hidden = !evaluation;
-  candidateList.innerHTML = "";
 
   if (!evaluation) {
     return;
@@ -651,22 +690,7 @@ function populateEvaluation(payload) {
 
   document.getElementById("evaluationLabel").textContent = `${payload.species.label} 上限 yyプロット`;
   document.getElementById("evaluationMeta").textContent =
-    `${evaluation.modelType} / ${evaluation.moonFeature} / 検証 ${evaluation.validationRows}件 / 上限MAE ${evaluation.maxMae.toFixed(2)}`;
-
-  (evaluation.candidates || []).slice(0, 6).forEach((candidate) => {
-    const chip = document.createElement("article");
-    chip.className = `day-chip observed-chip candidate-chip${candidate.selected ? " is-selected" : ""}`;
-    chip.innerHTML = `
-      <span class="tag">${candidate.selected ? "採用" : "候補"}</span>
-      <strong>${candidate.modelType}</strong>
-      <span class="detail">${candidate.moonFeature}</span>
-      <span class="detail">上限MAE ${candidate.maxMae.toFixed(2)} / 下限MAE ${candidate.minMae.toFixed(2)}</span>
-      <span class="subdetail">総合誤差 ${candidate.score.toFixed(2)} / 検証 ${candidate.validationRows}件</span>
-    `;
-    candidateList.appendChild(chip);
-  });
-
-  drawYYChart(payload);
+    `タップして表示 / 検証 ${evaluation.validationRows}件 / 上限MAE ${evaluation.maxMae.toFixed(2)}`;
 }
 
 function surfaceColor(ratio) {
@@ -943,6 +967,19 @@ function bindSurfaceMap() {
   surfaceMapBound = true;
 }
 
+function bindEvaluationPanel() {
+  if (evaluationPanelBound) {
+    return;
+  }
+
+  evaluationPanel.addEventListener("toggle", () => {
+    if (evaluationPanel.open && payloadState && payloadState.evaluation) {
+      window.requestAnimationFrame(() => drawYYChart(payloadState));
+    }
+  });
+  evaluationPanelBound = true;
+}
+
 function showTooltip(canvas, tooltip, scroller, clientX, clientY) {
   if (!payloadState) {
     return;
@@ -1111,7 +1148,7 @@ async function fetchPayload(file) {
 }
 
 function render(payload, options = {}) {
-  const { preserveSimulator = false } = options;
+  const { preserveSimulator = false, preserveEvaluationOpen = false } = options;
   payloadState = payload;
   hideSurfaceTooltip();
   const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
@@ -1122,12 +1159,9 @@ function render(payload, options = {}) {
     ? `${payload.species.label} 魚種統合 Xデー予測`
     : `${payload.ship.name} ${payload.species.label} Xデー予測`;
   document.getElementById("generatedAt").textContent = `更新 ${payload.generatedAt}`;
-  const modelSummary = payload.evaluation
-    ? ` / ${payload.evaluation.modelType} / ${payload.evaluation.moonFeature}`
-    : "";
   document.getElementById("summaryMeta").textContent = aggregateMode
-    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}${modelSummary}`
-    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}${modelSummary}`;
+    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`
+    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
   document.getElementById("rangeLabel").textContent = `${payload.forecastRange.from} - ${payload.forecastRange.to}`;
   document.getElementById("todayLabel").textContent = `基準日 ${payload.today}`;
   document.getElementById("minMetricLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
@@ -1140,11 +1174,15 @@ function render(payload, options = {}) {
   populateTopDays(payload);
   populateRanking(payload);
   populateObservedList(payload);
+  evaluationPanel.open = preserveEvaluationOpen && !!payload.evaluation;
   populateEvaluation(payload);
   configureSimulator(payload, { preserveValues: preserveSimulator });
   drawProbabilityChart(payload);
   drawAmountChart(minChart, payload, "predictedMin", "observedMin", "#4ff0c6", "rgba(79, 240, 198, 0.22)");
   drawAmountChart(maxChart, payload, "predictedMax", "observedMax", "#ffd16b", "rgba(255, 209, 107, 0.20)");
+  if (evaluationPanel.open && payload.evaluation) {
+    drawYYChart(payload);
+  }
 }
 
 async function loadSelection(view, shipId, speciesId) {
@@ -1226,6 +1264,7 @@ bindTooltip("probChart", "probChartScroller", "probTooltip");
 bindTooltip("minChart", "minChartScroller", "minTooltip");
 bindTooltip("maxChart", "maxChartScroller", "maxTooltip");
 bindSurfaceMap();
+bindEvaluationPanel();
 
 if (!observedSortBound) {
   observedSort.addEventListener("change", () => {
@@ -1238,7 +1277,7 @@ if (!observedSortBound) {
 
 window.addEventListener("resize", () => {
   if (payloadState) {
-    render(payloadState, { preserveSimulator: true });
+    render(payloadState, { preserveSimulator: true, preserveEvaluationOpen: evaluationPanel.open });
   }
 });
 
