@@ -1,4 +1,4 @@
-const APP_VERSION = "20260401-seasonal2";
+const APP_VERSION = "20260401-surface-scale1";
 
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
@@ -102,6 +102,14 @@ function percent(value) {
 
 function amountText(value, unit) {
   return `${value.toFixed(1)}${unit}`;
+}
+
+function surfaceScaleMax(payload) {
+  const predictionMax = payload && Array.isArray(payload.predictions)
+    ? Math.max(0, ...payload.predictions.map((item) => Number(item.predictedMax) || 0))
+    : 0;
+  const xDayPeakMax = payload && payload.xDayPeak ? Number(payload.xDayPeak.predictedMax) || 0 : 0;
+  return Math.max(predictionMax, xDayPeakMax, 1);
 }
 
 function phaseDateParts(dayOfYear) {
@@ -847,8 +855,9 @@ function drawSurfaceMap(payload) {
   const cellWidth = width / columns;
   const cellHeight = height / rows;
   const samples = [];
-  let minValue = Number.POSITIVE_INFINITY;
-  let maxValue = Number.NEGATIVE_INFINITY;
+  let localMinValue = Number.POSITIVE_INFINITY;
+  let localMaxValue = Number.NEGATIVE_INFINITY;
+  const fixedMaxValue = surfaceScaleMax(payload);
 
   for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
     const seaTemp = seaConfig.max - (rowIndex / Math.max(rows - 1, 1)) * (seaConfig.max - seaConfig.min);
@@ -857,19 +866,18 @@ function drawSurfaceMap(payload) {
       const moonAge = moonConfig.min + (columnIndex / Math.max(columns - 1, 1)) * (moonConfig.max - moonConfig.min);
       const value = simulate({ airTemp, seaTemp, moonAge, dayOfYear }, payload).predictedMax;
       line.push(value);
-      minValue = Math.min(minValue, value);
-      maxValue = Math.max(maxValue, value);
+      localMinValue = Math.min(localMinValue, value);
+      localMaxValue = Math.max(localMaxValue, value);
     }
     samples.push(line);
   }
 
-  const span = Math.max(maxValue - minValue, 1e-6);
   ctx.fillStyle = "rgba(8, 20, 31, 0.96)";
   ctx.fillRect(0, 0, cssWidth, cssHeight);
 
   for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
     for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
-      const ratio = (samples[rowIndex][columnIndex] - minValue) / span;
+      const ratio = clamp(samples[rowIndex][columnIndex] / fixedMaxValue, 0, 1);
       ctx.fillStyle = surfaceColor(ratio);
       ctx.fillRect(
         margin.left + columnIndex * cellWidth,
@@ -935,13 +943,13 @@ function drawSurfaceMap(payload) {
   ctx.fillStyle = legend;
   ctx.fillRect(legendX, legendY, legendWidth, 10);
   ctx.fillStyle = "rgba(200,219,234,0.86)";
-  ctx.fillText(`予測上限 ${amountText(minValue, payload.species.unit)}`, legendX, legendY + 24);
-  ctx.fillText(amountText(maxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
+  ctx.fillText(`予測上限 ${amountText(0, payload.species.unit)}`, legendX, legendY + 24);
+  ctx.fillText(amountText(fixedMaxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
   ctx.fillText("海水温", 10, margin.top - 8);
   ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
   setText(
     "surfaceMeta",
-    `気温 ${airTemp.toFixed(1)}℃ で固定 / 年内位相 ${formatPhaseValue(dayOfYear)} / 色は予測上限`,
+    `気温 ${airTemp.toFixed(1)}℃ で固定 / 年内位相 ${formatPhaseValue(dayOfYear)} / 色は予測上限を 0〜${amountText(fixedMaxValue, payload.species.unit)} で固定`,
   );
   surfaceState = {
     margin,
@@ -951,8 +959,9 @@ function drawSurfaceMap(payload) {
     seaConfig,
     airTemp,
     dayOfYear,
-    minValue,
-    maxValue,
+    minValue: localMinValue,
+    maxValue: localMaxValue,
+    colorScaleMax: fixedMaxValue,
   };
 }
 
