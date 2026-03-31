@@ -1,6 +1,10 @@
 {
-  "generatedAt": "2026-03-31 14:02 JST",
+  "generatedAt": "2026-03-31 15:15 JST",
   "today": "2026-03-31",
+  "scope": {
+    "mode": "ship",
+    "label": "船別"
+  },
   "ship": {
     "id": "00150",
     "name": "金沢八景 黒川丸",
@@ -27,7 +31,7 @@
   "xDayPeak": {
     "date": "2026-04-03",
     "predictedMax": 103.6,
-    "probability": 0.0437,
+    "probability": 0.0442,
     "unit": "匹"
   },
   "xDayModel": {
@@ -35,8 +39,8 @@
     "samples": 4096,
     "maxSigma": 10.3667,
     "maximaSamples": [
+      112.847,
       112.95,
-      113.254,
       113.497,
       114.531,
       114.721,
@@ -52,8 +56,8 @@
       116.0,
       116.125,
       116.196,
+      116.205,
       116.245,
-      116.839,
       116.867,
       116.895,
       116.95,
@@ -81,6 +85,7 @@
       118.528,
       118.609,
       118.795,
+      118.877,
       118.935,
       119.0,
       119.033,
@@ -100,8 +105,8 @@
       119.553,
       119.566,
       119.675,
+      119.677,
       119.692,
-      119.777,
       119.794,
       119.816,
       119.837,
@@ -109,6 +114,7 @@
       119.964,
       120.015,
       120.023,
+      120.086,
       120.086,
       120.164,
       120.188,
@@ -118,7 +124,6 @@
       120.468,
       120.477,
       120.497,
-      120.577,
       120.586,
       120.596,
       120.635,
@@ -131,8 +136,8 @@
       120.866,
       120.871,
       120.889,
-      120.986,
       121.031,
+      121.104,
       121.113,
       121.155,
       121.188,
@@ -152,7 +157,6 @@
       121.758,
       121.815,
       121.893,
-      122.004,
       122.122,
       122.139,
       122.15,
@@ -173,6 +177,7 @@
       122.483,
       122.577,
       122.58,
+      122.605,
       122.607,
       122.65,
       122.697,
@@ -197,7 +202,6 @@
       123.428,
       123.466,
       123.477,
-      123.505,
       123.513,
       123.642,
       123.659,
@@ -209,6 +213,7 @@
       123.965,
       124.014,
       124.116,
+      124.122,
       124.144,
       124.162,
       124.244,
@@ -219,11 +224,11 @@
       124.388,
       124.511,
       124.68,
+      124.783,
       124.844,
       124.876,
       124.945,
       124.953,
-      125.022,
       125.054,
       125.079,
       125.1,
@@ -242,10 +247,10 @@
       125.497,
       125.517,
       125.61,
-      125.683,
       125.732,
       125.743,
       125.918,
+      125.928,
       125.928,
       126.015,
       126.032,
@@ -273,12 +278,12 @@
       126.709,
       126.729,
       126.749,
-      126.828,
       126.936,
       126.967,
       126.968,
       126.972,
       126.973,
+      127.015,
       127.022,
       127.08,
       127.14,
@@ -292,21 +297,20 @@
       127.716,
       127.76,
       127.87,
-      127.915,
+      127.884,
       128.199,
       128.255,
+      128.27,
       128.426,
       128.561,
       128.71,
       128.73,
-      128.784,
       128.835,
       128.995,
       129.013,
       129.06,
       129.077,
       129.156,
-      129.17,
       129.201,
       129.353,
       129.363,
@@ -324,6 +328,7 @@
       130.497,
       130.679,
       130.69,
+      130.86,
       130.983,
       130.997,
       131.035,
@@ -337,7 +342,6 @@
       131.664,
       131.696,
       131.759,
-      131.76,
       131.952,
       132.275,
       132.281,
@@ -362,7 +366,7 @@
       "min": 4.5,
       "max": 33.0,
       "step": 0.1,
-      "default": 13.8
+      "default": 13.4
     },
     "seaTemp": {
       "min": 12.0,
@@ -692,9 +696,9 @@
   "topDays": [
     {
       "date": "2026-04-03",
-      "predictedMin": 25.89,
+      "predictedMin": 23.3,
       "predictedMax": 103.6,
-      "airTemp": 13.8,
+      "airTemp": 13.4,
       "seaTemp": 14.8,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -702,7 +706,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0437
+      "probability": 0.0442
     },
     {
       "date": "2026-04-04",
@@ -716,7 +720,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0391
+      "probability": 0.0393
     },
     {
       "date": "2026-04-05",
@@ -730,7 +734,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.043
+      "probability": 0.0432
     },
     {
       "date": "2026-04-06",
@@ -744,7 +748,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0461
+      "probability": 0.0466
     }
   ],
   "predictions": [
@@ -778,9 +782,9 @@
     },
     {
       "date": "2026-04-03",
-      "predictedMin": 25.89,
+      "predictedMin": 23.3,
       "predictedMax": 103.6,
-      "airTemp": 13.8,
+      "airTemp": 13.4,
       "seaTemp": 14.8,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -788,7 +792,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0437
+      "probability": 0.0442
     },
     {
       "date": "2026-04-04",
@@ -802,7 +806,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0391
+      "probability": 0.0393
     },
     {
       "date": "2026-04-05",
@@ -816,7 +820,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.043
+      "probability": 0.0432
     },
     {
       "date": "2026-04-06",
@@ -830,13 +834,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0461
+      "probability": 0.0466
     },
     {
       "date": "2026-04-07",
-      "predictedMin": 34.28,
+      "predictedMin": 34.69,
       "predictedMax": 103.6,
-      "airTemp": 15.9,
+      "airTemp": 16.0,
       "seaTemp": 15.5,
       "moonAge": 19.83,
       "featureSource": "forecast",
@@ -848,9 +852,9 @@
     },
     {
       "date": "2026-04-08",
-      "predictedMin": 30.41,
-      "predictedMax": 103.6,
-      "airTemp": 16.4,
+      "predictedMin": 23.51,
+      "predictedMax": 102.7,
+      "airTemp": 14.5,
       "seaTemp": 15.7,
       "moonAge": 20.83,
       "featureSource": "forecast",
@@ -858,13 +862,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0378
+      "probability": 0.0322
     },
     {
       "date": "2026-04-09",
-      "predictedMin": 26.2,
-      "predictedMax": 92.46,
-      "airTemp": 17.1,
+      "predictedMin": 25.31,
+      "predictedMax": 91.72,
+      "airTemp": 16.7,
       "seaTemp": 15.79,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -872,13 +876,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0024
+      "probability": 0.002
     },
     {
       "date": "2026-04-10",
-      "predictedMin": 21.35,
-      "predictedMax": 78.13,
-      "airTemp": 17.6,
+      "predictedMin": 19.08,
+      "predictedMax": 75.39,
+      "airTemp": 16.4,
       "seaTemp": 15.9,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -890,9 +894,9 @@
     },
     {
       "date": "2026-04-11",
-      "predictedMin": 16.07,
-      "predictedMax": 63.7,
-      "airTemp": 17.4,
+      "predictedMin": 15.92,
+      "predictedMax": 63.45,
+      "airTemp": 17.3,
       "seaTemp": 15.98,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -904,9 +908,9 @@
     },
     {
       "date": "2026-04-12",
-      "predictedMin": 10.56,
-      "predictedMax": 48.7,
-      "airTemp": 16.5,
+      "predictedMin": 14.1,
+      "predictedMax": 56.62,
+      "airTemp": 19.5,
       "seaTemp": 16.07,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -918,9 +922,9 @@
     },
     {
       "date": "2026-04-13",
-      "predictedMin": 5.6,
-      "predictedMax": 34.45,
-      "airTemp": 15.2,
+      "predictedMin": 6.16,
+      "predictedMax": 35.52,
+      "airTemp": 15.6,
       "seaTemp": 16.15,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -932,9 +936,9 @@
     },
     {
       "date": "2026-04-14",
-      "predictedMin": 5.53,
-      "predictedMax": 30.54,
-      "airTemp": 16.7,
+      "predictedMin": 5.17,
+      "predictedMax": 29.75,
+      "airTemp": 16.4,
       "seaTemp": 16.23,
       "moonAge": 26.83,
       "featureSource": "forecast",
@@ -4554,7 +4558,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0068
+      "probability": 0.0071
     },
     {
       "date": "2026-12-29",
@@ -4932,7 +4936,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0435
+      "probability": 0.0439
     },
     {
       "date": "2027-01-25",
@@ -4946,7 +4950,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0405
+      "probability": 0.041
     },
     {
       "date": "2027-01-26",
@@ -4960,7 +4964,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0396
+      "probability": 0.0398
     },
     {
       "date": "2027-01-27",
@@ -4988,7 +4992,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2027-01-29",
@@ -5324,7 +5328,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0151
+      "probability": 0.0154
     },
     {
       "date": "2027-02-22",
@@ -5338,7 +5342,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0439
+      "probability": 0.0442
     },
     {
       "date": "2027-02-23",
@@ -5380,7 +5384,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0376
+      "probability": 0.0383
     },
     {
       "date": "2027-02-26",
@@ -5394,7 +5398,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0483
+      "probability": 0.0488
     },
     {
       "date": "2027-02-27",
@@ -5758,7 +5762,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.041
+      "probability": 0.0413
     },
     {
       "date": "2027-03-25",
@@ -5772,7 +5776,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0378
+      "probability": 0.0383
     },
     {
       "date": "2027-03-26",
@@ -5800,7 +5804,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0388
+      "probability": 0.0393
     },
     {
       "date": "2027-03-28",

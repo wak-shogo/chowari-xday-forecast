@@ -1,6 +1,10 @@
 {
-  "generatedAt": "2026-03-31 14:01 JST",
+  "generatedAt": "2026-03-31 15:15 JST",
   "today": "2026-03-31",
+  "scope": {
+    "mode": "ship",
+    "label": "船別"
+  },
   "ship": {
     "id": "ichiroumaru",
     "name": "鴨居一郎丸",
@@ -38,10 +42,10 @@
       36.621,
       37.075,
       37.15,
+      37.32,
       37.351,
       37.546,
       37.699,
-      37.93,
       37.982,
       38.005,
       38.075,
@@ -112,9 +116,9 @@
       40.134,
       40.174,
       40.203,
+      40.236,
       40.261,
       40.273,
-      40.276,
       40.327,
       40.338,
       40.339,
@@ -133,6 +137,7 @@
       40.623,
       40.648,
       40.668,
+      40.708,
       40.724,
       40.764,
       40.784,
@@ -160,7 +165,6 @@
       41.247,
       41.294,
       41.3,
-      41.318,
       41.359,
       41.362,
       41.362,
@@ -174,10 +178,10 @@
       41.488,
       41.5,
       41.547,
+      41.581,
       41.603,
       41.607,
       41.608,
-      41.621,
       41.627,
       41.633,
       41.645,
@@ -256,10 +260,10 @@
       43.204,
       43.223,
       43.249,
+      43.255,
       43.267,
       43.274,
       43.276,
-      43.295,
       43.304,
       43.312,
       43.339,
@@ -326,7 +330,7 @@
       45.54,
       45.55,
       45.558,
-      45.656,
+      45.616,
       45.718,
       45.732,
       45.881,
@@ -1255,8 +1259,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.75,
-      "predictedMax": 17.4,
-      "airTemp": 12.1,
+      "predictedMax": 17.48,
+      "airTemp": 12.2,
       "seaTemp": 15.4,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -1268,9 +1272,9 @@
     },
     {
       "date": "2026-04-03",
-      "predictedMin": 1.27,
-      "predictedMax": 21.54,
-      "airTemp": 14.1,
+      "predictedMin": 1.28,
+      "predictedMax": 21.46,
+      "airTemp": 14.0,
       "seaTemp": 15.4,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -1324,9 +1328,9 @@
     },
     {
       "date": "2026-04-07",
-      "predictedMin": 5.07,
-      "predictedMax": 24.3,
-      "airTemp": 15.9,
+      "predictedMin": 5.11,
+      "predictedMax": 24.45,
+      "airTemp": 16.1,
       "seaTemp": 16.1,
       "moonAge": 19.83,
       "featureSource": "forecast",
@@ -1338,11 +1342,25 @@
     },
     {
       "date": "2026-04-08",
-      "predictedMin": 5.34,
-      "predictedMax": 24.85,
-      "airTemp": 16.5,
+      "predictedMin": 4.81,
+      "predictedMax": 23.27,
+      "airTemp": 14.5,
       "seaTemp": 16.4,
       "moonAge": 20.83,
+      "featureSource": "forecast",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0005
+    },
+    {
+      "date": "2026-04-09",
+      "predictedMin": 5.4,
+      "predictedMax": 25.59,
+      "airTemp": 16.8,
+      "seaTemp": 16.96,
+      "moonAge": 21.83,
       "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
@@ -1351,12 +1369,12 @@
       "probability": 0.001
     },
     {
-      "date": "2026-04-09",
-      "predictedMin": 5.52,
-      "predictedMax": 25.83,
-      "airTemp": 17.2,
-      "seaTemp": 16.96,
-      "moonAge": 21.83,
+      "date": "2026-04-10",
+      "predictedMin": 5.83,
+      "predictedMax": 26.06,
+      "airTemp": 16.4,
+      "seaTemp": 17.07,
+      "moonAge": 22.83,
       "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
@@ -1365,24 +1383,10 @@
       "probability": 0.0012
     },
     {
-      "date": "2026-04-10",
-      "predictedMin": 6.25,
-      "predictedMax": 26.67,
-      "airTemp": 17.7,
-      "seaTemp": 17.07,
-      "moonAge": 22.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0017
-    },
-    {
       "date": "2026-04-11",
-      "predictedMin": 7.16,
-      "predictedMax": 26.73,
-      "airTemp": 17.5,
+      "predictedMin": 7.11,
+      "predictedMax": 26.69,
+      "airTemp": 17.3,
       "seaTemp": 17.16,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -1394,9 +1398,9 @@
     },
     {
       "date": "2026-04-12",
-      "predictedMin": 6.32,
-      "predictedMax": 24.38,
-      "airTemp": 16.5,
+      "predictedMin": 6.82,
+      "predictedMax": 24.17,
+      "airTemp": 19.5,
       "seaTemp": 17.25,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -1408,9 +1412,9 @@
     },
     {
       "date": "2026-04-13",
-      "predictedMin": 5.61,
-      "predictedMax": 25.34,
-      "airTemp": 15.2,
+      "predictedMin": 5.68,
+      "predictedMax": 25.42,
+      "airTemp": 15.7,
       "seaTemp": 17.33,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -1423,8 +1427,8 @@
     {
       "date": "2026-04-14",
       "predictedMin": 4.85,
-      "predictedMax": 23.22,
-      "airTemp": 16.7,
+      "predictedMax": 23.28,
+      "airTemp": 16.4,
       "seaTemp": 17.43,
       "moonAge": 26.83,
       "featureSource": "forecast",
@@ -1684,7 +1688,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0046
+      "probability": 0.0049
     },
     {
       "date": "2026-05-03",
@@ -2118,7 +2122,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0435
+      "probability": 0.0437
     },
     {
       "date": "2026-06-03",
@@ -2132,7 +2136,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.054
+      "probability": 0.0542
     },
     {
       "date": "2026-06-04",
@@ -2146,7 +2150,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0725
+      "probability": 0.0728
     },
     {
       "date": "2026-06-05",
@@ -2524,7 +2528,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0134
+      "probability": 0.0137
     },
     {
       "date": "2026-07-02",

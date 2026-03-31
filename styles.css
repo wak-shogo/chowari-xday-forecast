@@ -102,6 +102,31 @@ h1 {
   padding: 18px;
 }
 
+.tab-row {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 6px;
+  margin-bottom: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tab-button {
+  border: 0;
+  border-radius: 14px;
+  padding: 11px 18px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tab-button.is-active {
+  background: rgba(104, 209, 255, 0.16);
+  color: var(--text);
+}
+
 .chooser-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -135,6 +160,10 @@ h1 {
   color: var(--text);
   padding: 12px 14px;
   font: inherit;
+}
+
+.select-card[hidden] {
+  display: none;
 }
 
 .top-days {
@@ -296,9 +325,24 @@ h1 {
   margin-top: 14px;
 }
 
+.surface-wrap {
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    linear-gradient(180deg, rgba(8, 20, 31, 0.95), rgba(6, 15, 24, 0.98));
+}
+
 canvas {
   display: block;
   width: max(100%, 2500px);
+}
+
+#surfaceMap {
+  width: 100%;
+  height: 540px;
 }
 
 #probChart {
@@ -358,6 +402,10 @@ canvas {
   .sim-grid {
     grid-template-columns: 1fr;
   }
+
+  #surfaceMap {
+    height: 500px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -385,6 +433,11 @@ canvas {
 
   canvas {
     width: max(100%, 2200px);
+  }
+
+  #surfaceMap {
+    width: 100%;
+    height: 420px;
   }
 
   .meta,

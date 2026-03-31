@@ -23,12 +23,20 @@
       </header>
 
       <section class="chooser">
+        <div class="tab-row" role="tablist" aria-label="表示モード">
+          <button class="tab-button is-active" id="shipTab" type="button" data-view="ship" role="tab" aria-selected="true">
+            船別
+          </button>
+          <button class="tab-button" id="aggregateTab" type="button" data-view="aggregate" role="tab" aria-selected="false">
+            魚種統合
+          </button>
+        </div>
         <div class="chooser-grid">
-          <label class="select-card" for="shipSelect">
+          <label class="select-card" for="shipSelect" id="shipSelectCard">
             <span>船宿</span>
             <select id="shipSelect"></select>
           </label>
-          <label class="select-card" for="speciesSelect">
+          <label class="select-card" for="speciesSelect" id="speciesSelectCard">
             <span>魚種</span>
             <select id="speciesSelect"></select>
           </label>
@@ -76,6 +84,24 @@
             </article>
           </div>
         </div>
+      </section>
+
+      <section class="chart-panel compact">
+        <div class="chart-header">
+          <span>海水温 × 月齢マップ</span>
+          <span id="surfaceMeta">気温 - で固定</span>
+        </div>
+        <div class="surface-wrap">
+          <canvas id="surfaceMap" width="1200" height="540" aria-label="海水温と月齢の予測マップ"></canvas>
+        </div>
+      </section>
+
+      <section class="observed-panel" id="rankingPanel" hidden>
+        <div class="chart-header">
+          <span id="rankingLabel">船宿ランキング</span>
+          <span id="rankingMeta">-</span>
+        </div>
+        <div class="observed-grid" id="rankingList" aria-label="船宿ランキング一覧"></div>
       </section>
 
       <section class="chart-panel">

@@ -1,6 +1,10 @@
 {
-  "generatedAt": "2026-03-31 13:57 JST",
+  "generatedAt": "2026-03-31 15:15 JST",
   "today": "2026-03-31",
+  "scope": {
+    "mode": "ship",
+    "label": "船別"
+  },
   "ship": {
     "id": "00296",
     "name": "佐島海楽園",
@@ -538,7 +542,7 @@
       "date": "2026-04-03",
       "predictedMin": 0.0,
       "predictedMax": 0.85,
-      "airTemp": 14.0,
+      "airTemp": 13.9,
       "seaTemp": 15.5,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -593,8 +597,8 @@
     {
       "date": "2026-04-07",
       "predictedMin": 0.0,
-      "predictedMax": 0.86,
-      "airTemp": 15.9,
+      "predictedMax": 0.85,
+      "airTemp": 16.1,
       "seaTemp": 16.2,
       "moonAge": 19.83,
       "featureSource": "forecast",
@@ -607,8 +611,8 @@
     {
       "date": "2026-04-08",
       "predictedMin": 0.0,
-      "predictedMax": 0.87,
-      "airTemp": 16.5,
+      "predictedMax": 0.96,
+      "airTemp": 14.5,
       "seaTemp": 16.5,
       "moonAge": 20.83,
       "featureSource": "forecast",
@@ -621,8 +625,8 @@
     {
       "date": "2026-04-09",
       "predictedMin": 0.0,
-      "predictedMax": 0.9,
-      "airTemp": 17.2,
+      "predictedMax": 0.91,
+      "airTemp": 16.8,
       "seaTemp": 16.78,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -635,8 +639,8 @@
     {
       "date": "2026-04-10",
       "predictedMin": 0.0,
-      "predictedMax": 0.95,
-      "airTemp": 17.7,
+      "predictedMax": 1.0,
+      "airTemp": 16.4,
       "seaTemp": 16.88,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -649,8 +653,8 @@
     {
       "date": "2026-04-11",
       "predictedMin": 0.0,
-      "predictedMax": 1.03,
-      "airTemp": 17.5,
+      "predictedMax": 1.04,
+      "airTemp": 17.3,
       "seaTemp": 16.96,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -663,8 +667,8 @@
     {
       "date": "2026-04-12",
       "predictedMin": 0.0,
-      "predictedMax": 1.16,
-      "airTemp": 16.5,
+      "predictedMax": 1.05,
+      "airTemp": 19.5,
       "seaTemp": 17.04,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -677,8 +681,8 @@
     {
       "date": "2026-04-13",
       "predictedMin": 0.0,
-      "predictedMax": 1.3,
-      "airTemp": 15.2,
+      "predictedMax": 1.28,
+      "airTemp": 15.7,
       "seaTemp": 17.13,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -691,8 +695,8 @@
     {
       "date": "2026-04-14",
       "predictedMin": 0.0,
-      "predictedMax": 1.32,
-      "airTemp": 16.7,
+      "predictedMax": 1.33,
+      "airTemp": 16.4,
       "seaTemp": 17.22,
       "moonAge": 26.83,
       "featureSource": "forecast",

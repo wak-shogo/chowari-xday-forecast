@@ -1,6 +1,10 @@
 {
-  "generatedAt": "2026-03-31 13:58 JST",
+  "generatedAt": "2026-03-31 15:15 JST",
   "today": "2026-03-31",
+  "scope": {
+    "mode": "ship",
+    "label": "船別"
+  },
   "ship": {
     "id": "00297",
     "name": "池田丸",
@@ -645,8 +649,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 1.85,
-      "airTemp": 11.6,
+      "predictedMax": 1.82,
+      "airTemp": 11.9,
       "seaTemp": 15.6,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -659,8 +663,8 @@
     {
       "date": "2026-04-03",
       "predictedMin": 0.0,
-      "predictedMax": 1.64,
-      "airTemp": 12.5,
+      "predictedMax": 1.61,
+      "airTemp": 13.1,
       "seaTemp": 15.5,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -715,8 +719,8 @@
     {
       "date": "2026-04-07",
       "predictedMin": 0.0,
-      "predictedMax": 1.62,
-      "airTemp": 15.9,
+      "predictedMax": 1.63,
+      "airTemp": 16.0,
       "seaTemp": 16.2,
       "moonAge": 19.83,
       "featureSource": "forecast",
@@ -729,8 +733,8 @@
     {
       "date": "2026-04-08",
       "predictedMin": 0.0,
-      "predictedMax": 1.74,
-      "airTemp": 16.5,
+      "predictedMax": 1.45,
+      "airTemp": 14.5,
       "seaTemp": 16.5,
       "moonAge": 20.83,
       "featureSource": "forecast",
@@ -743,8 +747,8 @@
     {
       "date": "2026-04-09",
       "predictedMin": 0.0,
-      "predictedMax": 1.86,
-      "airTemp": 17.2,
+      "predictedMax": 1.78,
+      "airTemp": 16.8,
       "seaTemp": 16.54,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -757,8 +761,8 @@
     {
       "date": "2026-04-10",
       "predictedMin": 0.0,
-      "predictedMax": 1.97,
-      "airTemp": 17.7,
+      "predictedMax": 1.67,
+      "airTemp": 16.4,
       "seaTemp": 16.63,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -771,8 +775,8 @@
     {
       "date": "2026-04-11",
       "predictedMin": 0.0,
-      "predictedMax": 1.88,
-      "airTemp": 17.5,
+      "predictedMax": 1.83,
+      "airTemp": 17.3,
       "seaTemp": 16.71,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -785,8 +789,8 @@
     {
       "date": "2026-04-12",
       "predictedMin": 0.0,
-      "predictedMax": 1.59,
-      "airTemp": 16.5,
+      "predictedMax": 2.44,
+      "airTemp": 19.5,
       "seaTemp": 16.78,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -799,8 +803,8 @@
     {
       "date": "2026-04-13",
       "predictedMin": 0.0,
-      "predictedMax": 1.27,
-      "airTemp": 15.2,
+      "predictedMax": 1.37,
+      "airTemp": 15.7,
       "seaTemp": 16.86,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -813,8 +817,8 @@
     {
       "date": "2026-04-14",
       "predictedMin": 0.0,
-      "predictedMax": 1.52,
-      "airTemp": 16.7,
+      "predictedMax": 1.45,
+      "airTemp": 16.4,
       "seaTemp": 16.94,
       "moonAge": 26.83,
       "featureSource": "forecast",

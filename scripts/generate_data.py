@@ -1122,7 +1122,7 @@ def species_key(ship_id, species_name):
     return digest
 
 
-def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_map, climatology):
+def summarize_species_activity(daily_reports):
     species_summaries = {}
     for day_record in daily_reports:
         for species_name, units in day_record["species"].items():
@@ -1131,6 +1131,41 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
                 summary["units"][unit] += 1
                 if measurement["max"] > 0:
                     summary["positiveDays"][unit] += 1
+    return species_summaries
+
+
+def average_rows(rows, field):
+    return round(sum(row[field] for row in rows) / len(rows), 2)
+
+
+def build_aggregate_observed_text(rows, unit):
+    if not rows:
+        return None
+    average_min = average_rows(rows, "catchMin")
+    average_max = average_rows(rows, "catchMax")
+    return f'{len(rows)}船平均 {average_min:.1f}〜{average_max:.1f}{unit}'
+
+
+def build_ship_ranking_entry(ship_meta, rows, unit):
+    positive_rows = [row for row in rows if row["catchMax"] > 0]
+    center_values = [(row["catchMin"] + row["catchMax"]) * 0.5 for row in rows]
+    return {
+        "shipId": ship_meta["id"],
+        "shipName": ship_meta["name"],
+        "location": ship_meta["location"],
+        "homeUrl": ship_meta["homeUrl"],
+        "catchUrl": ship_meta["catchUrl"],
+        "unit": unit,
+        "tripDays": len(rows),
+        "positiveDays": len(positive_rows),
+        "averageMin": round(sum(row["catchMin"] for row in rows) / len(rows), 2),
+        "averageMax": round(sum(row["catchMax"] for row in rows) / len(rows), 2),
+        "averageCenter": round(sum(center_values) / len(center_values), 2),
+    }
+
+
+def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_map, climatology):
+    species_summaries = summarize_species_activity(daily_reports)
 
     ship_catalog_entry = {
         "id": ship_meta["id"],
@@ -1232,6 +1267,10 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
         payload = {
             "generatedAt": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"),
             "today": today.isoformat(),
+            "scope": {
+                "mode": "ship",
+                "label": "船別",
+            },
             "ship": {
                 "id": ship_meta["id"],
                 "name": ship_meta["name"],
@@ -1289,6 +1328,224 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
     return ship_catalog_entry, payloads
 
 
+def build_aggregate_payloads(ship_contexts, today):
+    species_summaries = {}
+    for context in ship_contexts:
+        for species_name, summary in summarize_species_activity(context["daily_reports"]).items():
+            merged = species_summaries.setdefault(species_name, {"units": Counter(), "positiveDays": Counter()})
+            merged["units"].update(summary["units"])
+            merged["positiveDays"].update(summary["positiveDays"])
+
+    future_start = today + timedelta(days=1)
+    future_end = today + timedelta(days=FORECAST_DAYS)
+    catalog_entries = []
+    payloads = []
+
+    for species_name, summary in sorted(
+        species_summaries.items(),
+        key=lambda item: (-max(item[1]["positiveDays"].values() or [0]), item[0]),
+    ):
+        unit, positive_days = summary["positiveDays"].most_common(1)[0] if summary["positiveDays"] else ("", 0)
+        if positive_days < MIN_POSITIVE_DAYS:
+            continue
+
+        rows = []
+        ship_rankings = []
+        active_contexts = []
+        observed_by_date = {}
+        for context in ship_contexts:
+            ship_rows = build_species_rows(
+                context["daily_reports"],
+                species_name,
+                unit,
+                context["archive_map"],
+                context["forecast_map"],
+                context["climatology"],
+            )
+            if not ship_rows:
+                continue
+
+            ship_rankings.append(build_ship_ranking_entry(context["ship_meta"], ship_rows, unit))
+            active_contexts.append(context)
+            for row in ship_rows:
+                observed_by_date.setdefault(row["date"], []).append(row)
+                rows.append(
+                    {
+                        **row,
+                        "shipId": context["ship_meta"]["id"],
+                        "shipName": context["ship_meta"]["name"],
+                    }
+                )
+
+        positive_rows = [row for row in rows if row["catchMax"] > 0]
+        if len(positive_rows) < MIN_POSITIVE_DAYS or len(rows) < MIN_VALIDATION_ROWS:
+            continue
+        rows.sort(key=lambda item: (item["date"], item["shipId"]))
+
+        selected_config, evaluation = select_model_config(rows, f"aggregate:{species_name}")
+        regression = fit_models(rows, **selected_config)
+        max_sigma = estimate_max_sigma(rows, regression)
+
+        future_predictions = []
+        current_day = future_start
+        while current_day <= future_end:
+            ship_predictions = []
+            current_moon_age = moon_age_for(current_day)
+            current_moon_sin, current_moon_cos = moon_phase_components(current_moon_age)
+            source_counts = Counter()
+            for context in active_contexts:
+                resolved, source = resolve_prediction_feature(
+                    current_day,
+                    context["archive_map"],
+                    context["forecast_map"],
+                    context["climatology"],
+                )
+                raw_features = {
+                    "airTemp": resolved["temperature_2m_mean"],
+                    "seaTemp": resolved["sea_surface_temperature_mean"],
+                    "moonAge": current_moon_age,
+                    "moonSin": current_moon_sin,
+                    "moonCos": current_moon_cos,
+                }
+                prediction = predict_models(raw_features, regression)
+                ship_predictions.append(
+                    {
+                        "prediction": prediction,
+                        "airTemp": raw_features["airTemp"],
+                        "seaTemp": raw_features["seaTemp"],
+                    }
+                )
+                source_counts[source] += 1
+
+            prior_year_day = same_day_last_year(current_day)
+            observed_rows = observed_by_date.get(prior_year_day, [])
+            future_predictions.append(
+                {
+                    "date": current_day.isoformat(),
+                    "predictedMin": round(
+                        sum(item["prediction"]["predictedMin"] for item in ship_predictions) / len(ship_predictions),
+                        2,
+                    ),
+                    "predictedMax": round(
+                        sum(item["prediction"]["predictedMax"] for item in ship_predictions) / len(ship_predictions),
+                        2,
+                    ),
+                    "airTemp": round(sum(item["airTemp"] for item in ship_predictions) / len(ship_predictions), 2),
+                    "seaTemp": round(sum(item["seaTemp"] for item in ship_predictions) / len(ship_predictions), 2),
+                    "moonAge": round(current_moon_age, 2),
+                    "featureSource": source_counts.most_common(1)[0][0],
+                    "observedDate": prior_year_day.isoformat() if observed_rows else None,
+                    "observedMin": average_rows(observed_rows, "catchMin") if observed_rows else None,
+                    "observedMax": average_rows(observed_rows, "catchMax") if observed_rows else None,
+                    "observedText": build_aggregate_observed_text(observed_rows, unit),
+                    "observedShipCount": len(observed_rows) if observed_rows else 0,
+                    "shipCount": len(ship_predictions),
+                    "probability": 0.0,
+                }
+            )
+            current_day += timedelta(days=1)
+
+        maxima_samples = build_xday_distribution(
+            future_predictions,
+            max_sigma,
+            f"aggregate:{species_name}:{today.isoformat()}",
+        )
+        peak_day = min(future_predictions, key=lambda item: (-item["predictedMax"], item["date"]))
+        top_days = sorted(future_predictions, key=lambda item: (-item["predictedMax"], item["date"]))[:4]
+        default_point = top_days[0] if top_days else future_predictions[0]
+        ranking = sorted(
+            ship_rankings,
+            key=lambda item: (-item["averageMax"], -item["averageCenter"], -item["positiveDays"], item["shipName"]),
+        )
+
+        all_air = [row["airTemp"] for row in rows] + [item["airTemp"] for item in future_predictions]
+        all_sea = [row["seaTemp"] for row in rows] + [item["seaTemp"] for item in future_predictions]
+        feature_ranges = {
+            "airTemp": {
+                "min": round_feature_range(all_air, 1.0, 1.0)[0],
+                "max": round_feature_range(all_air, 1.0, 1.0)[1],
+                "step": 0.1,
+                "default": round(default_point["airTemp"], 1),
+            },
+            "seaTemp": {
+                "min": round_feature_range(all_sea, 0.5, 0.5)[0],
+                "max": round_feature_range(all_sea, 0.5, 0.5)[1],
+                "step": 0.1,
+                "default": round(default_point["seaTemp"], 1),
+            },
+            "moonAge": {
+                "min": 0,
+                "max": round(SYNODIC_MONTH, 1),
+                "step": 0.1,
+                "default": round(default_point["moonAge"], 1),
+            },
+        }
+
+        species_id = species_key("aggregate", f"{species_name}:{unit}")
+        file_name = f"aggregate-{species_id}.json"
+        payload = {
+            "generatedAt": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"),
+            "today": today.isoformat(),
+            "scope": {
+                "mode": "aggregate",
+                "label": "魚種統合",
+            },
+            "ship": None,
+            "aggregate": {
+                "shipCount": len(ranking),
+                "ranking": ranking,
+            },
+            "species": {
+                "id": species_id,
+                "label": species_name,
+                "unit": unit,
+            },
+            "trainingRange": {
+                "from": rows[0]["date"].isoformat(),
+                "to": rows[-1]["date"].isoformat(),
+            },
+            "forecastRange": {
+                "from": future_start.isoformat(),
+                "to": future_end.isoformat(),
+            },
+            "tripDays": len(rows),
+            "positiveDays": len(positive_rows),
+            "xDayRule": "予測上限が最も高い日",
+            "xDayPeak": {
+                "date": peak_day["date"],
+                "predictedMax": peak_day["predictedMax"],
+                "probability": peak_day["probability"],
+                "unit": unit,
+            },
+            "xDayModel": {
+                "method": "monte_carlo_peak",
+                "samples": XDAY_MONTE_CARLO_SAMPLES,
+                "maxSigma": max_sigma,
+                "maximaSamples": maxima_samples,
+            },
+            "featureRanges": feature_ranges,
+            "evaluation": evaluation,
+            "regression": regression,
+            "topDays": top_days,
+            "predictions": future_predictions,
+        }
+        payloads.append((file_name, payload))
+        catalog_entries.append(
+            {
+                "id": species_id,
+                "label": species_name,
+                "unit": unit,
+                "shipCount": len(ranking),
+                "positiveDays": len(positive_rows),
+                "tripDays": len(rows),
+                "file": f"data/payloads/{file_name}",
+            }
+        )
+
+    catalog_entries.sort(key=lambda item: (-item["shipCount"], -item["positiveDays"], item["label"]))
+    return catalog_entries, payloads
+
+
 def write_outputs(catalog, payloads):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     PAYLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -1316,8 +1573,7 @@ def main():
     archive_end = today - timedelta(days=1)
     forecast_end = today + timedelta(days=min(FORECAST_API_DAYS, FORECAST_DAYS))
 
-    all_catalog_ships = []
-    all_payloads = []
+    ship_contexts = []
 
     for ship_id in ship_ids:
         ship_meta = parse_ship_meta(ship_id)
@@ -1362,24 +1618,41 @@ def main():
         forecast_map = combine_feature_sources(air_forecast, sea_forecast)
         climatology = build_climatology(archive_map)
 
+        ship_contexts.append(
+            {
+                "ship_meta": ship_meta,
+                "daily_reports": daily_reports,
+                "archive_map": archive_map,
+                "forecast_map": forecast_map,
+                "climatology": climatology,
+            }
+        )
+
+    all_catalog_ships = []
+    all_payloads = []
+    for context in ship_contexts:
         ship_catalog_entry, ship_payloads = build_ship_payloads(
-            ship_meta,
-            daily_reports,
+            context["ship_meta"],
+            context["daily_reports"],
             today,
-            archive_map,
-            forecast_map,
-            climatology,
+            context["archive_map"],
+            context["forecast_map"],
+            context["climatology"],
         )
         if not ship_catalog_entry["species"]:
-            raise RuntimeError(f"No qualifying species were generated for ship {ship_id}.")
+            raise RuntimeError(f'No qualifying species were generated for ship {context["ship_meta"]["id"]}.')
 
         all_catalog_ships.append(ship_catalog_entry)
         all_payloads.extend(ship_payloads)
+
+    aggregate_catalog_entries, aggregate_payloads = build_aggregate_payloads(ship_contexts, today)
+    all_payloads.extend(aggregate_payloads)
 
     catalog = {
         "generatedAt": datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"),
         "today": today.isoformat(),
         "ships": sorted(all_catalog_ships, key=lambda item: item["name"]),
+        "aggregateSpecies": aggregate_catalog_entries,
     }
     write_outputs(catalog, all_payloads)
 

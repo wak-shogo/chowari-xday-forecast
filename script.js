@@ -1,10 +1,16 @@
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
 const maxChart = document.getElementById("maxChart");
+const surfaceMap = document.getElementById("surfaceMap");
 
+const shipTab = document.getElementById("shipTab");
+const aggregateTab = document.getElementById("aggregateTab");
+const shipSelectCard = document.getElementById("shipSelectCard");
 const shipSelect = document.getElementById("shipSelect");
 const speciesSelect = document.getElementById("speciesSelect");
 const observedSort = document.getElementById("observedSort");
+const rankingPanel = document.getElementById("rankingPanel");
+const rankingList = document.getElementById("rankingList");
 
 const simulatorNodes = {
   airTemp: {
@@ -32,8 +38,11 @@ const payloadCache = new Map();
 
 let catalogState = null;
 let payloadState = null;
-let simulatorBound = false;
+let currentView = "ship";
+let simulatorListenersBound = false;
 let observedSortBound = false;
+let selectorBound = false;
+let tabsBound = false;
 
 function clamp(value, lower, upper) {
   return Math.max(lower, Math.min(upper, value));
@@ -100,12 +109,33 @@ function currentShip() {
   return catalogState.ships.find((ship) => ship.id === shipSelect.value) || null;
 }
 
-function currentSpecies() {
+function currentShipSpecies() {
   const ship = currentShip();
   if (!ship) {
     return null;
   }
   return ship.species.find((species) => species.id === speciesSelect.value) || null;
+}
+
+function currentAggregateSpecies() {
+  if (!catalogState) {
+    return null;
+  }
+  return catalogState.aggregateSpecies.find((species) => species.id === speciesSelect.value) || null;
+}
+
+function currentSpeciesSelection() {
+  return currentView === "aggregate" ? currentAggregateSpecies() : currentShipSpecies();
+}
+
+function setView(view) {
+  currentView = view === "aggregate" ? "aggregate" : "ship";
+  const aggregateMode = currentView === "aggregate";
+  shipTab.classList.toggle("is-active", !aggregateMode);
+  aggregateTab.classList.toggle("is-active", aggregateMode);
+  shipTab.setAttribute("aria-selected", String(!aggregateMode));
+  aggregateTab.setAttribute("aria-selected", String(aggregateMode));
+  shipSelectCard.hidden = aggregateMode;
 }
 
 function prepareCanvas(canvas) {
@@ -338,16 +368,27 @@ function simulate(rawFeatures, payload) {
   return { probability, predictedMin, predictedMax };
 }
 
+function getSimulatorRawFeatures() {
+  return {
+    airTemp: Number(simulatorNodes.airTemp.input.value),
+    seaTemp: Number(simulatorNodes.seaTemp.input.value),
+    moonAge: Number(simulatorNodes.moonAge.input.value),
+  };
+}
+
 function populateTopDays(payload) {
   const host = document.getElementById("topDays");
+  const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
+  const maxLabel = aggregateMode ? "平均上限" : "上限";
+  const minLabel = aggregateMode ? "平均下限" : "下限";
   host.innerHTML = "";
   payload.topDays.forEach((item) => {
     const chip = document.createElement("article");
     chip.className = "day-chip";
     chip.innerHTML = `
       <span class="date">${formatDate(item.date)}</span>
-      <strong>上限 ${amountText(item.predictedMax, payload.species.unit)}</strong>
-      <span class="detail">Xデー確率 ${percent(item.probability)} / 下限 ${amountText(item.predictedMin, payload.species.unit)}</span>
+      <strong>${maxLabel} ${amountText(item.predictedMax, payload.species.unit)}</strong>
+      <span class="detail">Xデー確率 ${percent(item.probability)} / ${minLabel} ${amountText(item.predictedMin, payload.species.unit)}</span>
       <span class="subdetail">気温 ${item.airTemp.toFixed(1)}℃ / 水温 ${item.seaTemp.toFixed(1)}℃ / 月齢 ${item.moonAge.toFixed(1)}日</span>
     `;
     host.appendChild(chip);
@@ -367,6 +408,7 @@ function buildObservedRecords(payload) {
       observedMin: point.observedMin,
       observedMax: point.observedMax,
       observedText: point.observedText,
+      observedShipCount: point.observedShipCount || 0,
       forecastDate: point.date,
     });
   });
@@ -396,16 +438,17 @@ function sortObservedRecords(records, sortKey) {
 
 function populateObservedList(payload) {
   const host = document.getElementById("observedList");
+  const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
   const records = sortObservedRecords(buildObservedRecords(payload), observedSort.value);
 
-  document.getElementById("observedLabel").textContent = "前年釣果実績";
+  document.getElementById("observedLabel").textContent = aggregateMode ? "前年釣果実績平均" : "前年釣果実績";
   document.getElementById("observedMeta").textContent = `${records.length}件`;
   host.innerHTML = "";
 
   if (!records.length) {
     const empty = document.createElement("div");
     empty.className = "observed-empty";
-    empty.textContent = "前年実績がある日だけここに表示します。";
+    empty.textContent = aggregateMode ? "前年実績平均がある日だけここに表示します。" : "前年実績がある日だけここに表示します。";
     host.appendChild(empty);
     return;
   }
@@ -413,47 +456,207 @@ function populateObservedList(payload) {
   records.forEach((item) => {
     const chip = document.createElement("article");
     chip.className = "day-chip observed-chip";
+    const fallbackText = `${amountText(item.observedMin, payload.species.unit)}〜${amountText(item.observedMax, payload.species.unit)}`;
+    const modeDetail = aggregateMode && item.observedShipCount ? ` / ${item.observedShipCount}船平均` : "";
     chip.innerHTML = `
       <span class="date">${formatDate(item.observedDate)}</span>
-      <strong>${item.observedText || `${amountText(item.observedMin, payload.species.unit)}〜${amountText(item.observedMax, payload.species.unit)}`}</strong>
-      <span class="detail">下限 ${amountText(item.observedMin, payload.species.unit)} / 上限 ${amountText(item.observedMax, payload.species.unit)}</span>
+      <strong>${item.observedText || fallbackText}</strong>
+      <span class="detail">下限 ${amountText(item.observedMin, payload.species.unit)} / 上限 ${amountText(item.observedMax, payload.species.unit)}${modeDetail}</span>
       <span class="subdetail">対応予測日 ${formatDate(item.forecastDate)}</span>
     `;
     host.appendChild(chip);
   });
 }
 
+function populateRanking(payload) {
+  const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
+  rankingPanel.hidden = !aggregateMode;
+  rankingList.innerHTML = "";
+
+  if (!aggregateMode) {
+    return;
+  }
+
+  const ranking = (payload.aggregate && payload.aggregate.ranking) || [];
+  document.getElementById("rankingLabel").textContent = `${payload.species.label} 船宿ランキング`;
+  document.getElementById("rankingMeta").textContent = `${ranking.length}船 / 平均上限順`;
+
+  if (!ranking.length) {
+    const empty = document.createElement("div");
+    empty.className = "observed-empty";
+    empty.textContent = "ランキング対象の船宿がありません。";
+    rankingList.appendChild(empty);
+    return;
+  }
+
+  ranking.forEach((item, index) => {
+    const chip = document.createElement("article");
+    chip.className = "day-chip observed-chip";
+    chip.innerHTML = `
+      <span class="date">${index + 1}位</span>
+      <strong>${item.shipName}</strong>
+      <span class="detail">平均上限 ${amountText(item.averageMax, item.unit)} / 平均下限 ${amountText(item.averageMin, item.unit)}</span>
+      <span class="subdetail">平均中央 ${amountText(item.averageCenter, item.unit)} / 記録日 ${item.tripDays}</span>
+    `;
+    rankingList.appendChild(chip);
+  });
+}
+
+function surfaceColor(ratio) {
+  const hue = 220 - ratio * 180;
+  const saturation = 84;
+  const lightness = 20 + ratio * 46;
+  return `hsl(${hue} ${saturation}% ${lightness}%)`;
+}
+
+function drawSurfaceMap(payload) {
+  if (!payload) {
+    return;
+  }
+
+  const { ctx, cssWidth, cssHeight } = prepareCanvas(surfaceMap);
+  const margin = { top: 28, right: 34, bottom: 56, left: 66 };
+  const width = cssWidth - margin.left - margin.right;
+  const height = cssHeight - margin.top - margin.bottom;
+  const moonConfig = payload.featureRanges.moonAge;
+  const seaConfig = payload.featureRanges.seaTemp;
+  const airTemp = Number(simulatorNodes.airTemp.input.value);
+  const currentSea = Number(simulatorNodes.seaTemp.input.value);
+  const currentMoon = Number(simulatorNodes.moonAge.input.value);
+  const columns = clamp(Math.floor(width / 9), 48, 110);
+  const rows = clamp(Math.floor(height / 9), 32, 72);
+  const cellWidth = width / columns;
+  const cellHeight = height / rows;
+  const samples = [];
+  let minValue = Number.POSITIVE_INFINITY;
+  let maxValue = Number.NEGATIVE_INFINITY;
+
+  for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
+    const seaTemp = seaConfig.max - (rowIndex / Math.max(rows - 1, 1)) * (seaConfig.max - seaConfig.min);
+    const line = [];
+    for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
+      const moonAge = moonConfig.min + (columnIndex / Math.max(columns - 1, 1)) * (moonConfig.max - moonConfig.min);
+      const value = simulate({ airTemp, seaTemp, moonAge }, payload).predictedMax;
+      line.push(value);
+      minValue = Math.min(minValue, value);
+      maxValue = Math.max(maxValue, value);
+    }
+    samples.push(line);
+  }
+
+  const span = Math.max(maxValue - minValue, 1e-6);
+  ctx.fillStyle = "rgba(8, 20, 31, 0.96)";
+  ctx.fillRect(0, 0, cssWidth, cssHeight);
+
+  for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
+    for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
+      const ratio = (samples[rowIndex][columnIndex] - minValue) / span;
+      ctx.fillStyle = surfaceColor(ratio);
+      ctx.fillRect(
+        margin.left + columnIndex * cellWidth,
+        margin.top + rowIndex * cellHeight,
+        Math.ceil(cellWidth + 1),
+        Math.ceil(cellHeight + 1),
+      );
+    }
+  }
+
+  ctx.strokeStyle = "rgba(255,255,255,0.16)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(margin.left, margin.top, width, height);
+
+  ctx.font = "12px Segoe UI";
+  ctx.fillStyle = "rgba(200,219,234,0.86)";
+  for (let tick = 0; tick <= 4; tick += 1) {
+    const ratio = tick / 4;
+    const y = margin.top + height * ratio;
+    const seaTemp = seaConfig.max - ratio * (seaConfig.max - seaConfig.min);
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.beginPath();
+    ctx.moveTo(margin.left, y);
+    ctx.lineTo(margin.left + width, y);
+    ctx.stroke();
+    ctx.fillText(`${seaTemp.toFixed(1)}℃`, 10, y + 4);
+  }
+
+  for (let tick = 0; tick <= 5; tick += 1) {
+    const ratio = tick / 5;
+    const x = margin.left + width * ratio;
+    const moonAge = moonConfig.min + ratio * (moonConfig.max - moonConfig.min);
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.beginPath();
+    ctx.moveTo(x, margin.top);
+    ctx.lineTo(x, margin.top + height);
+    ctx.stroke();
+    ctx.fillText(`${moonAge.toFixed(1)}日`, x - 12, margin.top + height + 24);
+  }
+
+  const currentX = margin.left + ((currentMoon - moonConfig.min) / Math.max(moonConfig.max - moonConfig.min, 1e-6)) * width;
+  const currentY = margin.top + ((seaConfig.max - currentSea) / Math.max(seaConfig.max - seaConfig.min, 1e-6)) * height;
+  ctx.strokeStyle = "rgba(255,255,255,0.92)";
+  ctx.lineWidth = 1.4;
+  ctx.beginPath();
+  ctx.moveTo(currentX, margin.top);
+  ctx.lineTo(currentX, margin.top + height);
+  ctx.moveTo(margin.left, currentY);
+  ctx.lineTo(margin.left + width, currentY);
+  ctx.stroke();
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.arc(currentX, currentY, 4.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  const legendWidth = Math.min(220, width * 0.34);
+  const legendX = margin.left + width - legendWidth;
+  const legendY = 10;
+  const legend = ctx.createLinearGradient(legendX, 0, legendX + legendWidth, 0);
+  legend.addColorStop(0, surfaceColor(0));
+  legend.addColorStop(0.5, surfaceColor(0.5));
+  legend.addColorStop(1, surfaceColor(1));
+  ctx.fillStyle = legend;
+  ctx.fillRect(legendX, legendY, legendWidth, 10);
+  ctx.fillStyle = "rgba(200,219,234,0.86)";
+  ctx.fillText(`予測上限 ${amountText(minValue, payload.species.unit)}`, legendX, legendY + 24);
+  ctx.fillText(amountText(maxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
+  ctx.fillText("海水温", 10, margin.top - 8);
+  ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
+  document.getElementById("surfaceMeta").textContent = `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`;
+}
+
+function updateSimulator() {
+  if (!payloadState) {
+    return;
+  }
+
+  const rawFeatures = getSimulatorRawFeatures();
+  Object.entries(simulatorNodes).forEach(([key, node]) => {
+    node.value.textContent = formatControlValue(key, Number(node.input.value));
+  });
+
+  const result = simulate(rawFeatures, payloadState);
+  outputNodes.probability.textContent = percent(result.probability);
+  outputNodes.min.textContent = amountText(result.predictedMin, payloadState.species.unit);
+  outputNodes.max.textContent = amountText(result.predictedMax, payloadState.species.unit);
+  drawSurfaceMap(payloadState);
+}
+
 function configureSimulator(payload) {
-  const update = () => {
-    const rawFeatures = {
-      airTemp: Number(simulatorNodes.airTemp.input.value),
-      seaTemp: Number(simulatorNodes.seaTemp.input.value),
-      moonAge: Number(simulatorNodes.moonAge.input.value),
-    };
-
-    Object.entries(simulatorNodes).forEach(([key, node]) => {
-      node.value.textContent = formatControlValue(key, Number(node.input.value));
-    });
-
-    const result = simulate(rawFeatures, payload);
-    outputNodes.probability.textContent = percent(result.probability);
-    outputNodes.min.textContent = amountText(result.predictedMin, payload.species.unit);
-    outputNodes.max.textContent = amountText(result.predictedMax, payload.species.unit);
-  };
-
   Object.entries(simulatorNodes).forEach(([key, node]) => {
     const config = payload.featureRanges[key];
     node.input.min = config.min;
     node.input.max = config.max;
     node.input.step = config.step;
     node.input.value = config.default;
-    if (!simulatorBound) {
-      node.input.addEventListener("input", update);
-    }
   });
 
-  simulatorBound = true;
-  update();
+  if (!simulatorListenersBound) {
+    Object.values(simulatorNodes).forEach((node) => {
+      node.input.addEventListener("input", updateSimulator);
+    });
+    simulatorListenersBound = true;
+  }
+
+  updateSimulator();
 }
 
 function showTooltip(canvas, tooltip, scroller, clientX, clientY) {
@@ -480,15 +683,20 @@ function showTooltip(canvas, tooltip, scroller, clientX, clientY) {
     return;
   }
 
+  const aggregateMode = payloadState.scope && payloadState.scope.mode === "aggregate";
+  const observedLine = point.observedDate
+    ? aggregateMode
+      ? `<span>前年平均 ${formatDate(point.observedDate)} ${point.observedText || `${amountText(point.observedMin, payloadState.species.unit)}〜${amountText(point.observedMax, payloadState.species.unit)}`}</span>`
+      : `<span>前年実測 ${formatDate(point.observedDate)} 下限 ${amountText(point.observedMin, payloadState.species.unit)} / 上限 ${amountText(point.observedMax, payloadState.species.unit)}</span>`
+    : "";
+  const shipLine = aggregateMode && point.shipCount ? `<span>対象 ${point.shipCount}船</span>` : "";
+
   tooltip.innerHTML = `
     <strong>${formatDate(point.date)}</strong>
     <span>Xデー確率 ${percent(point.probability)}</span>
     <span>下限 ${amountText(point.predictedMin, payloadState.species.unit)} / 上限 ${amountText(point.predictedMax, payloadState.species.unit)}</span>
-    ${
-      point.observedDate
-        ? `<span>前年実測 ${formatDate(point.observedDate)} 下限 ${amountText(point.observedMin, payloadState.species.unit)} / 上限 ${amountText(point.observedMax, payloadState.species.unit)}</span>`
-        : ""
-    }
+    ${observedLine}
+    ${shipLine}
     <span>気温 ${point.airTemp.toFixed(1)}℃ / 水温 ${point.seaTemp.toFixed(1)}℃ / 月齢 ${point.moonAge.toFixed(1)}日</span>
     <span>${featureSourceLabel(point.featureSource)}</span>
   `;
@@ -554,10 +762,16 @@ function bindTooltip(canvasId, scrollerId, tooltipId) {
   });
 }
 
-function updateUrl(shipId, speciesId) {
+function updateUrl(view, shipId, speciesId) {
   const url = new URL(window.location.href);
-  url.searchParams.set("ship", shipId);
-  url.searchParams.set("species", speciesId);
+  url.searchParams.set("view", view);
+  if (view === "aggregate") {
+    url.searchParams.delete("ship");
+    url.searchParams.set("species", speciesId);
+  } else {
+    url.searchParams.set("ship", shipId);
+    url.searchParams.set("species", speciesId);
+  }
   window.history.replaceState({}, "", url);
 }
 
@@ -584,6 +798,19 @@ function populateSpeciesSelect(ship, preferredSpeciesId = null) {
     : ship.species[0].id;
 }
 
+function populateAggregateSpeciesSelect(preferredSpeciesId = null) {
+  speciesSelect.innerHTML = "";
+  catalogState.aggregateSpecies.forEach((species) => {
+    const option = document.createElement("option");
+    option.value = species.id;
+    option.textContent = `${species.label} (${species.unit})`;
+    speciesSelect.appendChild(option);
+  });
+  speciesSelect.value = catalogState.aggregateSpecies.some((species) => species.id === preferredSpeciesId)
+    ? preferredSpeciesId
+    : catalogState.aggregateSpecies[0].id;
+}
+
 async function fetchPayload(file) {
   if (!payloadCache.has(file)) {
     payloadCache.set(
@@ -601,20 +828,28 @@ async function fetchPayload(file) {
 
 function render(payload) {
   payloadState = payload;
-  document.title = `${payload.ship.name} ${payload.species.label} Xデー予測`;
-  document.getElementById("title").textContent = `${payload.ship.name} ${payload.species.label} Xデー予測`;
+  const aggregateMode = payload.scope && payload.scope.mode === "aggregate";
+  setView(aggregateMode ? "aggregate" : "ship");
+
+  document.title = aggregateMode ? `${payload.species.label} 魚種統合 Xデー予測` : `${payload.ship.name} ${payload.species.label} Xデー予測`;
+  document.getElementById("title").textContent = aggregateMode
+    ? `${payload.species.label} 魚種統合 Xデー予測`
+    : `${payload.ship.name} ${payload.species.label} Xデー予測`;
   document.getElementById("generatedAt").textContent = `更新 ${payload.generatedAt}`;
-  document.getElementById("summaryMeta").textContent = `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
+  document.getElementById("summaryMeta").textContent = aggregateMode
+    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`
+    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
   document.getElementById("rangeLabel").textContent = `${payload.forecastRange.from} - ${payload.forecastRange.to}`;
   document.getElementById("todayLabel").textContent = `基準日 ${payload.today}`;
-  document.getElementById("minMetricLabel").textContent = `予測下限${payload.species.unit}`;
-  document.getElementById("maxMetricLabel").textContent = `予測上限${payload.species.unit}`;
-  document.getElementById("minChartLabel").textContent = `予測下限${payload.species.unit}`;
-  document.getElementById("maxChartLabel").textContent = `予測上限${payload.species.unit}`;
+  document.getElementById("minMetricLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
+  document.getElementById("maxMetricLabel").textContent = `${aggregateMode ? "平均予測上限" : "予測上限"}${payload.species.unit}`;
+  document.getElementById("minChartLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
+  document.getElementById("maxChartLabel").textContent = `${aggregateMode ? "平均予測上限" : "予測上限"}${payload.species.unit}`;
   document.getElementById("unitLabelMin").textContent = `${payload.species.unit} / 日`;
   document.getElementById("unitLabelMax").textContent = `${payload.species.unit} / 日`;
 
   populateTopDays(payload);
+  populateRanking(payload);
   populateObservedList(payload);
   configureSimulator(payload);
   drawProbabilityChart(payload);
@@ -622,33 +857,79 @@ function render(payload) {
   drawAmountChart(maxChart, payload, "predictedMax", "observedMax", "#ffd16b", "rgba(255, 209, 107, 0.20)");
 }
 
-async function loadSelection(shipId, speciesId) {
+async function loadSelection(view, shipId, speciesId) {
+  if (view === "aggregate" && catalogState.aggregateSpecies.length) {
+    setView("aggregate");
+    populateAggregateSpeciesSelect(speciesId);
+    const species = currentAggregateSpecies() || catalogState.aggregateSpecies[0];
+    updateUrl("aggregate", null, species.id);
+    const payload = await fetchPayload(species.file);
+    render(payload);
+    return;
+  }
+
+  setView("ship");
   const ship = catalogState.ships.find((item) => item.id === shipId) || catalogState.ships[0];
   shipSelect.value = ship.id;
   populateSpeciesSelect(ship, speciesId);
-  const species = ship.species.find((item) => item.id === speciesSelect.value) || ship.species[0];
-  updateUrl(ship.id, species.id);
+  const species = currentShipSpecies() || ship.species[0];
+  updateUrl("ship", ship.id, species.id);
   const payload = await fetchPayload(species.file);
   render(payload);
 }
 
 function bindSelectors() {
+  if (selectorBound) {
+    return;
+  }
+
   shipSelect.addEventListener("change", async () => {
+    if (currentView !== "ship") {
+      return;
+    }
     const ship = currentShip();
     populateSpeciesSelect(ship);
-    const species = currentSpecies();
+    const species = currentShipSpecies();
     const payload = await fetchPayload(species.file);
-    updateUrl(ship.id, species.id);
+    updateUrl("ship", ship.id, species.id);
     render(payload);
   });
 
   speciesSelect.addEventListener("change", async () => {
-    const ship = currentShip();
-    const species = currentSpecies();
+    const species = currentSpeciesSelection();
     const payload = await fetchPayload(species.file);
-    updateUrl(ship.id, species.id);
+    if (currentView === "aggregate") {
+      updateUrl("aggregate", null, species.id);
+    } else {
+      const ship = currentShip();
+      updateUrl("ship", ship.id, species.id);
+    }
     render(payload);
   });
+
+  selectorBound = true;
+}
+
+function bindTabs() {
+  if (tabsBound) {
+    return;
+  }
+
+  shipTab.addEventListener("click", async () => {
+    const ship = currentShip() || catalogState.ships[0];
+    const species = ship.species[0];
+    await loadSelection("ship", ship.id, species.id);
+  });
+
+  aggregateTab.addEventListener("click", async () => {
+    if (!catalogState.aggregateSpecies.length) {
+      return;
+    }
+    const species = currentAggregateSpecies() || catalogState.aggregateSpecies[0];
+    await loadSelection("aggregate", null, species.id);
+  });
+
+  tabsBound = true;
 }
 
 bindTooltip("probChart", "probChartScroller", "probTooltip");
@@ -676,13 +957,17 @@ async function main() {
     throw new Error("カタログを読み込めませんでした");
   }
   catalogState = await response.json();
+  catalogState.aggregateSpecies = Array.isArray(catalogState.aggregateSpecies) ? catalogState.aggregateSpecies : [];
   populateShipSelect();
   bindSelectors();
+  bindTabs();
 
   const params = new URLSearchParams(window.location.search);
+  const requestedView = params.get("view") === "aggregate" ? "aggregate" : "ship";
   const requestedShipId = params.get("ship");
   const requestedSpeciesId = params.get("species");
-  await loadSelection(requestedShipId, requestedSpeciesId);
+  const initialView = requestedView === "aggregate" && catalogState.aggregateSpecies.length ? "aggregate" : "ship";
+  await loadSelection(initialView, requestedShipId, requestedSpeciesId);
 }
 
 main().catch((error) => {
