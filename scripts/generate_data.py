@@ -60,15 +60,17 @@ RANDOM_FOREST_MIN_LEAF = 3
 RANDOM_FOREST_MAX_FEATURES = 4
 RANDOM_FOREST_THRESHOLD_STEPS = 8
 MIN_RANDOM_FOREST_ROWS = 18
+GLOBAL_BALANCE_FIELD = "contextKey"
 
 NEURAL_FEATURE_SETS = {
     "compact": {
-        "featureKeys": ("airTemp", "seaTemp", "moonSin", "moonCos", "airSeaGap", "airSeaMean"),
+        "featureKeys": ("airTemp", "seaTemp", "moonAge", "moonSin", "moonCos", "airSeaGap", "airSeaMean"),
     },
     "extended": {
         "featureKeys": (
             "airTemp",
             "seaTemp",
+            "moonAge",
             "moonSin",
             "moonCos",
             "moonSin2",
@@ -83,6 +85,7 @@ NEURAL_FEATURE_SETS = {
         "featureKeys": (
             "airTemp",
             "seaTemp",
+            "moonAge",
             "moonSin",
             "moonCos",
             "moonSin2",
@@ -949,6 +952,23 @@ def weighted_average(pairs):
     return sum(weight * value for weight, value in pairs) / total_weight
 
 
+def build_model_feature_row(raw_features, context_features=None):
+    feature_row = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+    if context_features:
+        feature_row.update(context_features)
+    return feature_row
+
+
+def compute_balanced_row_weights(rows, key_field=GLOBAL_BALANCE_FIELD):
+    if not rows:
+        return []
+    counts = Counter(row[key_field] for row in rows)
+    if not counts:
+        return [1.0 for _ in rows]
+    target_total = len(rows) / len(counts)
+    return [target_total / max(counts[row[key_field]], 1) for row in rows]
+
+
 def build_support_rows(rows, stats, min_weights, max_weights, spec_key):
     spec = feature_spec(spec_key)
     support = []
@@ -1078,26 +1098,34 @@ def candidate_thresholds(values):
     return thresholds
 
 
-def mean_squared_error(values):
+def mean_squared_error(values, weights=None):
     if not values:
         return 0.0
-    mean = sum(values) / len(values)
-    return sum((value - mean) ** 2 for value in values)
+    if not weights:
+        mean = sum(values) / len(values)
+        return sum((value - mean) ** 2 for value in values)
+    total_weight = sum(weights)
+    if total_weight <= 0:
+        return 0.0
+    mean = sum(weight * value for value, weight in zip(values, weights)) / total_weight
+    return sum(weight * (value - mean) ** 2 for value, weight in zip(values, weights))
 
 
-def build_tree_node(samples, feature_keys, rng, depth):
+def build_tree_node(samples, feature_keys, rng, depth, max_depth, min_leaf, max_features):
     targets = [sample["target"] for sample in samples]
-    leaf_value = sum(targets) / len(targets)
+    weights = [sample["weight"] for sample in samples]
+    total_weight = sum(weights)
+    leaf_value = sum(sample["weight"] * sample["target"] for sample in samples) / total_weight if total_weight > 0 else 0.0
     if (
-        depth >= RANDOM_FOREST_MAX_DEPTH
-        or len(samples) <= RANDOM_FOREST_MIN_LEAF * 2
-        or mean_squared_error(targets) <= 1e-8
+        depth >= max_depth
+        or len(samples) <= min_leaf * 2
+        or mean_squared_error(targets, weights) <= 1e-8
     ):
         return {"v": round(leaf_value, 8)}
 
     candidate_features = list(feature_keys)
     rng.shuffle(candidate_features)
-    candidate_features = candidate_features[: min(RANDOM_FOREST_MAX_FEATURES, len(candidate_features))]
+    candidate_features = candidate_features[: min(max_features, len(candidate_features))]
 
     best_split = None
     for feature_index, feature in enumerate(feature_keys):
@@ -1107,10 +1135,14 @@ def build_tree_node(samples, feature_keys, rng, depth):
         for threshold in candidate_thresholds(values):
             left = [sample for sample in samples if sample["features"][feature_index] <= threshold]
             right = [sample for sample in samples if sample["features"][feature_index] > threshold]
-            if len(left) < RANDOM_FOREST_MIN_LEAF or len(right) < RANDOM_FOREST_MIN_LEAF:
+            if len(left) < min_leaf or len(right) < min_leaf:
                 continue
-            score = mean_squared_error([sample["target"] for sample in left]) + mean_squared_error(
-                [sample["target"] for sample in right]
+            score = mean_squared_error(
+                [sample["target"] for sample in left],
+                [sample["weight"] for sample in left],
+            ) + mean_squared_error(
+                [sample["target"] for sample in right],
+                [sample["weight"] for sample in right],
             )
             if best_split is None or score < best_split["score"]:
                 best_split = {
@@ -1127,25 +1159,49 @@ def build_tree_node(samples, feature_keys, rng, depth):
     return {
         "f": best_split["featureIndex"],
         "t": round(best_split["threshold"], 6),
-        "l": build_tree_node(best_split["left"], feature_keys, rng, depth + 1),
-        "r": build_tree_node(best_split["right"], feature_keys, rng, depth + 1),
+        "l": build_tree_node(best_split["left"], feature_keys, rng, depth + 1, max_depth, min_leaf, max_features),
+        "r": build_tree_node(best_split["right"], feature_keys, rng, depth + 1, max_depth, min_leaf, max_features),
     }
 
 
-def bootstrap_samples(feature_rows, targets, rng):
+def bootstrap_samples(feature_rows, targets, sample_weights, rng):
+    if not sample_weights:
+        sample_weights = [1.0 for _ in feature_rows]
+    cumulative = []
+    running_total = 0.0
+    for weight in sample_weights:
+        running_total += max(weight, 0.0)
+        cumulative.append(running_total)
+    if running_total <= 0:
+        cumulative = [index + 1 for index in range(len(feature_rows))]
+        running_total = len(feature_rows)
+
     samples = []
     for _ in range(len(feature_rows)):
-        index = rng.randrange(len(feature_rows))
-        samples.append({"features": feature_rows[index], "target": targets[index]})
+        pick = rng.random() * running_total
+        index = 0
+        while index < len(cumulative) - 1 and cumulative[index] < pick:
+            index += 1
+        samples.append({"features": feature_rows[index], "target": targets[index], "weight": max(sample_weights[index], 1e-9)})
     return samples
 
 
-def train_random_forest(feature_rows, targets, feature_keys, seed_key):
+def train_random_forest(feature_rows, targets, feature_keys, config, seed_key, sample_weights=None):
     forest = []
-    for tree_index in range(RANDOM_FOREST_TREE_COUNT):
+    for tree_index in range(config.get("tree_count", RANDOM_FOREST_TREE_COUNT)):
         rng = random.Random(f"{seed_key}:{tree_index}")
-        samples = bootstrap_samples(feature_rows, targets, rng)
-        forest.append(build_tree_node(samples, feature_keys, rng, depth=0))
+        samples = bootstrap_samples(feature_rows, targets, sample_weights, rng)
+        forest.append(
+            build_tree_node(
+                samples,
+                feature_keys,
+                rng,
+                depth=0,
+                max_depth=config.get("max_depth", RANDOM_FOREST_MAX_DEPTH),
+                min_leaf=config.get("min_leaf", RANDOM_FOREST_MIN_LEAF),
+                max_features=config.get("max_features", RANDOM_FOREST_MAX_FEATURES),
+            )
+        )
     return forest
 
 
@@ -1156,29 +1212,29 @@ def predict_tree(tree, feature_row):
     return node["v"]
 
 
-def fit_random_forest_model(rows, seed_key, spec_key=RANDOM_FOREST_FEATURE_SPEC):
-    spec = feature_spec(spec_key)
-    feature_rows = [[row[key] for key in spec["featureKeys"]] for row in rows]
+def fit_random_forest_model(rows, config, seed_key, sample_weights=None):
+    feature_keys = tuple(config.get("featureKeys") or feature_spec(RANDOM_FOREST_FEATURE_SPEC)["featureKeys"])
+    feature_rows = [[row.get(key, 0.0) for key in feature_keys] for row in rows]
     min_targets = [math.log1p(row["catchMin"]) for row in rows]
     max_targets = [math.log1p(row["catchMax"]) for row in rows]
     count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
-    min_forest = train_random_forest(feature_rows, min_targets, spec["featureKeys"], f"{seed_key}:min")
-    max_forest = train_random_forest(feature_rows, max_targets, spec["featureKeys"], f"{seed_key}:max")
+    min_forest = train_random_forest(feature_rows, min_targets, feature_keys, config, f"{seed_key}:min", sample_weights)
+    max_forest = train_random_forest(feature_rows, max_targets, feature_keys, config, f"{seed_key}:max", sample_weights)
 
     return {
         "type": "random_forest",
         "modelLabel": "ランダムフォレスト",
         "featureSpec": {
-            "key": spec_key,
-            "label": spec["label"],
-            "featureKeys": list(spec["featureKeys"]),
+            "key": config["id"],
+            "label": config.get("label", "ランダムフォレスト"),
+            "featureKeys": list(feature_keys),
             "basisTerms": [],
         },
         "countCeiling": round(count_ceiling, 3),
         "forest": {
             "targetType": "log_measure",
-            "featureKeys": list(spec["featureKeys"]),
-            "treeCount": RANDOM_FOREST_TREE_COUNT,
+            "featureKeys": list(feature_keys),
+            "treeCount": config.get("tree_count", RANDOM_FOREST_TREE_COUNT),
             "catchMin": min_forest,
             "catchMax": max_forest,
         },
@@ -1273,7 +1329,7 @@ def clip_gradient(value):
     return clamp(value, -NEURAL_GRAD_CLIP, NEURAL_GRAD_CLIP)
 
 
-def train_neural_layers(input_rows, target_rows, config, seed_key):
+def train_neural_layers(input_rows, target_rows, config, seed_key, sample_weights=None):
     layer_sizes = [len(input_rows[0]), *config["hidden_sizes"], 2]
     rng = random.Random(seed_key)
     layers = initialize_dense_layers(layer_sizes, rng)
@@ -1284,7 +1340,8 @@ def train_neural_layers(input_rows, target_rows, config, seed_key):
     beta1 = 0.9
     beta2 = 0.999
     epsilon = 1e-8
-    sample_count = len(input_rows)
+    row_weights = list(sample_weights) if sample_weights else [1.0 for _ in input_rows]
+    total_weight = sum(row_weights) or 1.0
     learning_rate = config["learning_rate"]
     weight_decay = config["weight_decay"]
 
@@ -1296,11 +1353,11 @@ def train_neural_layers(input_rows, target_rows, config, seed_key):
             for index in range(len(grad_layer["biases"])):
                 grad_layer["biases"][index] = 0.0
 
-        for inputs, targets in zip(input_rows, target_rows):
+        for inputs, targets, row_weight in zip(input_rows, target_rows, row_weights):
             activations = forward_dense_layers(inputs, layers)
             outputs = activations[-1]
             delta = [
-                (outputs[index] - targets[index]) * NEURAL_OUTPUT_WEIGHTS[index] / sample_count
+                (outputs[index] - targets[index]) * NEURAL_OUTPUT_WEIGHTS[index] * row_weight / total_weight
                 for index in range(len(outputs))
             ]
 
@@ -1357,12 +1414,12 @@ def train_neural_layers(input_rows, target_rows, config, seed_key):
     return layers
 
 
-def fit_neural_model(rows, config, seed_key):
+def fit_neural_model(rows, config, seed_key, sample_weights=None):
     feature_keys = neural_feature_keys(config)
     stats = compute_base_stats(rows, feature_keys)
     inputs = [neural_input_vector(row, stats, feature_keys) for row in rows]
     targets = [neural_targets(row) for row in rows]
-    layers = train_neural_layers(inputs, targets, config, seed_key)
+    layers = train_neural_layers(inputs, targets, config, seed_key, sample_weights=sample_weights)
     count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
 
     return {
@@ -1387,36 +1444,59 @@ def fit_neural_model(rows, config, seed_key):
     }
 
 
-def predict_neural_row(feature_row, model):
-    feature_keys = model["input"]["featureKeys"]
-    input_vector = [
-        (feature_row.get(key, 0.0) - model["input"]["means"][key]) / model["input"]["scales"][key]
-        for key in feature_keys
-    ]
-    min_score, gap_score = predict_dense_layers(input_vector, model["network"]["layers"])
-    predicted_min = decode_measure(min_score, model["countCeiling"])
-    predicted_gap = decode_measure(gap_score, model["countCeiling"])
-    predicted_max = clamp(predicted_min + predicted_gap, predicted_min, model["countCeiling"])
+def predict_shared_model_row(feature_row, model):
+    if model["type"] == "neural_network":
+        feature_keys = model["input"]["featureKeys"]
+        input_vector = [
+            (feature_row.get(key, 0.0) - model["input"]["means"][key]) / model["input"]["scales"][key]
+            for key in feature_keys
+        ]
+        min_score, gap_score = predict_dense_layers(input_vector, model["network"]["layers"])
+        predicted_min = decode_measure(min_score, model["countCeiling"])
+        predicted_gap = decode_measure(gap_score, model["countCeiling"])
+        predicted_max = clamp(predicted_min + predicted_gap, predicted_min, model["countCeiling"])
+    elif model["type"] == "random_forest":
+        feature_keys = model["forest"]["featureKeys"]
+        feature_row_values = [feature_row.get(key, 0.0) for key in feature_keys]
+        min_score = sum(predict_tree(tree, feature_row_values) for tree in model["forest"]["catchMin"]) / max(
+            len(model["forest"]["catchMin"]),
+            1,
+        )
+        max_score = sum(predict_tree(tree, feature_row_values) for tree in model["forest"]["catchMax"]) / max(
+            len(model["forest"]["catchMax"]),
+            1,
+        )
+        predicted_min = decode_measure(min_score, model["countCeiling"])
+        predicted_max = max(predicted_min, decode_measure(max_score, model["countCeiling"]))
+    else:
+        raise RuntimeError(f'Unsupported shared model type: {model["type"]}')
+
     return {
         "predictedMin": round(predicted_min, 2),
         "predictedMax": round(predicted_max, 2),
     }
 
 
-def predict_neural_model(raw_features, model, context_features=None):
-    feature_row = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
-    if context_features:
-        feature_row.update(context_features)
-    return predict_neural_row(feature_row, model)
+def predict_shared_model(raw_features, model, context_features=None):
+    return predict_shared_model_row(build_model_feature_row(raw_features, context_features), model)
 
 
-def fit_models(rows, mode="baseline", feature_spec=DEFAULT_FEATURE_SPEC, neighbor_count=None, bandwidth=None, seed_key="fit"):
+def fit_models(rows, mode="baseline", feature_spec_key=DEFAULT_FEATURE_SPEC, neighbor_count=None, bandwidth=None, seed_key="fit"):
     if mode == "hybrid" and neighbor_count and bandwidth:
-        return build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=feature_spec)
+        return build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=feature_spec_key)
     if mode == "random_forest":
-        return fit_random_forest_model(rows, seed_key=seed_key, spec_key=feature_spec)
+        forest_spec = feature_spec(feature_spec_key)
+        return fit_random_forest_model(
+            rows,
+            {
+                "id": f"forest:{feature_spec_key}",
+                "label": forest_spec["label"],
+                "featureKeys": forest_spec["featureKeys"],
+            },
+            seed_key=seed_key,
+        )
 
-    baseline = fit_baseline_models(rows, spec_key=feature_spec)
+    baseline = fit_baseline_models(rows, spec_key=feature_spec_key)
     return {
         "type": "ridge_regression",
         "modelLabel": baseline["modelLabel"],
@@ -1468,7 +1548,7 @@ def predict_models(raw_features, regression):
 
 
 def estimate_max_sigma(rows, model):
-    residuals = [row["catchMax"] - predict_neural_row(row, model)["predictedMax"] for row in rows]
+    residuals = [row["catchMax"] - predict_shared_model_row(row, model)["predictedMax"] for row in rows]
     squared = sum(value * value for value in residuals) / len(residuals)
     return round(max(math.sqrt(squared), 0.35), 4)
 
@@ -1516,7 +1596,7 @@ def evaluate_neural_config(train_rows, validation_rows, config, seed_key):
     weighted_errors = []
     yy_points = []
     for row in validation_rows:
-        prediction = predict_neural_model(row, model)
+        prediction = predict_shared_model_row(row, model)
         min_errors.append(abs(prediction["predictedMin"] - row["catchMin"]))
         max_errors.append(abs(prediction["predictedMax"] - row["catchMax"]))
         weighted_errors.append(weighted_error(prediction, row))
@@ -1729,33 +1809,37 @@ def build_global_model_candidates(model_space):
     profile_keys = list(GLOBAL_CONTEXT_PROFILE_KEYS)
     ship_keys = list(model_space["shipFeatureKeys"])
     species_keys = list(model_space["speciesFeatureKeys"])
+    rich_context_keys = [*NEURAL_FEATURE_SETS["rich"]["featureKeys"], *profile_keys, *ship_keys, *species_keys]
     return (
         {
-            "id": "shared_profile_18x10",
-            "feature_set": "extended",
-            "featureKeys": [*NEURAL_FEATURE_SETS["extended"]["featureKeys"], *profile_keys],
-            "hidden_sizes": (18, 10),
-            "epochs": 260,
-            "learning_rate": 0.022,
-            "weight_decay": 0.001,
-        },
-        {
-            "id": "shared_context_24x12",
+            "id": "balanced_context_nn_48x24",
+            "modelType": "neural_network",
             "feature_set": "extended",
             "featureKeys": [*NEURAL_FEATURE_SETS["extended"]["featureKeys"], *profile_keys, *ship_keys, *species_keys],
-            "hidden_sizes": (24, 12),
-            "epochs": 320,
-            "learning_rate": 0.018,
-            "weight_decay": 0.0011,
+            "hidden_sizes": (48, 24),
+            "epochs": 220,
+            "learning_rate": 0.011,
+            "weight_decay": 0.00035,
         },
         {
-            "id": "shared_context_rich_32x16",
+            "id": "balanced_context_nn_72x36",
+            "modelType": "neural_network",
             "feature_set": "rich",
-            "featureKeys": [*NEURAL_FEATURE_SETS["rich"]["featureKeys"], *profile_keys, *ship_keys, *species_keys],
-            "hidden_sizes": (32, 16),
-            "epochs": 420,
-            "learning_rate": 0.014,
-            "weight_decay": 0.0014,
+            "featureKeys": rich_context_keys,
+            "hidden_sizes": (72, 36),
+            "epochs": 360,
+            "learning_rate": 0.0085,
+            "weight_decay": 0.00008,
+        },
+        {
+            "id": "balanced_context_rf_8",
+            "modelType": "random_forest",
+            "label": "ランダムフォレスト",
+            "featureKeys": rich_context_keys,
+            "tree_count": 8,
+            "max_depth": 6,
+            "min_leaf": 2,
+            "max_features": 8,
         },
     )
 
@@ -1796,38 +1880,75 @@ def build_evaluation_summary(points):
     }
 
 
+def summarize_context_evaluations(summaries):
+    summaries = [summary for summary in summaries if summary]
+    if not summaries:
+        return None
+    scores = [summary["score"] for summary in summaries]
+    return {
+        "contexts": len(summaries),
+        "score": round(sum(scores) / len(scores), 3),
+        "minMae": round(sum(summary["minMae"] for summary in summaries) / len(summaries), 3),
+        "maxMae": round(sum(summary["maxMae"] for summary in summaries) / len(summaries), 3),
+        "worstScore": round(max(scores), 3),
+        "p85Score": round(quantile(scores, 0.85), 3),
+    }
+
+
+def fit_global_model(rows, config, seed_key, sample_weights=None):
+    if config["modelType"] == "neural_network":
+        return fit_neural_model(rows, config, seed_key=seed_key, sample_weights=sample_weights)
+    if config["modelType"] == "random_forest":
+        return fit_random_forest_model(rows, config, seed_key=seed_key, sample_weights=sample_weights)
+    raise RuntimeError(f'Unsupported model config type: {config["modelType"]}')
+
+
 def select_global_model_config(contexts, model_space):
     candidates = build_global_model_candidates(model_space)
-    _, train_rows, validation_rows = split_global_training_rows(contexts)
+    split_contexts, train_rows, validation_rows = split_global_training_rows(contexts)
     if not validation_rows:
         return candidates[0]
 
     best_config = None
     best_summary = None
     for config in candidates:
-        model = fit_neural_model(train_rows, config, seed_key=f'global:{config["id"]}:selection')
-        points = []
-        for row in validation_rows:
-            prediction = predict_neural_row(row, model)
-            points.append(
-                {
+        row_weights = compute_balanced_row_weights(train_rows)
+        model = fit_global_model(train_rows, config, seed_key=f'global:{config["id"]}:selection', sample_weights=row_weights)
+        context_summaries = []
+        all_points = []
+        for context in split_contexts:
+            points = []
+            for row in context["validationRows"]:
+                prediction = predict_shared_model_row(row, model)
+                point = {
                     "actualMin": round(row["catchMin"], 2),
                     "predictedMin": prediction["predictedMin"],
                     "actualMax": round(row["catchMax"], 2),
                     "predictedMax": prediction["predictedMax"],
                 }
-            )
-        summary = build_evaluation_summary(points)
-        if summary is None:
+                points.append(point)
+                all_points.append(point)
+            context_summaries.append(build_evaluation_summary(points))
+        balanced_summary = summarize_context_evaluations(context_summaries)
+        global_summary = build_evaluation_summary(all_points)
+        if balanced_summary is None or global_summary is None:
             continue
+        summary = {
+            "balanced": balanced_summary,
+            "global": global_summary,
+        }
         if best_summary is None or (
-            summary["score"],
-            summary["maxMae"],
-            summary["minMae"],
+            summary["balanced"]["score"],
+            summary["balanced"]["p85Score"],
+            summary["balanced"]["worstScore"],
+            summary["global"]["score"],
+            summary["global"]["maxMae"],
         ) < (
-            best_summary["score"],
-            best_summary["maxMae"],
-            best_summary["minMae"],
+            best_summary["balanced"]["score"],
+            best_summary["balanced"]["p85Score"],
+            best_summary["balanced"]["worstScore"],
+            best_summary["global"]["score"],
+            best_summary["global"]["maxMae"],
         ):
             best_config = config
             best_summary = summary
@@ -1839,14 +1960,15 @@ def build_global_evaluations(contexts, config):
     if not train_rows:
         return {}, {}
 
-    evaluation_model = fit_neural_model(train_rows, config, seed_key=f'global:{config["id"]}:evaluation')
+    row_weights = compute_balanced_row_weights(train_rows)
+    evaluation_model = fit_global_model(train_rows, config, seed_key=f'global:{config["id"]}:evaluation', sample_weights=row_weights)
     ship_evaluations = {}
     aggregate_groups = {}
 
     for context in split_contexts:
         yy_points = []
         for row in context["validationRows"]:
-            prediction = predict_neural_row(row, evaluation_model)
+            prediction = predict_shared_model_row(row, evaluation_model)
             point = {
                 "date": row["date"].isoformat(),
                 "actualMin": round(row["catchMin"], 2),
@@ -1918,7 +2040,7 @@ def build_ship_payloads(ship_meta, daily_reports, ship_species_contexts, today, 
                 "seaTemp": resolved["sea_surface_temperature_mean"],
                 "moonAge": moon_age_for(current_day),
             }
-            prediction = predict_neural_model(raw_features, global_model, context["contextFeatures"])
+            prediction = predict_shared_model(raw_features, global_model, context["contextFeatures"])
             prior_year_day = same_day_last_year(current_day)
             observed_row = observed_by_date.get(prior_year_day)
             future_predictions.append(
@@ -2097,7 +2219,7 @@ def build_aggregate_payloads(ship_species_contexts, today, global_model, aggrega
                     "seaTemp": resolved["sea_surface_temperature_mean"],
                     "moonAge": current_moon_age,
                 }
-                prediction = predict_neural_model(raw_features, global_model, context["contextFeatures"])
+                prediction = predict_shared_model(raw_features, global_model, context["contextFeatures"])
                 ship_predictions.append(
                     {
                         "prediction": prediction,
@@ -2329,7 +2451,12 @@ def main():
     global_model_config = select_global_model_config(ship_species_contexts, model_space)
     ship_evaluations, aggregate_evaluations = build_global_evaluations(ship_species_contexts, global_model_config)
     global_training_rows = [row for context in ship_species_contexts for row in context["modelRows"]]
-    global_model = fit_neural_model(global_training_rows, global_model_config, seed_key=f'global:{global_model_config["id"]}:final')
+    global_model = fit_global_model(
+        global_training_rows,
+        global_model_config,
+        seed_key=f'global:{global_model_config["id"]}:final',
+        sample_weights=compute_balanced_row_weights(global_training_rows),
+    )
 
     all_catalog_ships = []
     all_payloads = []

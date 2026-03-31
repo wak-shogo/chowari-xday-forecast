@@ -1,4 +1,4 @@
-const APP_VERSION = "20260331-fix1";
+const APP_VERSION = "20260401-balanced1";
 
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
@@ -426,6 +426,10 @@ function estimateNeighborResiduals(scaled, featureKeys, neighbor) {
   };
 }
 
+function buildModelFeatureMap(rawFeatures, contextFeatures = {}) {
+  return { ...buildFeatureMap(rawFeatures), ...contextFeatures };
+}
+
 function predictTree(tree, featureRow) {
   let node = tree;
   while (node && node.v === undefined) {
@@ -434,10 +438,10 @@ function predictTree(tree, featureRow) {
   return node && node.v !== undefined ? node.v : 0;
 }
 
-function predictForest(rawFeatures, regression) {
-  const featureMap = buildFeatureMap(rawFeatures);
+function predictForest(rawFeatures, regression, contextFeatures = {}) {
+  const featureMap = buildModelFeatureMap(rawFeatures, contextFeatures);
   const featureKeys = regression.forest ? regression.forest.featureKeys : [];
-  const featureRow = featureKeys.map((key) => featureMap[key]);
+  const featureRow = featureKeys.map((key) => (featureMap[key] !== undefined ? featureMap[key] : 0));
   const minTrees = regression.forest ? regression.forest.catchMin : [];
   const maxTrees = regression.forest ? regression.forest.catchMax : [];
   const minScore = minTrees.reduce((sum, tree) => sum + predictTree(tree, featureRow), 0) / Math.max(minTrees.length, 1);
@@ -446,7 +450,7 @@ function predictForest(rawFeatures, regression) {
 }
 
 function buildNeuralInput(rawFeatures, model, contextFeatures = {}) {
-  const featureMap = { ...buildFeatureMap(rawFeatures), ...contextFeatures };
+  const featureMap = buildModelFeatureMap(rawFeatures, contextFeatures);
   const featureKeys = model.input ? model.input.featureKeys : [];
   return featureKeys.map((key) => (((featureMap[key] !== undefined ? featureMap[key] : 0) - model.input.means[key]) / model.input.scales[key]));
 }
@@ -486,9 +490,21 @@ function simulate(rawFeatures, payload) {
       predictedMax = prediction.predictedMax;
     }
   } else if (model.type === "random_forest") {
-    const forestPrediction = predictForest(rawFeatures, model);
-    predictedMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
-    predictedMax = Math.max(predictedMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
+    const aggregateContexts = payload.aggregate && Array.isArray(payload.aggregate.modelContexts) ? payload.aggregate.modelContexts : [];
+    if (payload.scope && payload.scope.mode === "aggregate" && aggregateContexts.length) {
+      const predictions = aggregateContexts.map((context) => {
+        const forestPrediction = predictForest(rawFeatures, model, context.contextFeatures || {});
+        const contextMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
+        const contextMax = Math.max(contextMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
+        return { predictedMin: contextMin, predictedMax: contextMax };
+      });
+      predictedMin = predictions.reduce((sum, item) => sum + item.predictedMin, 0) / Math.max(predictions.length, 1);
+      predictedMax = predictions.reduce((sum, item) => sum + item.predictedMax, 0) / Math.max(predictions.length, 1);
+    } else {
+      const forestPrediction = predictForest(rawFeatures, model, payload.contextFeatures || {});
+      predictedMin = clamp(Math.expm1(forestPrediction.minScore), 0, model.countCeiling);
+      predictedMax = Math.max(predictedMin, clamp(Math.expm1(forestPrediction.maxScore), 0, model.countCeiling));
+    }
   } else {
     const { scaled, basis } = buildBasis(rawFeatures, model);
     let minScore = dot(model.baseline.catchMin.weights, basis);
