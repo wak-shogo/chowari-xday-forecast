@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-31 15:15 JST",
+  "generatedAt": "2026-03-31 21:47 JST",
   "today": "2026-03-31",
   "scope": {
     "mode": "ship",
@@ -385,24 +385,552 @@
     "validationRows": 28,
     "minMae": 2.415,
     "maxMae": 5.177,
-    "modelType": "近傍補正つき"
+    "score": 6.022,
+    "modelType": "近傍補正つき重回帰",
+    "moonFeature": "月齢 1次 sin/cos",
+    "yyPoints": [
+      {
+        "date": "2025-05-18",
+        "actualMin": 0.0,
+        "predictedMin": 0.94,
+        "actualMax": 4.0,
+        "predictedMax": 4.77
+      },
+      {
+        "date": "2025-06-07",
+        "actualMin": 0.0,
+        "predictedMin": 0.26,
+        "actualMax": 2.0,
+        "predictedMax": 3.01
+      },
+      {
+        "date": "2025-06-18",
+        "actualMin": 0.0,
+        "predictedMin": 2.07,
+        "actualMax": 7.0,
+        "predictedMax": 14.21
+      },
+      {
+        "date": "2025-07-01",
+        "actualMin": 6.0,
+        "predictedMin": 1.99,
+        "actualMax": 12.0,
+        "predictedMax": 11.91
+      },
+      {
+        "date": "2025-07-03",
+        "actualMin": 2.0,
+        "predictedMin": 2.3,
+        "actualMax": 17.0,
+        "predictedMax": 13.68
+      },
+      {
+        "date": "2025-07-05",
+        "actualMin": 3.0,
+        "predictedMin": 2.86,
+        "actualMax": 21.0,
+        "predictedMax": 14.61
+      },
+      {
+        "date": "2025-07-26",
+        "actualMin": 2.0,
+        "predictedMin": 1.73,
+        "actualMax": 20.0,
+        "predictedMax": 13.85
+      },
+      {
+        "date": "2025-07-28",
+        "actualMin": 5.0,
+        "predictedMin": 2.28,
+        "actualMax": 25.0,
+        "predictedMax": 15.52
+      },
+      {
+        "date": "2025-08-17",
+        "actualMin": 2.0,
+        "predictedMin": 3.73,
+        "actualMax": 23.0,
+        "predictedMax": 20.91
+      },
+      {
+        "date": "2025-08-19",
+        "actualMin": 7.0,
+        "predictedMin": 3.16,
+        "actualMax": 16.0,
+        "predictedMax": 19.61
+      },
+      {
+        "date": "2025-08-21",
+        "actualMin": 3.0,
+        "predictedMin": 2.36,
+        "actualMax": 15.0,
+        "predictedMax": 16.31
+      },
+      {
+        "date": "2025-08-30",
+        "actualMin": 3.0,
+        "predictedMin": 2.75,
+        "actualMax": 18.0,
+        "predictedMax": 21.07
+      },
+      {
+        "date": "2025-09-03",
+        "actualMin": 2.0,
+        "predictedMin": 2.26,
+        "actualMax": 20.0,
+        "predictedMax": 12.71
+      },
+      {
+        "date": "2025-09-07",
+        "actualMin": 0.0,
+        "predictedMin": 3.0,
+        "actualMax": 11.0,
+        "predictedMax": 15.2
+      },
+      {
+        "date": "2025-09-08",
+        "actualMin": 11.0,
+        "predictedMin": 3.48,
+        "actualMax": 24.0,
+        "predictedMax": 17.52
+      },
+      {
+        "date": "2025-09-18",
+        "actualMin": 1.0,
+        "predictedMin": 3.46,
+        "actualMax": 8.0,
+        "predictedMax": 20.14
+      },
+      {
+        "date": "2025-09-23",
+        "actualMin": 0.0,
+        "predictedMin": 3.78,
+        "actualMax": 11.0,
+        "predictedMax": 19.75
+      },
+      {
+        "date": "2025-10-02",
+        "actualMin": 2.0,
+        "predictedMin": 3.51,
+        "actualMax": 13.0,
+        "predictedMax": 15.14
+      },
+      {
+        "date": "2025-10-05",
+        "actualMin": 7.0,
+        "predictedMin": 3.14,
+        "actualMax": 16.0,
+        "predictedMax": 14.34
+      },
+      {
+        "date": "2025-10-20",
+        "actualMin": 16.0,
+        "predictedMin": 3.89,
+        "actualMax": 23.0,
+        "predictedMax": 24.86
+      },
+      {
+        "date": "2025-10-21",
+        "actualMin": 15.0,
+        "predictedMin": 5.67,
+        "actualMax": 27.0,
+        "predictedMax": 27.96
+      },
+      {
+        "date": "2025-10-26",
+        "actualMin": 1.0,
+        "predictedMin": 1.31,
+        "actualMax": 26.0,
+        "predictedMax": 9.2
+      },
+      {
+        "date": "2025-10-27",
+        "actualMin": 2.0,
+        "predictedMin": 1.3,
+        "actualMax": 24.0,
+        "predictedMax": 7.98
+      },
+      {
+        "date": "2025-10-28",
+        "actualMin": 0.0,
+        "predictedMin": 1.6,
+        "actualMax": 15.0,
+        "predictedMax": 8.93
+      },
+      {
+        "date": "2025-11-03",
+        "actualMin": 1.0,
+        "predictedMin": 0.72,
+        "actualMax": 10.0,
+        "predictedMax": 7.05
+      },
+      {
+        "date": "2025-11-06",
+        "actualMin": 0.0,
+        "predictedMin": 0.57,
+        "actualMax": 10.0,
+        "predictedMax": 6.73
+      },
+      {
+        "date": "2025-11-10",
+        "actualMin": 3.0,
+        "predictedMin": 0.74,
+        "actualMax": 12.0,
+        "predictedMax": 8.84
+      },
+      {
+        "date": "2025-11-12",
+        "actualMin": 2.0,
+        "predictedMin": 1.1,
+        "actualMax": 5.0,
+        "predictedMax": 11.71
+      }
+    ],
+    "candidates": [
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.022,
+        "validationRows": 28,
+        "minMae": 2.415,
+        "maxMae": 5.177
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.025,
+        "validationRows": 28,
+        "minMae": 2.415,
+        "maxMae": 5.179
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.068,
+        "validationRows": 28,
+        "minMae": 2.419,
+        "maxMae": 5.221
+      },
+      {
+        "selected": false,
+        "modelType": "重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.096,
+        "validationRows": 28,
+        "minMae": 2.572,
+        "maxMae": 5.196
+      },
+      {
+        "selected": false,
+        "modelType": "重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.17,
+        "validationRows": 28,
+        "minMae": 2.425,
+        "maxMae": 5.321
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.196,
+        "validationRows": 28,
+        "minMae": 2.433,
+        "maxMae": 5.344
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.257,
+        "validationRows": 28,
+        "minMae": 2.443,
+        "maxMae": 5.401
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.266,
+        "validationRows": 28,
+        "minMae": 2.647,
+        "maxMae": 5.34
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.267,
+        "validationRows": 28,
+        "minMae": 2.551,
+        "maxMae": 5.374
+      },
+      {
+        "selected": false,
+        "modelType": "ランダムフォレスト",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.268,
+        "validationRows": 28,
+        "minMae": 2.599,
+        "maxMae": 5.358
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.27,
+        "validationRows": 28,
+        "minMae": 2.501,
+        "maxMae": 5.395
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.273,
+        "validationRows": 28,
+        "minMae": 2.448,
+        "maxMae": 5.416
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.275,
+        "validationRows": 28,
+        "minMae": 2.516,
+        "maxMae": 5.394
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.275,
+        "validationRows": 28,
+        "minMae": 2.451,
+        "maxMae": 5.417
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.278,
+        "validationRows": 28,
+        "minMae": 2.438,
+        "maxMae": 5.425
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.284,
+        "validationRows": 28,
+        "minMae": 2.648,
+        "maxMae": 5.358
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.286,
+        "validationRows": 28,
+        "minMae": 2.653,
+        "maxMae": 5.358
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.286,
+        "validationRows": 28,
+        "minMae": 2.438,
+        "maxMae": 5.433
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.292,
+        "validationRows": 28,
+        "minMae": 2.465,
+        "maxMae": 5.43
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.295,
+        "validationRows": 28,
+        "minMae": 2.544,
+        "maxMae": 5.404
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.297,
+        "validationRows": 28,
+        "minMae": 2.554,
+        "maxMae": 5.403
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.305,
+        "validationRows": 28,
+        "minMae": 2.437,
+        "maxMae": 5.452
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.306,
+        "validationRows": 28,
+        "minMae": 2.647,
+        "maxMae": 5.38
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.308,
+        "validationRows": 28,
+        "minMae": 2.449,
+        "maxMae": 5.451
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.321,
+        "validationRows": 28,
+        "minMae": 2.458,
+        "maxMae": 5.461
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.338,
+        "validationRows": 28,
+        "minMae": 2.551,
+        "maxMae": 5.445
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.338,
+        "validationRows": 28,
+        "minMae": 2.458,
+        "maxMae": 5.478
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.339,
+        "validationRows": 28,
+        "minMae": 2.624,
+        "maxMae": 5.42
+      },
+      {
+        "selected": true,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.342,
+        "validationRows": 28,
+        "minMae": 2.448,
+        "maxMae": 5.485
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次 sin/cos",
+        "score": 6.347,
+        "validationRows": 28,
+        "minMae": 2.46,
+        "maxMae": 5.486
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.349,
+        "validationRows": 28,
+        "minMae": 2.547,
+        "maxMae": 5.457
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.363,
+        "validationRows": 28,
+        "minMae": 2.615,
+        "maxMae": 5.448
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.368,
+        "validationRows": 28,
+        "minMae": 2.529,
+        "maxMae": 5.482
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.378,
+        "validationRows": 28,
+        "minMae": 2.614,
+        "maxMae": 5.463
+      },
+      {
+        "selected": false,
+        "modelType": "近傍補正つき重回帰",
+        "moonFeature": "月齢 1次+2次 sin/cos",
+        "score": 6.386,
+        "validationRows": 28,
+        "minMae": 2.531,
+        "maxMae": 5.5
+      }
+    ]
   },
   "regression": {
     "type": "hybrid_kernel_residual",
-    "featureTerms": [
-      "intercept",
-      "airTemp",
-      "seaTemp",
-      "moonSin",
-      "moonCos",
-      "airTemp*seaTemp",
-      "airTemp*moonSin",
-      "airTemp*moonCos",
-      "seaTemp*moonSin",
-      "seaTemp*moonCos",
-      "airTemp^2",
-      "seaTemp^2"
-    ],
+    "modelLabel": "近傍補正つき重回帰",
+    "featureSpec": {
+      "key": "harmonic1",
+      "label": "月齢 1次 sin/cos",
+      "featureKeys": [
+        "airTemp",
+        "seaTemp",
+        "moonSin",
+        "moonCos"
+      ],
+      "basisTerms": [
+        "intercept",
+        "airTemp",
+        "seaTemp",
+        "moonSin",
+        "moonCos",
+        "airTemp*seaTemp",
+        "airTemp*moonSin",
+        "airTemp*moonCos",
+        "seaTemp*moonSin",
+        "seaTemp*moonCos",
+        "airTemp^2",
+        "seaTemp^2"
+      ]
+    },
     "stats": {
       "means": {
         "airTemp": 23.69292,
@@ -456,6 +984,12 @@
     },
     "neighbor": {
       "type": "gaussian_knn_residual",
+      "featureKeys": [
+        "airTemp",
+        "seaTemp",
+        "moonSin",
+        "moonCos"
+      ],
       "neighborCount": 12,
       "bandwidth": 1.8,
       "priorWeight": 1.0,
@@ -1655,8 +2189,8 @@
     {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 0.4,
-      "airTemp": 15.1,
+      "predictedMax": 0.41,
+      "airTemp": 14.7,
       "seaTemp": 15.6,
       "moonAge": 13.83,
       "featureSource": "forecast",
@@ -1669,8 +2203,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 0.53,
-      "airTemp": 12.2,
+      "predictedMax": 0.54,
+      "airTemp": 12.0,
       "seaTemp": 15.4,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -1684,7 +2218,7 @@
       "date": "2026-04-03",
       "predictedMin": 0.0,
       "predictedMax": 0.72,
-      "airTemp": 14.0,
+      "airTemp": 14.1,
       "seaTemp": 15.4,
       "moonAge": 15.83,
       "featureSource": "forecast",
@@ -1698,7 +2232,7 @@
       "date": "2026-04-04",
       "predictedMin": 0.0,
       "predictedMax": 1.05,
-      "airTemp": 15.8,
+      "airTemp": 16.1,
       "seaTemp": 15.5,
       "moonAge": 16.83,
       "featureSource": "forecast",
@@ -1711,9 +2245,9 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 1.33,
-      "airTemp": 17.5,
-      "seaTemp": 15.6,
+      "predictedMax": 1.41,
+      "airTemp": 17.4,
+      "seaTemp": 15.7,
       "moonAge": 17.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1739,9 +2273,9 @@
     {
       "date": "2026-04-07",
       "predictedMin": 0.0,
-      "predictedMax": 2.6,
-      "airTemp": 16.1,
-      "seaTemp": 16.1,
+      "predictedMax": 2.48,
+      "airTemp": 16.4,
+      "seaTemp": 16.0,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1753,8 +2287,8 @@
     {
       "date": "2026-04-08",
       "predictedMin": 0.0,
-      "predictedMax": 3.56,
-      "airTemp": 14.5,
+      "predictedMax": 3.46,
+      "airTemp": 15.8,
       "seaTemp": 16.4,
       "moonAge": 20.83,
       "featureSource": "forecast",
@@ -1766,10 +2300,10 @@
     },
     {
       "date": "2026-04-09",
-      "predictedMin": 0.26,
-      "predictedMax": 4.5,
-      "airTemp": 16.8,
-      "seaTemp": 16.96,
+      "predictedMin": 0.1,
+      "predictedMax": 3.54,
+      "airTemp": 17.5,
+      "seaTemp": 16.3,
       "moonAge": 21.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1780,9 +2314,9 @@
     },
     {
       "date": "2026-04-10",
-      "predictedMin": 0.37,
-      "predictedMax": 5.15,
-      "airTemp": 16.4,
+      "predictedMin": 0.38,
+      "predictedMax": 4.62,
+      "airTemp": 18.4,
       "seaTemp": 17.07,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -1795,8 +2329,8 @@
     {
       "date": "2026-04-11",
       "predictedMin": 0.46,
-      "predictedMax": 5.37,
-      "airTemp": 17.3,
+      "predictedMax": 5.49,
+      "airTemp": 16.6,
       "seaTemp": 17.16,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -1808,9 +2342,9 @@
     },
     {
       "date": "2026-04-12",
-      "predictedMin": 0.48,
-      "predictedMax": 4.92,
-      "airTemp": 19.5,
+      "predictedMin": 0.46,
+      "predictedMax": 5.25,
+      "airTemp": 18.0,
       "seaTemp": 17.25,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -1822,9 +2356,9 @@
     },
     {
       "date": "2026-04-13",
-      "predictedMin": 0.45,
-      "predictedMax": 5.68,
-      "airTemp": 15.7,
+      "predictedMin": 0.44,
+      "predictedMax": 5.64,
+      "airTemp": 15.9,
       "seaTemp": 17.33,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -1837,8 +2371,8 @@
     {
       "date": "2026-04-14",
       "predictedMin": 0.42,
-      "predictedMax": 5.35,
-      "airTemp": 16.4,
+      "predictedMax": 5.27,
+      "airTemp": 16.7,
       "seaTemp": 17.43,
       "moonAge": 26.83,
       "featureSource": "forecast",

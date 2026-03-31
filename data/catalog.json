@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-31 15:16 JST",
+  "generatedAt": "2026-03-31 21:47 JST",
   "today": "2026-03-31",
   "ships": [
     {
@@ -212,28 +212,28 @@
           "file": "data/payloads/00300-ec7802d9eb92.json"
         },
         {
-          "id": "892c5644f8e1",
-          "label": "マダイ",
-          "unit": "匹",
-          "positiveDays": 7,
-          "tripDays": 7,
-          "file": "data/payloads/00300-892c5644f8e1.json"
-        },
-        {
           "id": "56ff906f47f5",
           "label": "アマダイ",
           "unit": "匹",
-          "positiveDays": 5,
-          "tripDays": 5,
+          "positiveDays": 8,
+          "tripDays": 8,
           "file": "data/payloads/00300-56ff906f47f5.json"
         },
         {
           "id": "ec785c6eaad0",
           "label": "マゴチ",
           "unit": "匹",
-          "positiveDays": 4,
-          "tripDays": 4,
+          "positiveDays": 6,
+          "tripDays": 6,
           "file": "data/payloads/00300-ec785c6eaad0.json"
+        },
+        {
+          "id": "892c5644f8e1",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 5,
+          "file": "data/payloads/00300-892c5644f8e1.json"
         }
       ]
     },
@@ -484,16 +484,16 @@
           "id": "2e345587ee6c",
           "label": "アジ",
           "unit": "匹",
-          "positiveDays": 27,
-          "tripDays": 27,
+          "positiveDays": 25,
+          "tripDays": 25,
           "file": "data/payloads/00007-2e345587ee6c.json"
         },
         {
           "id": "5fed4093d120",
           "label": "シロギス",
           "unit": "匹",
-          "positiveDays": 20,
-          "tripDays": 20,
+          "positiveDays": 21,
+          "tripDays": 21,
           "file": "data/payloads/00007-5fed4093d120.json"
         },
         {
@@ -661,8 +661,8 @@
       "label": "アジ",
       "unit": "匹",
       "shipCount": 11,
-      "positiveDays": 363,
-      "tripDays": 363,
+      "positiveDays": 361,
+      "tripDays": 361,
       "file": "data/payloads/aggregate-9c3136e8781b.json"
     },
     {
@@ -670,8 +670,8 @@
       "label": "マダイ",
       "unit": "匹",
       "shipCount": 8,
-      "positiveDays": 85,
-      "tripDays": 85,
+      "positiveDays": 83,
+      "tripDays": 83,
       "file": "data/payloads/aggregate-e7c6d295d5dc.json"
     },
     {
@@ -706,8 +706,8 @@
       "label": "アマダイ",
       "unit": "匹",
       "shipCount": 5,
-      "positiveDays": 40,
-      "tripDays": 40,
+      "positiveDays": 43,
+      "tripDays": 43,
       "file": "data/payloads/aggregate-31e65f657986.json"
     },
     {
@@ -715,8 +715,8 @@
       "label": "シロギス",
       "unit": "匹",
       "shipCount": 4,
-      "positiveDays": 68,
-      "tripDays": 68,
+      "positiveDays": 69,
+      "tripDays": 69,
       "file": "data/payloads/aggregate-6db9aea043be.json"
     },
     {
@@ -760,8 +760,8 @@
       "label": "マゴチ",
       "unit": "匹",
       "shipCount": 2,
-      "positiveDays": 24,
-      "tripDays": 24,
+      "positiveDays": 26,
+      "tripDays": 26,
       "file": "data/payloads/aggregate-fdbad719f522.json"
     },
     {

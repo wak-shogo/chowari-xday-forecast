@@ -1,6 +1,7 @@
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
 const maxChart = document.getElementById("maxChart");
+const yyChart = document.getElementById("yyChart");
 const surfaceMap = document.getElementById("surfaceMap");
 const surfaceTooltip = document.getElementById("surfaceTooltip");
 
@@ -12,6 +13,8 @@ const speciesSelect = document.getElementById("speciesSelect");
 const observedSort = document.getElementById("observedSort");
 const rankingPanel = document.getElementById("rankingPanel");
 const rankingList = document.getElementById("rankingList");
+const evaluationPanel = document.getElementById("evaluationPanel");
+const candidateList = document.getElementById("candidateList");
 
 const simulatorNodes = {
   airTemp: {
@@ -288,22 +291,50 @@ function drawAmountChart(canvas, payload, field, observedField, color, fillColor
   chartState.set(canvas.id, geometry);
 }
 
-function buildBasis(rawFeatures, regression) {
-  const stats = regression.stats;
+function buildFeatureMap(rawFeatures) {
   const angle = (rawFeatures.moonAge / 29.53058867) * Math.PI * 2;
-  const scaled = {
-    airTemp: (rawFeatures.airTemp - stats.means.airTemp) / stats.scales.airTemp,
-    seaTemp: (rawFeatures.seaTemp - stats.means.seaTemp) / stats.scales.seaTemp,
-    moonSin: (Math.sin(angle) - stats.means.moonSin) / stats.scales.moonSin,
-    moonCos: (Math.cos(angle) - stats.means.moonCos) / stats.scales.moonCos,
+  return {
+    airTemp: rawFeatures.airTemp,
+    seaTemp: rawFeatures.seaTemp,
+    moonAge: rawFeatures.moonAge,
+    moonSin: Math.sin(angle),
+    moonCos: Math.cos(angle),
+    moonSin2: Math.sin(angle * 2),
+    moonCos2: Math.cos(angle * 2),
   };
-  const air = scaled.airTemp;
-  const sea = scaled.seaTemp;
-  const moonSin = scaled.moonSin;
-  const moonCos = scaled.moonCos;
+}
+
+function buildScaledFeatures(rawFeatures, regression) {
+  const featureMap = buildFeatureMap(rawFeatures);
+  const featureKeys = regression.featureSpec ? regression.featureSpec.featureKeys : [];
+  const scaled = {};
+  featureKeys.forEach((key) => {
+    scaled[key] = (featureMap[key] - regression.stats.means[key]) / regression.stats.scales[key];
+  });
+  return { featureMap, scaled };
+}
+
+function evaluateBasisTerm(term, scaled) {
+  if (term === "intercept") {
+    return 1;
+  }
+  if (term.endsWith("^2")) {
+    const key = term.slice(0, -2);
+    return scaled[key] * scaled[key];
+  }
+  if (term.includes("*")) {
+    const [left, right] = term.split("*");
+    return scaled[left] * scaled[right];
+  }
+  return scaled[term];
+}
+
+function buildBasis(rawFeatures, regression) {
+  const { scaled } = buildScaledFeatures(rawFeatures, regression);
+  const basisTerms = regression.featureSpec ? regression.featureSpec.basisTerms : [];
   return {
     scaled,
-    basis: [1, air, sea, moonSin, moonCos, air * sea, air * moonSin, air * moonCos, sea * moonSin, sea * moonCos, air * air, sea * sea],
+    basis: basisTerms.map((term) => evaluateBasisTerm(term, scaled)),
   };
 }
 
@@ -319,12 +350,12 @@ function weightedAverage(pairs) {
   return pairs.reduce((sum, [weight, value]) => sum + weight * value, 0) / totalWeight;
 }
 
-function estimateNeighborResiduals(scaled, neighbor) {
+function estimateNeighborResiduals(scaled, featureKeys, neighbor) {
   if (!neighbor || !Array.isArray(neighbor.support) || !neighbor.support.length) {
     return { minResidual: 0, maxResidual: 0 };
   }
 
-  const vector = [scaled.airTemp, scaled.seaTemp, scaled.moonSin, scaled.moonCos];
+  const vector = featureKeys.map((key) => scaled[key]);
   const ranked = neighbor.support
     .map((item) => {
       const distanceSq = item.vector.reduce((sum, value, index) => sum + (vector[index] - value) ** 2, 0);
@@ -345,14 +376,43 @@ function estimateNeighborResiduals(scaled, neighbor) {
   };
 }
 
+function predictTree(tree, featureRow) {
+  let node = tree;
+  while (node && node.v === undefined) {
+    node = featureRow[node.f] <= node.t ? node.l : node.r;
+  }
+  return node && node.v !== undefined ? node.v : 0;
+}
+
+function predictForest(rawFeatures, regression) {
+  const featureMap = buildFeatureMap(rawFeatures);
+  const featureKeys = regression.forest ? regression.forest.featureKeys : [];
+  const featureRow = featureKeys.map((key) => featureMap[key]);
+  const minTrees = regression.forest ? regression.forest.catchMin : [];
+  const maxTrees = regression.forest ? regression.forest.catchMax : [];
+  const minScore = minTrees.reduce((sum, tree) => sum + predictTree(tree, featureRow), 0) / Math.max(minTrees.length, 1);
+  const maxScore = maxTrees.reduce((sum, tree) => sum + predictTree(tree, featureRow), 0) / Math.max(maxTrees.length, 1);
+  return { minScore, maxScore };
+}
+
 function simulate(rawFeatures, payload) {
   const regression = payload.regression;
-  const { scaled, basis } = buildBasis(rawFeatures, regression);
-  let minScore = dot(regression.baseline.catchMin.weights, basis);
-  let maxScore = dot(regression.baseline.catchMax.weights, basis);
-  const neighborResiduals = estimateNeighborResiduals(scaled, regression.neighbor);
-  minScore += neighborResiduals.minResidual;
-  maxScore += neighborResiduals.maxResidual;
+  let minScore = 0;
+  let maxScore = 0;
+
+  if (regression.type === "random_forest") {
+    const forestPrediction = predictForest(rawFeatures, regression);
+    minScore = forestPrediction.minScore;
+    maxScore = forestPrediction.maxScore;
+  } else {
+    const { scaled, basis } = buildBasis(rawFeatures, regression);
+    minScore = dot(regression.baseline.catchMin.weights, basis);
+    maxScore = dot(regression.baseline.catchMax.weights, basis);
+    const featureKeys = regression.featureSpec ? regression.featureSpec.featureKeys : [];
+    const neighborResiduals = estimateNeighborResiduals(scaled, featureKeys, regression.neighbor);
+    minScore += neighborResiduals.minResidual;
+    maxScore += neighborResiduals.maxResidual;
+  }
 
   const predictedMin = clamp(Math.expm1(minScore), 0, regression.countCeiling);
   const predictedMaxRaw = clamp(Math.expm1(maxScore), 0, regression.countCeiling);
@@ -503,6 +563,110 @@ function populateRanking(payload) {
     `;
     rankingList.appendChild(chip);
   });
+}
+
+function drawYYChart(payload) {
+  const points = payload.evaluation ? payload.evaluation.yyPoints : [];
+  const { ctx, cssWidth, cssHeight } = prepareCanvas(yyChart);
+  const margin = { top: 28, right: 24, bottom: 46, left: 58 };
+  const width = cssWidth - margin.left - margin.right;
+  const height = cssHeight - margin.top - margin.bottom;
+
+  ctx.fillStyle = "rgba(8, 20, 31, 0.96)";
+  ctx.fillRect(0, 0, cssWidth, cssHeight);
+
+  if (!points.length) {
+    ctx.fillStyle = "rgba(200,219,234,0.82)";
+    ctx.font = "15px Segoe UI";
+    ctx.fillText("検証点が少ないため yy プロットを表示できません。", margin.left, margin.top + 22);
+    return;
+  }
+
+  const maxValue = Math.max(
+    2,
+    ...points.map((point) => point.actualMax),
+    ...points.map((point) => point.predictedMax),
+  ) * 1.12;
+  const plotX = (value) => margin.left + (value / Math.max(maxValue, 1e-6)) * width;
+  const plotY = (value) => margin.top + height - (value / Math.max(maxValue, 1e-6)) * height;
+
+  ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  ctx.lineWidth = 1;
+  ctx.font = "12px Segoe UI";
+  ctx.fillStyle = "rgba(200,219,234,0.82)";
+  [0, 0.25, 0.5, 0.75, 1].forEach((ratio) => {
+    const axisValue = maxValue * ratio;
+    const x = plotX(axisValue);
+    const y = plotY(axisValue);
+    ctx.beginPath();
+    ctx.moveTo(margin.left, y);
+    ctx.lineTo(margin.left + width, y);
+    ctx.moveTo(x, margin.top);
+    ctx.lineTo(x, margin.top + height);
+    ctx.stroke();
+    ctx.fillText(axisValue.toFixed(1), x - 10, margin.top + height + 22);
+    if (ratio < 1) {
+      ctx.fillText(axisValue.toFixed(1), 10, y + 4);
+    }
+  });
+
+  ctx.strokeStyle = "rgba(255,255,255,0.9)";
+  ctx.lineWidth = 1.4;
+  ctx.beginPath();
+  ctx.moveTo(margin.left, margin.top + height);
+  ctx.lineTo(margin.left + width, margin.top);
+  ctx.stroke();
+
+  points.forEach((point) => {
+    const x = plotX(point.actualMax);
+    const y = plotY(point.predictedMax);
+    const error = Math.abs(point.predictedMax - point.actualMax);
+    const alpha = clamp(0.36 + error / Math.max(maxValue, 1), 0.36, 0.96);
+    ctx.fillStyle = `rgba(255, 209, 107, ${alpha})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 4.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(8,20,31,0.72)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = "rgba(200,219,234,0.82)";
+  ctx.fillText("実測上限", margin.left + width - 40, margin.top + height + 22);
+  ctx.save();
+  ctx.translate(16, margin.top + 44);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText("予測上限", 0, 0);
+  ctx.restore();
+}
+
+function populateEvaluation(payload) {
+  const evaluation = payload.evaluation;
+  evaluationPanel.hidden = !evaluation;
+  candidateList.innerHTML = "";
+
+  if (!evaluation) {
+    return;
+  }
+
+  document.getElementById("evaluationLabel").textContent = `${payload.species.label} 上限 yyプロット`;
+  document.getElementById("evaluationMeta").textContent =
+    `${evaluation.modelType} / ${evaluation.moonFeature} / 検証 ${evaluation.validationRows}件 / 上限MAE ${evaluation.maxMae.toFixed(2)}`;
+
+  (evaluation.candidates || []).slice(0, 6).forEach((candidate) => {
+    const chip = document.createElement("article");
+    chip.className = `day-chip observed-chip candidate-chip${candidate.selected ? " is-selected" : ""}`;
+    chip.innerHTML = `
+      <span class="tag">${candidate.selected ? "採用" : "候補"}</span>
+      <strong>${candidate.modelType}</strong>
+      <span class="detail">${candidate.moonFeature}</span>
+      <span class="detail">上限MAE ${candidate.maxMae.toFixed(2)} / 下限MAE ${candidate.minMae.toFixed(2)}</span>
+      <span class="subdetail">総合誤差 ${candidate.score.toFixed(2)} / 検証 ${candidate.validationRows}件</span>
+    `;
+    candidateList.appendChild(chip);
+  });
+
+  drawYYChart(payload);
 }
 
 function surfaceColor(ratio) {
@@ -680,11 +844,24 @@ function hideSurfaceTooltip() {
   surfaceTooltip.hidden = true;
 }
 
-function showSurfaceTooltip(clientX, clientY) {
+function syncSimulatorToSurfacePoint(seaTemp, moonAge) {
+  const seaConfig = payloadState && payloadState.featureRanges ? payloadState.featureRanges.seaTemp : null;
+  const moonConfig = payloadState && payloadState.featureRanges ? payloadState.featureRanges.moonAge : null;
+  if (!seaConfig || !moonConfig) {
+    return;
+  }
+
+  simulatorNodes.seaTemp.input.value = clamp(seaTemp, seaConfig.min, seaConfig.max).toFixed(1);
+  simulatorNodes.moonAge.input.value = clamp(moonAge, moonConfig.min, moonConfig.max).toFixed(1);
+  updateSimulator();
+}
+
+function showSurfaceTooltip(clientX, clientY, options = {}) {
   if (!payloadState || !surfaceState) {
     return;
   }
 
+  const { commitSelection = false } = options;
   const rect = surfaceMap.getBoundingClientRect();
   const x = clientX - rect.left;
   const y = clientY - rect.top;
@@ -701,6 +878,9 @@ function showSurfaceTooltip(clientX, clientY) {
   const seaRatio = clamp((y - margin.top) / Math.max(height, 1e-6), 0, 1);
   const moonAge = moonConfig.min + moonRatio * (moonConfig.max - moonConfig.min);
   const seaTemp = seaConfig.max - seaRatio * (seaConfig.max - seaConfig.min);
+  if (commitSelection) {
+    syncSimulatorToSurfacePoint(seaTemp, moonAge);
+  }
   const result = simulate({ airTemp, seaTemp, moonAge }, payloadState);
   const aggregateMode = payloadState.scope && payloadState.scope.mode === "aggregate";
   const maxLabel = aggregateMode ? "平均予測上限" : "予測上限";
@@ -734,15 +914,16 @@ function bindSurfaceMap() {
     return;
   }
 
-  const handlePointer = (clientX, clientY) => showSurfaceTooltip(clientX, clientY);
-  surfaceMap.addEventListener("click", (event) => handlePointer(event.clientX, event.clientY));
-  surfaceMap.addEventListener("mousemove", (event) => handlePointer(event.clientX, event.clientY));
+  const handlePreview = (clientX, clientY) => showSurfaceTooltip(clientX, clientY);
+  const handleCommit = (clientX, clientY) => showSurfaceTooltip(clientX, clientY, { commitSelection: true });
+  surfaceMap.addEventListener("click", (event) => handleCommit(event.clientX, event.clientY));
+  surfaceMap.addEventListener("mousemove", (event) => handlePreview(event.clientX, event.clientY));
   surfaceMap.addEventListener(
     "touchstart",
     (event) => {
       const touch = event.touches[0];
       if (touch) {
-        handlePointer(touch.clientX, touch.clientY);
+        handleCommit(touch.clientX, touch.clientY);
       }
     },
     { passive: true },
@@ -752,7 +933,7 @@ function bindSurfaceMap() {
     (event) => {
       const touch = event.touches[0];
       if (touch) {
-        handlePointer(touch.clientX, touch.clientY);
+        handleCommit(touch.clientX, touch.clientY);
       }
     },
     { passive: true },
@@ -941,9 +1122,12 @@ function render(payload, options = {}) {
     ? `${payload.species.label} 魚種統合 Xデー予測`
     : `${payload.ship.name} ${payload.species.label} Xデー予測`;
   document.getElementById("generatedAt").textContent = `更新 ${payload.generatedAt}`;
+  const modelSummary = payload.evaluation
+    ? ` / ${payload.evaluation.modelType} / ${payload.evaluation.moonFeature}`
+    : "";
   document.getElementById("summaryMeta").textContent = aggregateMode
-    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`
-    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}`;
+    ? `統合 ${payload.aggregate.shipCount}船 / 学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}${modelSummary}`
+    : `学習 ${payload.trainingRange.from} - ${payload.trainingRange.to} / 記録日 ${payload.tripDays} / Xデー ${payload.xDayRule}${modelSummary}`;
   document.getElementById("rangeLabel").textContent = `${payload.forecastRange.from} - ${payload.forecastRange.to}`;
   document.getElementById("todayLabel").textContent = `基準日 ${payload.today}`;
   document.getElementById("minMetricLabel").textContent = `${aggregateMode ? "平均予測下限" : "予測下限"}${payload.species.unit}`;
@@ -956,6 +1140,7 @@ function render(payload, options = {}) {
   populateTopDays(payload);
   populateRanking(payload);
   populateObservedList(payload);
+  populateEvaluation(payload);
   configureSimulator(payload, { preserveValues: preserveSimulator });
   drawProbabilityChart(payload);
   drawAmountChart(minChart, payload, "predictedMin", "observedMin", "#4ff0c6", "rgba(79, 240, 198, 0.22)");

@@ -336,6 +336,44 @@ h1 {
     linear-gradient(180deg, rgba(8, 20, 31, 0.95), rgba(6, 15, 24, 0.98));
 }
 
+.evaluation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.8fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.evaluation-chart-wrap {
+  margin-top: 0;
+}
+
+.candidate-list {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.candidate-chip {
+  min-height: unset;
+}
+
+.candidate-chip.is-selected {
+  border-color: rgba(104, 209, 255, 0.38);
+  box-shadow: inset 0 0 0 1px rgba(104, 209, 255, 0.22);
+}
+
+.candidate-chip .tag {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(104, 209, 255, 0.14);
+  color: var(--accent);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
 canvas {
   display: block;
   width: max(100%, 2500px);
@@ -344,6 +382,7 @@ canvas {
 #surfaceMap {
   width: 100%;
   height: 540px;
+  cursor: crosshair;
 }
 
 #probChart {
@@ -353,6 +392,11 @@ canvas {
 #minChart,
 #maxChart {
   height: 360px;
+}
+
+#yyChart {
+  width: 100%;
+  height: 420px;
 }
 
 .tooltip {
@@ -406,6 +450,10 @@ canvas {
   }
 
   .sim-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .evaluation-layout {
     grid-template-columns: 1fr;
   }
 

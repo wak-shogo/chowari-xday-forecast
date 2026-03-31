@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-31 15:15 JST",
+  "generatedAt": "2026-03-31 21:47 JST",
   "today": "2026-03-31",
   "scope": {
     "mode": "ship",
@@ -53,6 +53,7 @@
       4.2,
       4.203,
       4.218,
+      4.218,
       4.227,
       4.228,
       4.229,
@@ -88,7 +89,6 @@
       4.313,
       4.315,
       4.317,
-      4.318,
       4.323,
       4.323,
       4.324,
@@ -384,20 +384,31 @@
   "evaluation": null,
   "regression": {
     "type": "ridge_regression",
-    "featureTerms": [
-      "intercept",
-      "airTemp",
-      "seaTemp",
-      "moonSin",
-      "moonCos",
-      "airTemp*seaTemp",
-      "airTemp*moonSin",
-      "airTemp*moonCos",
-      "seaTemp*moonSin",
-      "seaTemp*moonCos",
-      "airTemp^2",
-      "seaTemp^2"
-    ],
+    "modelLabel": "重回帰",
+    "featureSpec": {
+      "key": "harmonic1",
+      "label": "月齢 1次 sin/cos",
+      "featureKeys": [
+        "airTemp",
+        "seaTemp",
+        "moonSin",
+        "moonCos"
+      ],
+      "basisTerms": [
+        "intercept",
+        "airTemp",
+        "seaTemp",
+        "moonSin",
+        "moonCos",
+        "airTemp*seaTemp",
+        "airTemp*moonSin",
+        "airTemp*moonCos",
+        "seaTemp*moonSin",
+        "seaTemp*moonCos",
+        "airTemp^2",
+        "seaTemp^2"
+      ]
+    },
     "stats": {
       "means": {
         "airTemp": 13.5,
@@ -478,7 +489,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0205
+      "probability": 0.0208
     },
     {
       "date": "2026-05-09",
@@ -513,9 +524,9 @@
     {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 2.13,
-      "airTemp": 15.1,
-      "seaTemp": 15.0,
+      "predictedMax": 2.12,
+      "airTemp": 14.6,
+      "seaTemp": 15.1,
       "moonAge": 13.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -527,8 +538,8 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 1.93,
-      "airTemp": 11.4,
+      "predictedMax": 1.91,
+      "airTemp": 11.2,
       "seaTemp": 14.9,
       "moonAge": 14.83,
       "featureSource": "forecast",
@@ -541,9 +552,9 @@
     {
       "date": "2026-04-03",
       "predictedMin": 0.0,
-      "predictedMax": 2.11,
-      "airTemp": 13.4,
-      "seaTemp": 14.8,
+      "predictedMax": 2.13,
+      "airTemp": 13.5,
+      "seaTemp": 14.9,
       "moonAge": 15.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -555,8 +566,8 @@
     {
       "date": "2026-04-04",
       "predictedMin": 0.0,
-      "predictedMax": 2.39,
-      "airTemp": 15.8,
+      "predictedMax": 2.42,
+      "airTemp": 16.1,
       "seaTemp": 14.9,
       "moonAge": 16.83,
       "featureSource": "forecast",
@@ -569,9 +580,9 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 2.68,
-      "airTemp": 17.5,
-      "seaTemp": 15.1,
+      "predictedMax": 2.69,
+      "airTemp": 17.4,
+      "seaTemp": 15.2,
       "moonAge": 17.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -583,9 +594,9 @@
     {
       "date": "2026-04-06",
       "predictedMin": 0.0,
-      "predictedMax": 2.77,
+      "predictedMax": 2.82,
       "airTemp": 17.0,
-      "seaTemp": 15.3,
+      "seaTemp": 15.5,
       "moonAge": 18.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -597,9 +608,9 @@
     {
       "date": "2026-04-07",
       "predictedMin": 0.0,
-      "predictedMax": 2.8,
-      "airTemp": 16.1,
-      "seaTemp": 15.5,
+      "predictedMax": 2.87,
+      "airTemp": 16.4,
+      "seaTemp": 15.6,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -611,9 +622,9 @@
     {
       "date": "2026-04-08",
       "predictedMin": 0.0,
-      "predictedMax": 2.7,
-      "airTemp": 14.5,
-      "seaTemp": 15.7,
+      "predictedMax": 2.9,
+      "airTemp": 15.8,
+      "seaTemp": 15.8,
       "moonAge": 20.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -625,9 +636,9 @@
     {
       "date": "2026-04-09",
       "predictedMin": 0.0,
-      "predictedMax": 3.05,
-      "airTemp": 16.8,
-      "seaTemp": 15.79,
+      "predictedMax": 3.07,
+      "airTemp": 17.5,
+      "seaTemp": 15.6,
       "moonAge": 21.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -639,8 +650,8 @@
     {
       "date": "2026-04-10",
       "predictedMin": 0.0,
-      "predictedMax": 3.03,
-      "airTemp": 16.4,
+      "predictedMax": 3.25,
+      "airTemp": 18.4,
       "seaTemp": 15.9,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -653,8 +664,8 @@
     {
       "date": "2026-04-11",
       "predictedMin": 0.0,
-      "predictedMax": 3.1,
-      "airTemp": 17.3,
+      "predictedMax": 3.03,
+      "airTemp": 16.6,
       "seaTemp": 15.98,
       "moonAge": 23.83,
       "featureSource": "forecast",
@@ -667,8 +678,8 @@
     {
       "date": "2026-04-12",
       "predictedMin": 0.0,
-      "predictedMax": 3.19,
-      "airTemp": 19.5,
+      "predictedMax": 3.09,
+      "airTemp": 18.0,
       "seaTemp": 16.07,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -676,13 +687,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-04-13",
       "predictedMin": 0.0,
-      "predictedMax": 2.81,
-      "airTemp": 15.7,
+      "predictedMax": 2.83,
+      "airTemp": 15.9,
       "seaTemp": 16.15,
       "moonAge": 25.83,
       "featureSource": "forecast",
@@ -695,8 +706,8 @@
     {
       "date": "2026-04-14",
       "predictedMin": 0.0,
-      "predictedMax": 2.75,
-      "airTemp": 16.4,
+      "predictedMax": 2.77,
+      "airTemp": 16.7,
       "seaTemp": 16.23,
       "moonAge": 26.83,
       "featureSource": "forecast",
@@ -1040,7 +1051,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0205
+      "probability": 0.0208
     },
     {
       "date": "2026-05-09",

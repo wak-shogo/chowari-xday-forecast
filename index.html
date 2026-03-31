@@ -86,6 +86,19 @@
         </div>
       </section>
 
+      <section class="observed-panel" id="evaluationPanel">
+        <div class="chart-header">
+          <span id="evaluationLabel">モデル評価</span>
+          <span id="evaluationMeta">-</span>
+        </div>
+        <div class="evaluation-layout">
+          <div class="chart-scroller evaluation-chart-wrap">
+            <canvas id="yyChart" width="920" height="420" aria-label="予測上限のyyプロット"></canvas>
+          </div>
+          <div class="candidate-list" id="candidateList" aria-label="候補モデル比較"></div>
+        </div>
+      </section>
+
       <section class="chart-panel compact">
         <div class="chart-header">
           <span>海水温 × 月齢マップ</span>

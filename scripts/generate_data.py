@@ -52,22 +52,59 @@ SIMULATOR_MAXIMA_SAMPLES = 320
 NEIGHBOR_COUNTS = (4, 6, 8, 12)
 KERNEL_BANDWIDTHS = (0.7, 1.0, 1.4, 1.8)
 KERNEL_PRIOR_WEIGHT = 1.0
+RANDOM_FOREST_TREE_COUNT = 24
+RANDOM_FOREST_MAX_DEPTH = 6
+RANDOM_FOREST_MIN_LEAF = 3
+RANDOM_FOREST_MAX_FEATURES = 4
+RANDOM_FOREST_THRESHOLD_STEPS = 8
+MIN_RANDOM_FOREST_ROWS = 18
 
-FEATURE_KEYS = ("airTemp", "seaTemp", "moonSin", "moonCos")
-FEATURE_TERMS = [
-    "intercept",
-    "airTemp",
-    "seaTemp",
-    "moonSin",
-    "moonCos",
-    "airTemp*seaTemp",
-    "airTemp*moonSin",
-    "airTemp*moonCos",
-    "seaTemp*moonSin",
-    "seaTemp*moonCos",
-    "airTemp^2",
-    "seaTemp^2",
-]
+FEATURE_SPECS = {
+    "harmonic1": {
+        "label": "月齢 1次 sin/cos",
+        "featureKeys": ("airTemp", "seaTemp", "moonSin", "moonCos"),
+        "basisTerms": (
+            "intercept",
+            "airTemp",
+            "seaTemp",
+            "moonSin",
+            "moonCos",
+            "airTemp*seaTemp",
+            "airTemp*moonSin",
+            "airTemp*moonCos",
+            "seaTemp*moonSin",
+            "seaTemp*moonCos",
+            "airTemp^2",
+            "seaTemp^2",
+        ),
+    },
+    "harmonic2": {
+        "label": "月齢 1次+2次 sin/cos",
+        "featureKeys": ("airTemp", "seaTemp", "moonSin", "moonCos", "moonSin2", "moonCos2"),
+        "basisTerms": (
+            "intercept",
+            "airTemp",
+            "seaTemp",
+            "moonSin",
+            "moonCos",
+            "moonSin2",
+            "moonCos2",
+            "airTemp*seaTemp",
+            "airTemp*moonSin",
+            "airTemp*moonCos",
+            "airTemp*moonSin2",
+            "airTemp*moonCos2",
+            "seaTemp*moonSin",
+            "seaTemp*moonCos",
+            "seaTemp*moonSin2",
+            "seaTemp*moonCos2",
+            "airTemp^2",
+            "seaTemp^2",
+        ),
+    },
+}
+DEFAULT_FEATURE_SPEC = "harmonic1"
+RANDOM_FOREST_FEATURE_SPEC = "harmonic2"
 
 ICHIROUMARU_COORDINATES = (35.23999456165066, 139.72319088316416)
 ICHIROUMARU_SHIP_CONFIG = {
@@ -663,9 +700,22 @@ def moon_age_for(day):
     return delta_days % SYNODIC_MONTH
 
 
-def moon_phase_components(moon_age):
-    angle = (moon_age / SYNODIC_MONTH) * math.tau
+def moon_phase_components(moon_age, harmonic=1):
+    angle = (moon_age / SYNODIC_MONTH) * math.tau * harmonic
     return math.sin(angle), math.cos(angle)
+
+
+def build_feature_map(air_temp, sea_temp, moon_age):
+    angle = (moon_age / SYNODIC_MONTH) * math.tau
+    return {
+        "airTemp": air_temp,
+        "seaTemp": sea_temp,
+        "moonAge": moon_age,
+        "moonSin": math.sin(angle),
+        "moonCos": math.cos(angle),
+        "moonSin2": math.sin(angle * 2),
+        "moonCos2": math.cos(angle * 2),
+    }
 
 
 def same_day_last_year(day):
@@ -709,14 +759,7 @@ def resolve_training_feature(day_record, archive_map, forecast_map, climatology)
     if sea is None:
         sea = forecast.get("sea_surface_temperature_mean", baseline["sea_surface_temperature_mean"])
     moon_age = day_record["moonAge"] if day_record["moonAge"] is not None else moon_age_for(day_record["date"])
-    moon_sin, moon_cos = moon_phase_components(moon_age)
-    return {
-        "airTemp": air,
-        "seaTemp": sea,
-        "moonAge": moon_age,
-        "moonSin": moon_sin,
-        "moonCos": moon_cos,
-    }
+    return build_feature_map(air, sea, moon_age)
 
 
 def quantile(values, q):
@@ -746,9 +789,13 @@ def round_feature_range(values, lower_pad=0.0, upper_pad=0.0):
     return round_half(low), round_half(high)
 
 
-def compute_base_stats(rows):
+def feature_spec(spec_key):
+    return FEATURE_SPECS[spec_key]
+
+
+def compute_base_stats(rows, feature_keys):
     stats = {"means": {}, "scales": {}}
-    for key in FEATURE_KEYS:
+    for key in feature_keys:
         values = [row[key] for row in rows]
         mean = sum(values) / len(values)
         variance = sum((value - mean) ** 2 for value in values) / len(values)
@@ -757,38 +804,32 @@ def compute_base_stats(rows):
     return stats
 
 
-def scale_features(raw_features, stats):
+def scale_features(raw_features, stats, feature_keys):
+    feature_map = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
     return {
-        "airTemp": (raw_features["airTemp"] - stats["means"]["airTemp"]) / stats["scales"]["airTemp"],
-        "seaTemp": (raw_features["seaTemp"] - stats["means"]["seaTemp"]) / stats["scales"]["seaTemp"],
-        "moonSin": (raw_features["moonSin"] - stats["means"]["moonSin"]) / stats["scales"]["moonSin"],
-        "moonCos": (raw_features["moonCos"] - stats["means"]["moonCos"]) / stats["scales"]["moonCos"],
+        key: (feature_map[key] - stats["means"][key]) / stats["scales"][key]
+        for key in feature_keys
     }
 
 
-def build_basis_from_scaled(scaled):
-    air = scaled["airTemp"]
-    sea = scaled["seaTemp"]
-    moon_sin = scaled["moonSin"]
-    moon_cos = scaled["moonCos"]
-    return [
-        1.0,
-        air,
-        sea,
-        moon_sin,
-        moon_cos,
-        air * sea,
-        air * moon_sin,
-        air * moon_cos,
-        sea * moon_sin,
-        sea * moon_cos,
-        air * air,
-        sea * sea,
-    ]
+def evaluate_basis_term(term, scaled):
+    if term == "intercept":
+        return 1.0
+    if term.endswith("^2"):
+        feature = term[:-2]
+        return scaled[feature] * scaled[feature]
+    if "*" in term:
+        left, right = term.split("*", 1)
+        return scaled[left] * scaled[right]
+    return scaled[term]
 
 
-def build_basis(raw_features, stats):
-    return build_basis_from_scaled(scale_features(raw_features, stats))
+def build_basis_from_scaled(scaled, basis_terms):
+    return [evaluate_basis_term(term, scaled) for term in basis_terms]
+
+
+def build_basis(raw_features, stats, feature_keys, basis_terms):
+    return build_basis_from_scaled(scale_features(raw_features, stats, feature_keys), basis_terms)
 
 
 def solve_linear_system(matrix, vector):
@@ -853,16 +894,17 @@ def weighted_average(pairs):
     return sum(weight * value for weight, value in pairs) / total_weight
 
 
-def build_support_rows(rows, stats, min_weights, max_weights):
+def build_support_rows(rows, stats, min_weights, max_weights, spec_key):
+    spec = feature_spec(spec_key)
     support = []
     for row in rows:
-        scaled = scale_features(row, stats)
-        basis = build_basis_from_scaled(scaled)
+        scaled = scale_features(row, stats, spec["featureKeys"])
+        basis = build_basis_from_scaled(scaled, spec["basisTerms"])
         min_baseline = dot(min_weights, basis)
         max_baseline = dot(max_weights, basis)
         support.append(
             {
-                "vector": [scaled[key] for key in FEATURE_KEYS],
+                "vector": [scaled[key] for key in spec["featureKeys"]],
                 "minResidual": math.log1p(row["catchMin"]) - min_baseline,
                 "maxResidual": math.log1p(row["catchMax"]) - max_baseline,
             }
@@ -870,11 +912,11 @@ def build_support_rows(rows, stats, min_weights, max_weights):
     return support
 
 
-def estimate_neighbor_residuals(scaled, support_rows, neighbor_count, bandwidth, prior_weight=KERNEL_PRIOR_WEIGHT):
+def estimate_neighbor_residuals(scaled, feature_keys, support_rows, neighbor_count, bandwidth, prior_weight=KERNEL_PRIOR_WEIGHT):
     if not support_rows:
         return 0.0, 0.0
 
-    vector = [scaled[key] for key in FEATURE_KEYS]
+    vector = [scaled[key] for key in feature_keys]
     ranked = []
     for item in support_rows:
         distance_sq = sum((left - right) ** 2 for left, right in zip(vector, item["vector"]))
@@ -890,9 +932,10 @@ def estimate_neighbor_residuals(scaled, support_rows, neighbor_count, bandwidth,
     return weighted_average(min_pairs) * shrink, weighted_average(max_pairs) * shrink
 
 
-def fit_baseline_models(rows):
-    stats = compute_base_stats(rows)
-    design_matrix = [build_basis(row, stats) for row in rows]
+def fit_baseline_models(rows, spec_key=DEFAULT_FEATURE_SPEC):
+    spec = feature_spec(spec_key)
+    stats = compute_base_stats(rows, spec["featureKeys"])
+    design_matrix = [build_basis(row, stats, spec["featureKeys"], spec["basisTerms"]) for row in rows]
     min_targets = [math.log1p(row["catchMin"]) for row in rows]
     max_targets = [math.log1p(row["catchMax"]) for row in rows]
     count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
@@ -900,10 +943,17 @@ def fit_baseline_models(rows):
     max_weights = fit_ridge_regression(design_matrix, max_targets, ridge=0.75)
 
     return {
-        "featureTerms": FEATURE_TERMS,
+        "type": "ridge_regression",
+        "modelLabel": "重回帰",
+        "featureSpec": {
+            "key": spec_key,
+            "label": spec["label"],
+            "featureKeys": list(spec["featureKeys"]),
+            "basisTerms": list(spec["basisTerms"]),
+        },
         "stats": {
-            "means": {key: round(stats["means"][key], 6) for key in FEATURE_KEYS},
-            "scales": {key: round(stats["scales"][key], 6) for key in FEATURE_KEYS},
+            "means": {key: round(stats["means"][key], 6) for key in spec["featureKeys"]},
+            "scales": {key: round(stats["scales"][key], 6) for key in spec["featureKeys"]},
         },
         "countCeiling": round(count_ceiling, 3),
         "baseline": {
@@ -922,20 +972,23 @@ def fit_baseline_models(rows):
     }
 
 
-def build_hybrid_model(rows, neighbor_count, bandwidth):
-    baseline = fit_baseline_models(rows)
+def build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=DEFAULT_FEATURE_SPEC):
+    baseline = fit_baseline_models(rows, spec_key=spec_key)
     stats = baseline["_fitStats"]
     min_weights = baseline["_minWeights"]
     max_weights = baseline["_maxWeights"]
-    support = build_support_rows(rows, stats, min_weights, max_weights)
+    support = build_support_rows(rows, stats, min_weights, max_weights, spec_key)
+    feature_keys = baseline["featureSpec"]["featureKeys"]
     return {
         "type": "hybrid_kernel_residual",
-        "featureTerms": baseline["featureTerms"],
+        "modelLabel": "近傍補正つき重回帰",
+        "featureSpec": baseline["featureSpec"],
         "stats": baseline["stats"],
         "countCeiling": baseline["countCeiling"],
         "baseline": baseline["baseline"],
         "neighbor": {
             "type": "gaussian_knn_residual",
+            "featureKeys": feature_keys,
             "neighborCount": min(neighbor_count, len(rows)),
             "bandwidth": round(bandwidth, 4),
             "priorWeight": KERNEL_PRIOR_WEIGHT,
@@ -950,14 +1003,144 @@ def build_hybrid_model(rows, neighbor_count, bandwidth):
         },
     }
 
-def fit_models(rows, mode="baseline", neighbor_count=None, bandwidth=None):
-    if mode == "hybrid" and neighbor_count and bandwidth:
-        return build_hybrid_model(rows, neighbor_count, bandwidth)
 
-    baseline = fit_baseline_models(rows)
+def candidate_thresholds(values):
+    unique_values = sorted(set(values))
+    if len(unique_values) <= 1:
+        return []
+    if len(unique_values) <= RANDOM_FOREST_THRESHOLD_STEPS:
+        return [(left + right) * 0.5 for left, right in zip(unique_values, unique_values[1:])]
+
+    thresholds = []
+    for step in range(1, RANDOM_FOREST_THRESHOLD_STEPS):
+        ratio = step / RANDOM_FOREST_THRESHOLD_STEPS
+        index = min(max(1, int(round((len(unique_values) - 1) * ratio))), len(unique_values) - 1)
+        left = unique_values[index - 1]
+        right = unique_values[index]
+        threshold = (left + right) * 0.5
+        if not thresholds or abs(thresholds[-1] - threshold) > 1e-9:
+            thresholds.append(threshold)
+    return thresholds
+
+
+def mean_squared_error(values):
+    if not values:
+        return 0.0
+    mean = sum(values) / len(values)
+    return sum((value - mean) ** 2 for value in values)
+
+
+def build_tree_node(samples, feature_keys, rng, depth):
+    targets = [sample["target"] for sample in samples]
+    leaf_value = sum(targets) / len(targets)
+    if (
+        depth >= RANDOM_FOREST_MAX_DEPTH
+        or len(samples) <= RANDOM_FOREST_MIN_LEAF * 2
+        or mean_squared_error(targets) <= 1e-8
+    ):
+        return {"v": round(leaf_value, 8)}
+
+    candidate_features = list(feature_keys)
+    rng.shuffle(candidate_features)
+    candidate_features = candidate_features[: min(RANDOM_FOREST_MAX_FEATURES, len(candidate_features))]
+
+    best_split = None
+    for feature_index, feature in enumerate(feature_keys):
+        if feature not in candidate_features:
+            continue
+        values = [sample["features"][feature_index] for sample in samples]
+        for threshold in candidate_thresholds(values):
+            left = [sample for sample in samples if sample["features"][feature_index] <= threshold]
+            right = [sample for sample in samples if sample["features"][feature_index] > threshold]
+            if len(left) < RANDOM_FOREST_MIN_LEAF or len(right) < RANDOM_FOREST_MIN_LEAF:
+                continue
+            score = mean_squared_error([sample["target"] for sample in left]) + mean_squared_error(
+                [sample["target"] for sample in right]
+            )
+            if best_split is None or score < best_split["score"]:
+                best_split = {
+                    "featureIndex": feature_index,
+                    "threshold": threshold,
+                    "left": left,
+                    "right": right,
+                    "score": score,
+                }
+
+    if not best_split:
+        return {"v": round(leaf_value, 8)}
+
+    return {
+        "f": best_split["featureIndex"],
+        "t": round(best_split["threshold"], 6),
+        "l": build_tree_node(best_split["left"], feature_keys, rng, depth + 1),
+        "r": build_tree_node(best_split["right"], feature_keys, rng, depth + 1),
+    }
+
+
+def bootstrap_samples(feature_rows, targets, rng):
+    samples = []
+    for _ in range(len(feature_rows)):
+        index = rng.randrange(len(feature_rows))
+        samples.append({"features": feature_rows[index], "target": targets[index]})
+    return samples
+
+
+def train_random_forest(feature_rows, targets, feature_keys, seed_key):
+    forest = []
+    for tree_index in range(RANDOM_FOREST_TREE_COUNT):
+        rng = random.Random(f"{seed_key}:{tree_index}")
+        samples = bootstrap_samples(feature_rows, targets, rng)
+        forest.append(build_tree_node(samples, feature_keys, rng, depth=0))
+    return forest
+
+
+def predict_tree(tree, feature_row):
+    node = tree
+    while "v" not in node:
+        node = node["l"] if feature_row[node["f"]] <= node["t"] else node["r"]
+    return node["v"]
+
+
+def fit_random_forest_model(rows, seed_key, spec_key=RANDOM_FOREST_FEATURE_SPEC):
+    spec = feature_spec(spec_key)
+    feature_rows = [[row[key] for key in spec["featureKeys"]] for row in rows]
+    min_targets = [math.log1p(row["catchMin"]) for row in rows]
+    max_targets = [math.log1p(row["catchMax"]) for row in rows]
+    count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
+    min_forest = train_random_forest(feature_rows, min_targets, spec["featureKeys"], f"{seed_key}:min")
+    max_forest = train_random_forest(feature_rows, max_targets, spec["featureKeys"], f"{seed_key}:max")
+
+    return {
+        "type": "random_forest",
+        "modelLabel": "ランダムフォレスト",
+        "featureSpec": {
+            "key": spec_key,
+            "label": spec["label"],
+            "featureKeys": list(spec["featureKeys"]),
+            "basisTerms": [],
+        },
+        "countCeiling": round(count_ceiling, 3),
+        "forest": {
+            "targetType": "log_measure",
+            "featureKeys": list(spec["featureKeys"]),
+            "treeCount": RANDOM_FOREST_TREE_COUNT,
+            "catchMin": min_forest,
+            "catchMax": max_forest,
+        },
+    }
+
+
+def fit_models(rows, mode="baseline", feature_spec=DEFAULT_FEATURE_SPEC, neighbor_count=None, bandwidth=None, seed_key="fit"):
+    if mode == "hybrid" and neighbor_count and bandwidth:
+        return build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=feature_spec)
+    if mode == "random_forest":
+        return fit_random_forest_model(rows, seed_key=seed_key, spec_key=feature_spec)
+
+    baseline = fit_baseline_models(rows, spec_key=feature_spec)
     return {
         "type": "ridge_regression",
-        "featureTerms": baseline["featureTerms"],
+        "modelLabel": baseline["modelLabel"],
+        "featureSpec": baseline["featureSpec"],
         "stats": baseline["stats"],
         "countCeiling": baseline["countCeiling"],
         "baseline": baseline["baseline"],
@@ -966,21 +1149,35 @@ def fit_models(rows, mode="baseline", neighbor_count=None, bandwidth=None):
 
 
 def predict_models(raw_features, regression):
-    scaled = scale_features(raw_features, regression["stats"])
-    basis = build_basis_from_scaled(scaled)
-    min_score = dot(regression["baseline"]["catchMin"]["weights"], basis)
-    max_score = dot(regression["baseline"]["catchMax"]["weights"], basis)
-    neighbor = regression.get("neighbor")
-    if neighbor and neighbor.get("support"):
-        min_residual, max_residual = estimate_neighbor_residuals(
-            scaled,
-            neighbor["support"],
-            neighbor["neighborCount"],
-            neighbor["bandwidth"],
-            neighbor.get("priorWeight", KERNEL_PRIOR_WEIGHT),
+    if regression["type"] == "random_forest":
+        feature_keys = regression["forest"]["featureKeys"]
+        feature_map = build_feature_map(raw_features["airTemp"], raw_features["seaTemp"], raw_features["moonAge"])
+        feature_row = [feature_map[key] for key in feature_keys]
+        min_score = sum(predict_tree(tree, feature_row) for tree in regression["forest"]["catchMin"]) / len(
+            regression["forest"]["catchMin"]
         )
-        min_score += min_residual
-        max_score += max_residual
+        max_score = sum(predict_tree(tree, feature_row) for tree in regression["forest"]["catchMax"]) / len(
+            regression["forest"]["catchMax"]
+        )
+    else:
+        feature_keys = regression["featureSpec"]["featureKeys"]
+        basis_terms = regression["featureSpec"]["basisTerms"]
+        scaled = scale_features(raw_features, regression["stats"], feature_keys)
+        basis = build_basis_from_scaled(scaled, basis_terms)
+        min_score = dot(regression["baseline"]["catchMin"]["weights"], basis)
+        max_score = dot(regression["baseline"]["catchMax"]["weights"], basis)
+        neighbor = regression.get("neighbor")
+        if neighbor and neighbor.get("support"):
+            min_residual, max_residual = estimate_neighbor_residuals(
+                scaled,
+                feature_keys,
+                neighbor["support"],
+                neighbor["neighborCount"],
+                neighbor["bandwidth"],
+                neighbor.get("priorWeight", KERNEL_PRIOR_WEIGHT),
+            )
+            min_score += min_residual
+            max_score += max_residual
 
     predicted_min = decode_measure(min_score, regression["countCeiling"])
     predicted_max = max(predicted_min, decode_measure(max_score, regression["countCeiling"]))
@@ -1032,26 +1229,50 @@ def weighted_error(prediction, row):
     return abs(prediction["predictedMin"] - row["catchMin"]) * 0.35 + abs(prediction["predictedMax"] - row["catchMax"])
 
 
-def evaluate_config(train_rows, validation_rows, config):
-    model = fit_models(train_rows, **config)
+def config_labels(config):
+    model_labels = {
+        "baseline": "重回帰",
+        "hybrid": "近傍補正つき重回帰",
+        "random_forest": "ランダムフォレスト",
+    }
+    spec = feature_spec(config["feature_spec"])
+    return model_labels.get(config["mode"], config["mode"]), spec["label"]
+
+
+def evaluate_config(train_rows, validation_rows, config, seed_key):
+    model = fit_models(train_rows, **config, seed_key=seed_key)
     min_errors = []
     max_errors = []
     weighted_errors = []
+    yy_points = []
     for row in validation_rows:
         prediction = predict_models(row, model)
         min_errors.append(abs(prediction["predictedMin"] - row["catchMin"]))
         max_errors.append(abs(prediction["predictedMax"] - row["catchMax"]))
         weighted_errors.append(weighted_error(prediction, row))
+        yy_points.append(
+            {
+                "date": row["date"].isoformat(),
+                "actualMin": round(row["catchMin"], 2),
+                "predictedMin": prediction["predictedMin"],
+                "actualMax": round(row["catchMax"], 2),
+                "predictedMax": prediction["predictedMax"],
+            }
+        )
+    model_label, feature_label = config_labels(config)
     return {
         "score": sum(weighted_errors) / len(weighted_errors),
         "validationRows": len(validation_rows),
         "minMae": round(sum(min_errors) / len(min_errors), 3),
         "maxMae": round(sum(max_errors) / len(max_errors), 3),
+        "modelType": model_label,
+        "moonFeature": feature_label,
+        "yyPoints": yy_points,
     }
 
 
 def select_model_config(rows, seed_key):
-    default_config = {"mode": "baseline"}
+    default_config = {"mode": "baseline", "feature_spec": DEFAULT_FEATURE_SPEC}
     if len(rows) < MIN_VALIDATION_ROWS:
         return default_config, None
 
@@ -1065,32 +1286,64 @@ def select_model_config(rows, seed_key):
     if len(train_rows) < 2 or len(validation_rows) < 2:
         return default_config, None
 
-    candidate_configs = [default_config]
-    for candidate_neighbors in NEIGHBOR_COUNTS:
-        if candidate_neighbors > len(train_rows):
-            continue
-        for candidate_bandwidth in KERNEL_BANDWIDTHS:
-            candidate_configs.append(
-                {
-                    "mode": "hybrid",
-                    "neighbor_count": candidate_neighbors,
-                    "bandwidth": candidate_bandwidth,
-                }
-            )
+    candidate_configs = []
+    for spec_key in FEATURE_SPECS:
+        candidate_configs.append({"mode": "baseline", "feature_spec": spec_key})
+        for candidate_neighbors in NEIGHBOR_COUNTS:
+            if candidate_neighbors > len(train_rows):
+                continue
+            for candidate_bandwidth in KERNEL_BANDWIDTHS:
+                candidate_configs.append(
+                    {
+                        "mode": "hybrid",
+                        "feature_spec": spec_key,
+                        "neighbor_count": candidate_neighbors,
+                        "bandwidth": candidate_bandwidth,
+                    }
+                )
+
+    if len(train_rows) >= MIN_RANDOM_FOREST_ROWS:
+        candidate_configs.append(
+            {
+                "mode": "random_forest",
+                "feature_spec": RANDOM_FOREST_FEATURE_SPEC,
+            }
+        )
 
     best_config = default_config
     best_metrics = None
+    candidate_results = []
     for config in candidate_configs:
-        metrics = evaluate_config(train_rows, validation_rows, config)
+        metrics = evaluate_config(train_rows, validation_rows, config, seed_key=f"{seed_key}:{config['mode']}:{config['feature_spec']}")
+        candidate_results.append(
+            {
+                "selected": False,
+                "modelType": metrics["modelType"],
+                "moonFeature": metrics["moonFeature"],
+                "score": round(metrics["score"], 3),
+                "validationRows": metrics["validationRows"],
+                "minMae": metrics["minMae"],
+                "maxMae": metrics["maxMae"],
+            }
+        )
         if best_metrics is None or metrics["score"] < best_metrics["score"]:
             best_config = config
             best_metrics = metrics
+
+    for candidate in candidate_results:
+        if candidate["modelType"] == best_metrics["modelType"] and candidate["moonFeature"] == best_metrics["moonFeature"]:
+            candidate["selected"] = True
+            break
 
     return best_config, {
         "validationRows": best_metrics["validationRows"],
         "minMae": best_metrics["minMae"],
         "maxMae": best_metrics["maxMae"],
-        "modelType": "近傍補正つき" if best_config["mode"] == "hybrid" else "重回帰",
+        "score": round(best_metrics["score"], 3),
+        "modelType": best_metrics["modelType"],
+        "moonFeature": best_metrics["moonFeature"],
+        "yyPoints": best_metrics["yyPoints"],
+        "candidates": sorted(candidate_results, key=lambda item: (item["score"], item["maxMae"], item["modelType"])),
     }
 
 
@@ -1112,6 +1365,8 @@ def build_species_rows(daily_reports, species_name, unit, archive_map, forecast_
                 "moonAge": features["moonAge"],
                 "moonSin": features["moonSin"],
                 "moonCos": features["moonCos"],
+                "moonSin2": features["moonSin2"],
+                "moonCos2": features["moonCos2"],
             }
         )
     return rows
@@ -1193,7 +1448,7 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
             continue
 
         selected_config, evaluation = select_model_config(rows, f'{ship_meta["id"]}:{species_name}')
-        regression = fit_models(rows, **selected_config)
+        regression = fit_models(rows, **selected_config, seed_key=f'{ship_meta["id"]}:{species_name}:fit')
         max_sigma = estimate_max_sigma(rows, regression)
         observed_by_date = {row["date"]: row for row in rows}
 
@@ -1202,14 +1457,11 @@ def build_ship_payloads(ship_meta, daily_reports, today, archive_map, forecast_m
         while current_day <= future_end:
             resolved, source = resolve_prediction_feature(current_day, archive_map, forecast_map, climatology)
             moon_age = moon_age_for(current_day)
-            moon_sin, moon_cos = moon_phase_components(moon_age)
-            raw_features = {
-                "airTemp": resolved["temperature_2m_mean"],
-                "seaTemp": resolved["sea_surface_temperature_mean"],
-                "moonAge": moon_age,
-                "moonSin": moon_sin,
-                "moonCos": moon_cos,
-            }
+            raw_features = build_feature_map(
+                resolved["temperature_2m_mean"],
+                resolved["sea_surface_temperature_mean"],
+                moon_age,
+            )
             prediction = predict_models(raw_features, regression)
             prior_year_day = same_day_last_year(current_day)
             observed_row = observed_by_date.get(prior_year_day)
@@ -1383,7 +1635,7 @@ def build_aggregate_payloads(ship_contexts, today):
         rows.sort(key=lambda item: (item["date"], item["shipId"]))
 
         selected_config, evaluation = select_model_config(rows, f"aggregate:{species_name}")
-        regression = fit_models(rows, **selected_config)
+        regression = fit_models(rows, **selected_config, seed_key=f"aggregate:{species_name}:fit")
         max_sigma = estimate_max_sigma(rows, regression)
 
         future_predictions = []
@@ -1391,7 +1643,6 @@ def build_aggregate_payloads(ship_contexts, today):
         while current_day <= future_end:
             ship_predictions = []
             current_moon_age = moon_age_for(current_day)
-            current_moon_sin, current_moon_cos = moon_phase_components(current_moon_age)
             source_counts = Counter()
             for context in active_contexts:
                 resolved, source = resolve_prediction_feature(
@@ -1400,13 +1651,11 @@ def build_aggregate_payloads(ship_contexts, today):
                     context["forecast_map"],
                     context["climatology"],
                 )
-                raw_features = {
-                    "airTemp": resolved["temperature_2m_mean"],
-                    "seaTemp": resolved["sea_surface_temperature_mean"],
-                    "moonAge": current_moon_age,
-                    "moonSin": current_moon_sin,
-                    "moonCos": current_moon_cos,
-                }
+                raw_features = build_feature_map(
+                    resolved["temperature_2m_mean"],
+                    resolved["sea_surface_temperature_mean"],
+                    current_moon_age,
+                )
                 prediction = predict_models(raw_features, regression)
                 ship_predictions.append(
                     {
