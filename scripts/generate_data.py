@@ -26,7 +26,20 @@ TIMEZONE_NAME = "Asia/Tokyo"
 SYNODIC_MONTH = 29.53058867
 REFERENCE_NEW_MOON = datetime(2000, 1, 6, 18, 14, tzinfo=timezone.utc)
 
-DEFAULT_SHIP_IDS = ["00296", "00297", "ichiroumaru"]
+DEFAULT_SHIP_IDS = [
+    "00296",
+    "00297",
+    "ichiroumaru",
+    "00007",
+    "00834",
+    "00307",
+    "00300",
+    "00150",
+    "00836",
+    "00703",
+    "00689",
+    "01580",
+]
 TRAINING_DAYS = 365
 FORECAST_DAYS = 365
 WEATHER_HISTORY_DAYS = 365 * 3

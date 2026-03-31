@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-03-29 14:47 JST",
-  "today": "2026-03-29",
+  "generatedAt": "2026-03-31 14:01 JST",
+  "today": "2026-03-31",
   "ship": {
     "id": "ichiroumaru",
     "name": "鴨居一郎丸",
-    "location": "鴨居・大貫・下浦沖",
+    "location": "鴨居・久里浜沖",
     "homeUrl": "https://www.ichiroumaru.jp/",
     "catchUrl": "https://www.ichiroumaru.jp/result/"
   },
@@ -18,8 +18,8 @@
     "to": "2026-03-28"
   },
   "forecastRange": {
-    "from": "2026-03-30",
-    "to": "2027-03-29"
+    "from": "2026-04-01",
+    "to": "2027-03-31"
   },
   "tripDays": 223,
   "positiveDays": 223,
@@ -27,7 +27,7 @@
   "xDayPeak": {
     "date": "2026-12-02",
     "predictedMax": 48.11,
-    "probability": 0.0833,
+    "probability": 0.0776,
     "unit": "匹"
   },
   "xDayModel": {
@@ -35,326 +35,326 @@
     "samples": 4096,
     "maxSigma": 10.2504,
     "maximaSamples": [
-      54.351,
-      54.931,
-      55.065,
-      55.24,
-      55.275,
-      55.738,
-      55.899,
-      56.207,
-      56.253,
-      56.532,
-      56.558,
-      56.624,
-      56.635,
-      56.733,
-      56.757,
-      56.959,
-      56.977,
-      57.09,
-      57.103,
-      57.31,
-      57.534,
-      57.543,
-      57.772,
-      57.811,
-      57.823,
-      57.859,
-      57.979,
-      58.267,
-      58.359,
-      58.422,
-      58.424,
-      58.507,
-      58.71,
-      58.738,
-      58.746,
-      58.814,
-      58.827,
-      58.927,
-      58.934,
-      58.983,
-      58.999,
-      59.088,
-      59.227,
-      59.258,
-      59.3,
-      59.439,
-      59.457,
-      59.463,
-      59.52,
-      59.573,
-      59.584,
-      59.655,
-      59.807,
-      60.041,
-      60.045,
-      60.052,
-      60.132,
-      60.193,
-      60.218,
-      60.224,
-      60.24,
-      60.246,
-      60.266,
-      60.275,
-      60.434,
-      60.501,
-      60.575,
-      60.606,
-      60.616,
-      60.654,
-      60.67,
+      55.231,
+      55.94,
+      56.06,
+      56.138,
+      56.144,
+      56.273,
+      56.315,
+      56.371,
+      56.457,
+      56.611,
+      57.109,
+      57.132,
+      57.364,
+      57.42,
+      57.627,
+      57.63,
+      57.691,
+      57.72,
+      57.736,
+      57.766,
+      57.781,
+      57.865,
+      57.878,
+      57.883,
+      57.968,
+      58.031,
+      58.158,
+      58.299,
+      58.322,
+      58.338,
+      58.368,
+      58.426,
+      58.454,
+      58.532,
+      58.553,
+      58.645,
+      58.727,
+      58.806,
+      58.806,
+      58.833,
+      58.884,
+      58.926,
+      58.991,
+      59.027,
+      59.125,
+      59.159,
+      59.175,
+      59.179,
+      59.224,
+      59.231,
+      59.254,
+      59.27,
+      59.288,
+      59.323,
+      59.344,
+      59.359,
+      59.404,
+      59.446,
+      59.532,
+      59.543,
+      59.548,
+      59.605,
+      59.711,
+      59.733,
+      59.752,
+      59.764,
+      59.805,
+      59.869,
+      59.87,
+      59.911,
+      59.917,
+      59.978,
+      60.016,
+      60.131,
+      60.233,
+      60.235,
+      60.295,
+      60.318,
+      60.319,
+      60.362,
+      60.398,
+      60.414,
+      60.462,
+      60.513,
+      60.517,
+      60.577,
+      60.628,
+      60.677,
       60.683,
-      60.749,
-      60.758,
-      60.776,
-      60.788,
-      60.805,
-      60.806,
-      60.841,
-      60.914,
-      60.927,
-      60.947,
-      60.968,
-      60.969,
-      61.0,
-      61.049,
-      61.05,
-      61.056,
-      61.102,
-      61.135,
-      61.138,
-      61.165,
-      61.202,
-      61.259,
-      61.277,
+      60.717,
+      60.742,
+      60.81,
+      60.822,
+      60.831,
+      60.869,
+      60.871,
+      60.884,
+      60.917,
+      60.92,
+      61.047,
+      61.082,
+      61.142,
+      61.181,
+      61.207,
+      61.208,
+      61.262,
+      61.308,
       61.31,
-      61.341,
-      61.368,
-      61.384,
-      61.393,
-      61.402,
+      61.311,
+      61.355,
+      61.397,
+      61.42,
       61.48,
-      61.509,
-      61.527,
-      61.554,
-      61.567,
+      61.494,
+      61.512,
+      61.529,
+      61.551,
+      61.59,
+      61.601,
+      61.602,
+      61.603,
+      61.618,
       61.641,
-      61.655,
-      61.67,
-      61.693,
-      61.756,
-      61.78,
-      61.784,
-      61.801,
-      61.805,
-      61.838,
-      61.953,
-      61.974,
-      62.057,
-      62.063,
-      62.177,
-      62.188,
-      62.193,
-      62.196,
-      62.197,
-      62.214,
-      62.222,
-      62.229,
-      62.255,
-      62.275,
-      62.343,
-      62.424,
-      62.507,
-      62.509,
-      62.516,
-      62.517,
-      62.523,
-      62.545,
-      62.616,
-      62.624,
-      62.656,
-      62.667,
-      62.7,
-      62.78,
-      62.817,
-      62.881,
-      62.894,
-      62.936,
-      62.945,
-      62.967,
+      61.643,
+      61.688,
+      61.733,
+      61.755,
+      61.76,
+      61.767,
+      61.779,
+      61.785,
+      61.799,
+      61.935,
+      61.991,
+      61.995,
+      62.025,
+      62.048,
+      62.062,
+      62.117,
+      62.172,
+      62.221,
+      62.23,
+      62.231,
+      62.241,
+      62.25,
+      62.261,
+      62.309,
+      62.312,
+      62.376,
+      62.425,
+      62.481,
+      62.541,
+      62.571,
+      62.597,
+      62.604,
+      62.606,
+      62.611,
+      62.677,
+      62.704,
+      62.771,
+      62.811,
+      62.837,
+      62.887,
+      62.923,
       62.979,
-      62.991,
-      62.997,
+      62.987,
+      63.004,
+      63.042,
+      63.045,
+      63.056,
+      63.062,
       63.071,
-      63.081,
-      63.087,
-      63.147,
-      63.288,
-      63.304,
-      63.331,
-      63.333,
-      63.469,
-      63.471,
-      63.533,
-      63.535,
-      63.601,
-      63.653,
-      63.698,
-      63.706,
-      63.739,
-      63.76,
-      63.772,
-      63.786,
-      63.79,
-      63.811,
-      63.839,
-      63.856,
-      63.871,
-      63.879,
-      63.888,
-      63.9,
-      63.946,
-      63.95,
-      64.03,
-      64.053,
-      64.086,
-      64.165,
-      64.176,
-      64.178,
-      64.189,
-      64.21,
-      64.318,
-      64.381,
-      64.454,
-      64.499,
-      64.602,
-      64.774,
-      64.839,
-      64.86,
-      64.905,
-      65.068,
-      65.079,
-      65.206,
-      65.212,
-      65.218,
-      65.272,
-      65.316,
-      65.368,
-      65.418,
-      65.596,
-      65.599,
-      65.668,
-      65.737,
-      65.747,
-      65.794,
-      65.808,
-      65.847,
-      65.863,
+      63.11,
+      63.125,
+      63.211,
+      63.248,
+      63.27,
+      63.327,
+      63.329,
+      63.349,
+      63.412,
+      63.45,
+      63.493,
+      63.513,
+      63.515,
+      63.548,
+      63.638,
+      63.699,
+      63.724,
+      63.729,
+      63.736,
+      63.773,
+      63.913,
+      63.93,
+      63.983,
+      64.024,
+      64.039,
+      64.107,
+      64.197,
+      64.277,
+      64.333,
+      64.357,
+      64.38,
+      64.405,
+      64.411,
+      64.564,
+      64.595,
+      64.601,
+      64.605,
+      64.639,
+      64.702,
+      64.829,
+      64.931,
+      64.931,
+      64.956,
+      64.956,
+      65.011,
+      65.111,
+      65.125,
+      65.168,
+      65.174,
+      65.24,
+      65.249,
+      65.297,
+      65.34,
+      65.361,
+      65.372,
+      65.404,
+      65.426,
+      65.427,
+      65.434,
+      65.491,
+      65.498,
+      65.551,
+      65.574,
+      65.617,
+      65.669,
+      65.729,
+      65.792,
       65.874,
+      65.897,
       65.947,
-      66.002,
-      66.064,
-      66.096,
-      66.173,
-      66.237,
-      66.24,
-      66.329,
-      66.398,
-      66.432,
-      66.435,
-      66.471,
-      66.59,
-      66.591,
-      66.596,
-      66.637,
-      66.656,
-      66.673,
-      66.675,
-      66.699,
-      66.721,
-      66.763,
-      66.775,
-      66.787,
-      66.794,
-      66.799,
-      66.948,
-      66.974,
-      67.003,
-      67.023,
-      67.175,
-      67.201,
-      67.364,
-      67.6,
-      67.615,
-      67.617,
-      67.769,
-      67.781,
-      67.794,
-      67.831,
+      65.957,
+      65.979,
+      66.118,
+      66.135,
+      66.146,
+      66.153,
+      66.205,
+      66.272,
+      66.395,
+      66.46,
+      66.505,
+      66.513,
+      66.573,
+      66.58,
+      66.624,
+      66.628,
+      66.788,
+      66.919,
+      67.086,
+      67.124,
+      67.2,
+      67.237,
+      67.259,
+      67.338,
+      67.467,
+      67.564,
+      67.679,
+      67.708,
+      67.786,
+      67.788,
+      67.818,
+      67.82,
       67.858,
-      67.887,
-      67.964,
-      67.983,
-      67.994,
-      68.013,
-      68.039,
-      68.084,
-      68.087,
-      68.394,
-      68.43,
-      68.597,
-      68.615,
-      68.709,
-      68.763,
-      68.963,
-      68.985,
-      69.069,
-      69.192,
-      69.224,
-      69.241,
-      69.246,
-      69.378,
-      69.451,
-      69.473,
-      69.523,
-      69.668,
-      69.757,
-      69.814,
-      69.831,
-      69.976,
-      70.037,
-      70.054,
-      70.105,
-      70.224,
-      70.294,
-      70.624,
-      70.812,
-      71.513,
-      71.954,
-      72.012,
-      72.083,
-      72.13,
-      72.155,
-      72.319,
-      72.598,
-      72.721,
-      73.06,
-      73.14,
-      73.553,
-      73.672,
-      73.987,
-      74.01,
-      74.437,
-      75.343,
-      75.347,
-      75.86,
-      76.061,
-      77.181,
-      77.512,
-      78.166
+      67.888,
+      67.939,
+      68.177,
+      68.179,
+      68.295,
+      68.625,
+      68.82,
+      68.866,
+      69.239,
+      69.312,
+      69.324,
+      69.603,
+      69.802,
+      69.972,
+      70.123,
+      70.169,
+      70.187,
+      70.211,
+      70.221,
+      70.454,
+      70.48,
+      70.529,
+      70.581,
+      70.755,
+      70.948,
+      71.131,
+      71.285,
+      71.549,
+      72.161,
+      72.305,
+      72.473,
+      72.575,
+      72.678,
+      73.015,
+      73.39,
+      73.549,
+      73.686,
+      73.718,
+      74.157,
+      74.432,
+      74.665,
+      75.428,
+      77.191,
+      78.863,
+      80.349
     ]
   },
   "featureRanges": {
@@ -2702,7 +2702,7 @@
       "observedMin": 8.0,
       "observedMax": 47.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 8~47 匹 14~32cm 10m",
-      "probability": 0.0833
+      "probability": 0.0776
     },
     {
       "date": "2026-12-01",
@@ -2716,7 +2716,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0562
+      "probability": 0.0552
     },
     {
       "date": "2026-12-15",
@@ -2730,7 +2730,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0542
+      "probability": 0.05
     },
     {
       "date": "2026-09-08",
@@ -2744,58 +2744,30 @@
       "observedMin": 2.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~24 匹 12~32cm 10m",
-      "probability": 0.0354
+      "probability": 0.041
     }
   ],
   "predictions": [
     {
-      "date": "2026-03-30",
-      "predictedMin": 1.13,
-      "predictedMax": 24.56,
-      "airTemp": 14.7,
-      "seaTemp": 15.4,
-      "moonAge": 11.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0002
-    },
-    {
-      "date": "2026-03-31",
-      "predictedMin": 0.53,
-      "predictedMax": 23.39,
-      "airTemp": 16.5,
-      "seaTemp": 15.6,
-      "moonAge": 12.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0002
-    },
-    {
       "date": "2026-04-01",
-      "predictedMin": 0.73,
-      "predictedMax": 23.31,
-      "airTemp": 15.4,
-      "seaTemp": 15.7,
+      "predictedMin": 0.74,
+      "predictedMax": 23.23,
+      "airTemp": 15.1,
+      "seaTemp": 15.6,
       "moonAge": 13.83,
       "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-04-02",
-      "predictedMin": 0.76,
-      "predictedMax": 18.41,
-      "airTemp": 13.1,
-      "seaTemp": 15.5,
+      "predictedMin": 0.81,
+      "predictedMax": 18.84,
+      "airTemp": 12.1,
+      "seaTemp": 15.4,
       "moonAge": 14.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2806,10 +2778,10 @@
     },
     {
       "date": "2026-04-03",
-      "predictedMin": 0.98,
-      "predictedMax": 19.54,
-      "airTemp": 14.9,
-      "seaTemp": 15.6,
+      "predictedMin": 1.82,
+      "predictedMax": 21.56,
+      "airTemp": 14.1,
+      "seaTemp": 15.4,
       "moonAge": 15.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2820,10 +2792,10 @@
     },
     {
       "date": "2026-04-04",
-      "predictedMin": 0.77,
-      "predictedMax": 18.34,
-      "airTemp": 16.4,
-      "seaTemp": 15.6,
+      "predictedMin": 0.82,
+      "predictedMax": 17.96,
+      "airTemp": 15.8,
+      "seaTemp": 15.5,
       "moonAge": 16.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2834,10 +2806,10 @@
     },
     {
       "date": "2026-04-05",
-      "predictedMin": 0.62,
-      "predictedMax": 17.47,
-      "airTemp": 17.3,
-      "seaTemp": 15.7,
+      "predictedMin": 0.59,
+      "predictedMax": 17.2,
+      "airTemp": 17.5,
+      "seaTemp": 15.6,
       "moonAge": 17.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2848,10 +2820,10 @@
     },
     {
       "date": "2026-04-06",
-      "predictedMin": 1.61,
-      "predictedMax": 18.42,
-      "airTemp": 16.3,
-      "seaTemp": 15.9,
+      "predictedMin": 1.45,
+      "predictedMax": 17.8,
+      "airTemp": 17.0,
+      "seaTemp": 15.8,
       "moonAge": 18.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2862,10 +2834,10 @@
     },
     {
       "date": "2026-04-07",
-      "predictedMin": 0.88,
-      "predictedMax": 15.82,
-      "airTemp": 17.0,
-      "seaTemp": 16.78,
+      "predictedMin": 2.16,
+      "predictedMax": 18.48,
+      "airTemp": 15.9,
+      "seaTemp": 16.1,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2876,10 +2848,10 @@
     },
     {
       "date": "2026-04-08",
-      "predictedMin": 1.44,
-      "predictedMax": 21.34,
-      "airTemp": 12.9,
-      "seaTemp": 16.85,
+      "predictedMin": 0.75,
+      "predictedMax": 16.79,
+      "airTemp": 16.5,
+      "seaTemp": 16.4,
       "moonAge": 20.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -2890,9 +2862,9 @@
     },
     {
       "date": "2026-04-09",
-      "predictedMin": 2.87,
-      "predictedMax": 26.43,
-      "airTemp": 13.4,
+      "predictedMin": 0.61,
+      "predictedMax": 13.2,
+      "airTemp": 17.2,
       "seaTemp": 16.96,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -2900,13 +2872,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-04-10",
-      "predictedMin": 2.56,
-      "predictedMax": 19.76,
-      "airTemp": 15.3,
+      "predictedMin": 0.51,
+      "predictedMax": 9.29,
+      "airTemp": 17.7,
       "seaTemp": 17.07,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -2932,9 +2904,9 @@
     },
     {
       "date": "2026-04-12",
-      "predictedMin": 0.61,
-      "predictedMax": 11.46,
-      "airTemp": 16.9,
+      "predictedMin": 0.68,
+      "predictedMax": 11.92,
+      "airTemp": 16.5,
       "seaTemp": 17.25,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -2946,12 +2918,12 @@
     },
     {
       "date": "2026-04-13",
-      "predictedMin": 1.62,
-      "predictedMax": 18.45,
-      "airTemp": 15.62,
+      "predictedMin": 1.72,
+      "predictedMax": 19.06,
+      "airTemp": 15.2,
       "seaTemp": 17.33,
       "moonAge": 25.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
@@ -2960,12 +2932,12 @@
     },
     {
       "date": "2026-04-14",
-      "predictedMin": 2.57,
-      "predictedMax": 18.14,
-      "airTemp": 15.84,
+      "predictedMin": 2.22,
+      "predictedMax": 17.01,
+      "airTemp": 16.7,
       "seaTemp": 17.43,
       "moonAge": 26.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
@@ -3026,7 +2998,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.0002
     },
     {
       "date": "2026-04-19",
@@ -3040,7 +3012,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0012
+      "probability": 0.0015
     },
     {
       "date": "2026-04-20",
@@ -3054,7 +3026,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-04-21",
@@ -3096,7 +3068,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0027
+      "probability": 0.0024
     },
     {
       "date": "2026-04-24",
@@ -3110,7 +3082,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.001
+      "probability": 0.0002
     },
     {
       "date": "2026-04-25",
@@ -3124,7 +3096,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.0015
     },
     {
       "date": "2026-04-26",
@@ -3138,7 +3110,7 @@
       "observedMin": 4.0,
       "observedMax": 20.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~20 匹 12~30cm 10m",
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-04-27",
@@ -3152,7 +3124,7 @@
       "observedMin": 10.0,
       "observedMax": 46.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 10~46 匹 14~30cm 10m",
-      "probability": 0.0022
+      "probability": 0.001
     },
     {
       "date": "2026-04-28",
@@ -3166,7 +3138,7 @@
       "observedMin": 4.0,
       "observedMax": 25.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~25 匹 14~32cm 10m",
-      "probability": 0.0059
+      "probability": 0.0032
     },
     {
       "date": "2026-04-29",
@@ -3180,7 +3152,7 @@
       "observedMin": 5.0,
       "observedMax": 37.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~37 匹 12~32cm 10m",
-      "probability": 0.0027
+      "probability": 0.0017
     },
     {
       "date": "2026-04-30",
@@ -3194,7 +3166,7 @@
       "observedMin": 1.0,
       "observedMax": 37.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~37 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0017
     },
     {
       "date": "2026-05-01",
@@ -3208,7 +3180,7 @@
       "observedMin": 0.0,
       "observedMax": 42.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~42 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-05-02",
@@ -3222,7 +3194,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-05-03",
@@ -3404,7 +3376,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-05-16",
@@ -3880,7 +3852,7 @@
       "observedMin": 2.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~30 匹 18~32cm 10m",
-      "probability": 0.001
+      "probability": 0.0005
     },
     {
       "date": "2026-06-19",
@@ -3894,7 +3866,7 @@
       "observedMin": 1.0,
       "observedMax": 10.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~10 匹 18~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-06-20",
@@ -4020,7 +3992,7 @@
       "observedMin": 6.0,
       "observedMax": 47.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~47 匹 18~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0005
     },
     {
       "date": "2026-06-29",
@@ -4034,7 +4006,7 @@
       "observedMin": 3.0,
       "observedMax": 50.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~50 匹 18~50cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-06-30",
@@ -4048,7 +4020,7 @@
       "observedMin": 1.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~32 匹 18~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-07-01",
@@ -4062,7 +4034,7 @@
       "observedMin": 1.0,
       "observedMax": 14.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~14 匹 18~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-07-02",
@@ -4104,7 +4076,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-07-05",
@@ -4118,7 +4090,7 @@
       "observedMin": 0.0,
       "observedMax": 17.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~17 匹 16~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0002
     },
     {
       "date": "2026-07-06",
@@ -4132,7 +4104,7 @@
       "observedMin": 0.0,
       "observedMax": 16.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~16 匹 16~34cm 10m",
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-07-07",
@@ -4146,7 +4118,7 @@
       "observedMin": 0.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~32 匹 16~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-07-08",
@@ -4188,7 +4160,7 @@
       "observedMin": 3.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~30 匹 16~34cm 10m",
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-07-11",
@@ -4202,7 +4174,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0046
+      "probability": 0.0056
     },
     {
       "date": "2026-07-12",
@@ -4230,7 +4202,7 @@
       "observedMin": 0.0,
       "observedMax": 17.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~17 匹 16~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-07-14",
@@ -4258,7 +4230,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-07-16",
@@ -4272,7 +4244,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0022
+      "probability": 0.0034
     },
     {
       "date": "2026-07-17",
@@ -4286,7 +4258,7 @@
       "observedMin": 0.0,
       "observedMax": 7.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~7 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0007
     },
     {
       "date": "2026-07-18",
@@ -4300,7 +4272,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.001
     },
     {
       "date": "2026-07-19",
@@ -4314,7 +4286,7 @@
       "observedMin": 10.0,
       "observedMax": 47.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 10~47 匹 16~34cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-07-20",
@@ -4342,7 +4314,7 @@
       "observedMin": 0.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~34 匹 16~34cm 10m",
-      "probability": 0.0
+      "probability": 0.0007
     },
     {
       "date": "2026-07-22",
@@ -4356,7 +4328,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0042
+      "probability": 0.0046
     },
     {
       "date": "2026-07-23",
@@ -4412,7 +4384,7 @@
       "observedMin": 0.0,
       "observedMax": 33.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~33 匹 16~32cm 10m",
-      "probability": 0.0076
+      "probability": 0.0066
     },
     {
       "date": "2026-07-27",
@@ -4426,7 +4398,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.001
+      "probability": 0.0002
     },
     {
       "date": "2026-07-28",
@@ -4440,7 +4412,7 @@
       "observedMin": 2.0,
       "observedMax": 19.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~19 匹 16~32cm 10m",
-      "probability": 0.001
+      "probability": 0.002
     },
     {
       "date": "2026-07-29",
@@ -4468,7 +4440,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0007
     },
     {
       "date": "2026-07-31",
@@ -4482,7 +4454,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-08-01",
@@ -4496,7 +4468,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0022
+      "probability": 0.0032
     },
     {
       "date": "2026-08-02",
@@ -4510,7 +4482,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0049
+      "probability": 0.0059
     },
     {
       "date": "2026-08-03",
@@ -4524,7 +4496,7 @@
       "observedMin": 0.0,
       "observedMax": 6.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~6 匹 12~30cm 10m",
-      "probability": 0.0095
+      "probability": 0.0085
     },
     {
       "date": "2026-08-04",
@@ -4538,7 +4510,7 @@
       "observedMin": 6.0,
       "observedMax": 29.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~29 匹 12~26cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-08-05",
@@ -4552,7 +4524,7 @@
       "observedMin": 3.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~34 匹 12~30cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-08-06",
@@ -4566,7 +4538,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0161
+      "probability": 0.0168
     },
     {
       "date": "2026-08-07",
@@ -4594,7 +4566,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0093
+      "probability": 0.0061
     },
     {
       "date": "2026-08-09",
@@ -4608,7 +4580,7 @@
       "observedMin": 1.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~24 匹 12~32cm 10m",
-      "probability": 0.0093
+      "probability": 0.0088
     },
     {
       "date": "2026-08-10",
@@ -4622,7 +4594,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0288
+      "probability": 0.0271
     },
     {
       "date": "2026-08-11",
@@ -4636,7 +4608,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0083
+      "probability": 0.0076
     },
     {
       "date": "2026-08-12",
@@ -4678,7 +4650,7 @@
       "observedMin": 2.0,
       "observedMax": 49.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~49 匹 12~34cm 10m",
-      "probability": 0.0029
+      "probability": 0.0024
     },
     {
       "date": "2026-08-15",
@@ -4692,7 +4664,7 @@
       "observedMin": 0.0,
       "observedMax": 21.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~21 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0007
     },
     {
       "date": "2026-08-16",
@@ -4706,7 +4678,7 @@
       "observedMin": 4.0,
       "observedMax": 41.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~41 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-08-17",
@@ -4720,7 +4692,7 @@
       "observedMin": 2.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~34 匹 12~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0002
     },
     {
       "date": "2026-08-18",
@@ -4734,7 +4706,7 @@
       "observedMin": 2.0,
       "observedMax": 26.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~26 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0005
     },
     {
       "date": "2026-08-19",
@@ -4748,7 +4720,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2026-08-20",
@@ -4762,7 +4734,7 @@
       "observedMin": 4.0,
       "observedMax": 40.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~40 匹 12~32cm 10m",
-      "probability": 0.0085
+      "probability": 0.0081
     },
     {
       "date": "2026-08-21",
@@ -4804,7 +4776,7 @@
       "observedMin": 4.0,
       "observedMax": 31.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~31 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-08-24",
@@ -4832,7 +4804,7 @@
       "observedMin": 2.0,
       "observedMax": 33.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~33 匹 12~32cm 10m",
-      "probability": 0.02
+      "probability": 0.0195
     },
     {
       "date": "2026-08-26",
@@ -4846,7 +4818,7 @@
       "observedMin": 6.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~28 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-08-27",
@@ -4860,7 +4832,7 @@
       "observedMin": 6.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~30 匹 12~32cm 10m",
-      "probability": 0.0042
+      "probability": 0.0054
     },
     {
       "date": "2026-08-28",
@@ -4874,7 +4846,7 @@
       "observedMin": 1.0,
       "observedMax": 42.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~42 匹 12~32cm 10m",
-      "probability": 0.0015
+      "probability": 0.0012
     },
     {
       "date": "2026-08-29",
@@ -4888,7 +4860,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0015
+      "probability": 0.001
     },
     {
       "date": "2026-08-30",
@@ -4902,7 +4874,7 @@
       "observedMin": 2.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~30 匹 12~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2026-08-31",
@@ -4916,7 +4888,7 @@
       "observedMin": 3.0,
       "observedMax": 50.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~50 匹 12~32cm 10m",
-      "probability": 0.0061
+      "probability": 0.0068
     },
     {
       "date": "2026-09-01",
@@ -4930,7 +4902,7 @@
       "observedMin": 2.0,
       "observedMax": 43.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~43 匹 12~32cm 10m",
-      "probability": 0.0073
+      "probability": 0.012
     },
     {
       "date": "2026-09-02",
@@ -4944,7 +4916,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.001
     },
     {
       "date": "2026-09-03",
@@ -4986,7 +4958,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0251
+      "probability": 0.0203
     },
     {
       "date": "2026-09-06",
@@ -5000,7 +4972,7 @@
       "observedMin": 0.0,
       "observedMax": 7.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~7 匹 12~37cm 10m",
-      "probability": 0.0166
+      "probability": 0.0159
     },
     {
       "date": "2026-09-07",
@@ -5014,7 +4986,7 @@
       "observedMin": 10.0,
       "observedMax": 48.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 10~48 匹 12~32cm 10m",
-      "probability": 0.0139
+      "probability": 0.0122
     },
     {
       "date": "2026-09-08",
@@ -5028,7 +5000,7 @@
       "observedMin": 2.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~24 匹 12~32cm 10m",
-      "probability": 0.0354
+      "probability": 0.041
     },
     {
       "date": "2026-09-09",
@@ -5042,7 +5014,7 @@
       "observedMin": 0.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~36 匹 12~32cm 10m",
-      "probability": 0.0283
+      "probability": 0.0251
     },
     {
       "date": "2026-09-10",
@@ -5056,7 +5028,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0078
+      "probability": 0.0051
     },
     {
       "date": "2026-09-11",
@@ -5070,7 +5042,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0012
+      "probability": 0.0042
     },
     {
       "date": "2026-09-12",
@@ -5084,7 +5056,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0042
+      "probability": 0.0044
     },
     {
       "date": "2026-09-13",
@@ -5112,7 +5084,7 @@
       "observedMin": 0.0,
       "observedMax": 15.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~15 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0007
     },
     {
       "date": "2026-09-15",
@@ -5126,7 +5098,7 @@
       "observedMin": 5.0,
       "observedMax": 38.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~38 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-09-16",
@@ -5168,7 +5140,7 @@
       "observedMin": 8.0,
       "observedMax": 42.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 8~42 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-09-19",
@@ -5182,7 +5154,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.01
+      "probability": 0.0061
     },
     {
       "date": "2026-09-20",
@@ -5224,7 +5196,7 @@
       "observedMin": 4.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~36 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-09-23",
@@ -5238,7 +5210,7 @@
       "observedMin": 2.0,
       "observedMax": 40.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~40 匹 12~32cm 10m",
-      "probability": 0.0039
+      "probability": 0.0032
     },
     {
       "date": "2026-09-24",
@@ -5252,7 +5224,7 @@
       "observedMin": 4.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~36 匹 12~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0015
     },
     {
       "date": "2026-09-25",
@@ -5266,7 +5238,7 @@
       "observedMin": 0.0,
       "observedMax": 16.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~16 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0012
     },
     {
       "date": "2026-09-26",
@@ -5280,7 +5252,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0007
     },
     {
       "date": "2026-09-27",
@@ -5308,7 +5280,7 @@
       "observedMin": 1.0,
       "observedMax": 9.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~9 匹 12~34cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-09-29",
@@ -5350,7 +5322,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.011
+      "probability": 0.0134
     },
     {
       "date": "2026-10-02",
@@ -5364,7 +5336,7 @@
       "observedMin": 5.0,
       "observedMax": 58.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~58 匹 12~32cm 10m",
-      "probability": 0.0017
+      "probability": 0.002
     },
     {
       "date": "2026-10-03",
@@ -5406,7 +5378,7 @@
       "observedMin": 1.0,
       "observedMax": 41.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~41 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-10-06",
@@ -5420,7 +5392,7 @@
       "observedMin": 20.0,
       "observedMax": 33.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 20~33 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0007
     },
     {
       "date": "2026-10-07",
@@ -5434,7 +5406,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0027
+      "probability": 0.0032
     },
     {
       "date": "2026-10-08",
@@ -5448,7 +5420,7 @@
       "observedMin": 6.0,
       "observedMax": 18.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~18 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.001
     },
     {
       "date": "2026-10-09",
@@ -5462,7 +5434,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-10-10",
@@ -5490,7 +5462,7 @@
       "observedMin": 5.0,
       "observedMax": 52.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~52 匹 12~34cm 10m",
-      "probability": 0.001
+      "probability": 0.0
     },
     {
       "date": "2026-10-12",
@@ -5504,7 +5476,7 @@
       "observedMin": 1.0,
       "observedMax": 33.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~33 匹 12~37cm 10m",
-      "probability": 0.0044
+      "probability": 0.0032
     },
     {
       "date": "2026-10-13",
@@ -5518,7 +5490,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0015
+      "probability": 0.0017
     },
     {
       "date": "2026-10-14",
@@ -5532,7 +5504,7 @@
       "observedMin": 3.0,
       "observedMax": 22.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~22 匹 12~32cm 10m",
-      "probability": 0.0015
+      "probability": 0.002
     },
     {
       "date": "2026-10-15",
@@ -5546,7 +5518,7 @@
       "observedMin": 6.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~24 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-10-16",
@@ -5616,7 +5588,7 @@
       "observedMin": 3.0,
       "observedMax": 22.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~22 匹 12~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0005
     },
     {
       "date": "2026-10-21",
@@ -5630,7 +5602,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0012
+      "probability": 0.002
     },
     {
       "date": "2026-10-22",
@@ -5644,7 +5616,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0146
+      "probability": 0.0115
     },
     {
       "date": "2026-10-23",
@@ -5658,7 +5630,7 @@
       "observedMin": 8.0,
       "observedMax": 46.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 8~46 匹 12~36cm 10m",
-      "probability": 0.0071
+      "probability": 0.0081
     },
     {
       "date": "2026-10-24",
@@ -5672,7 +5644,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0088
+      "probability": 0.0076
     },
     {
       "date": "2026-10-25",
@@ -5686,7 +5658,7 @@
       "observedMin": 2.0,
       "observedMax": 50.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~50 匹 12~34cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-10-26",
@@ -5700,7 +5672,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-10-27",
@@ -5714,7 +5686,7 @@
       "observedMin": 4.0,
       "observedMax": 27.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~27 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-10-28",
@@ -5728,7 +5700,7 @@
       "observedMin": 2.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~36 匹 12~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0007
     },
     {
       "date": "2026-10-29",
@@ -5742,7 +5714,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-10-30",
@@ -5756,7 +5728,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-10-31",
@@ -5770,7 +5742,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-11-01",
@@ -5784,7 +5756,7 @@
       "observedMin": 6.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~32 匹 12~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-11-02",
@@ -5812,7 +5784,7 @@
       "observedMin": 7.0,
       "observedMax": 37.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~37 匹 12~34cm 10m",
-      "probability": 0.0007
+      "probability": 0.0005
     },
     {
       "date": "2026-11-04",
@@ -5826,7 +5798,7 @@
       "observedMin": 3.0,
       "observedMax": 20.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~20 匹 12~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0
     },
     {
       "date": "2026-11-05",
@@ -5840,7 +5812,7 @@
       "observedMin": 3.0,
       "observedMax": 46.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~46 匹 12~36cm 10m",
-      "probability": 0.0156
+      "probability": 0.0127
     },
     {
       "date": "2026-11-06",
@@ -5868,7 +5840,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0012
+      "probability": 0.001
     },
     {
       "date": "2026-11-08",
@@ -5882,7 +5854,7 @@
       "observedMin": 4.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~28 匹 12~34cm 10m",
-      "probability": 0.0007
+      "probability": 0.0012
     },
     {
       "date": "2026-11-09",
@@ -5910,7 +5882,7 @@
       "observedMin": 6.0,
       "observedMax": 18.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~18 匹 12~32cm 10m",
-      "probability": 0.0022
+      "probability": 0.001
     },
     {
       "date": "2026-11-11",
@@ -5924,7 +5896,7 @@
       "observedMin": 0.0,
       "observedMax": 27.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~27 匹 12~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0005
     },
     {
       "date": "2026-11-12",
@@ -5952,7 +5924,7 @@
       "observedMin": 20.0,
       "observedMax": 58.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 20~58 匹 12~32cm 10m",
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-11-14",
@@ -5966,7 +5938,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0081
+      "probability": 0.009
     },
     {
       "date": "2026-11-15",
@@ -5994,7 +5966,7 @@
       "observedMin": 1.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~28 匹 14~32cm 10m",
-      "probability": 0.0239
+      "probability": 0.0205
     },
     {
       "date": "2026-11-17",
@@ -6008,7 +5980,7 @@
       "observedMin": 11.0,
       "observedMax": 64.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 11~64 匹 14~32cm 10m",
-      "probability": 0.0181
+      "probability": 0.02
     },
     {
       "date": "2026-11-18",
@@ -6022,7 +5994,7 @@
       "observedMin": 9.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 9~32 匹 14~32cm 10m",
-      "probability": 0.0022
+      "probability": 0.0083
     },
     {
       "date": "2026-11-19",
@@ -6036,7 +6008,7 @@
       "observedMin": 9.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 9~30 匹 14~32cm 10m",
-      "probability": 0.0068
+      "probability": 0.0085
     },
     {
       "date": "2026-11-20",
@@ -6050,7 +6022,7 @@
       "observedMin": 4.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~30 匹 12~32cm 10m",
-      "probability": 0.0122
+      "probability": 0.0134
     },
     {
       "date": "2026-11-21",
@@ -6064,7 +6036,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0117
     },
     {
       "date": "2026-11-22",
@@ -6078,7 +6050,7 @@
       "observedMin": 0.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~28 匹 14~32cm 10m",
-      "probability": 0.0027
+      "probability": 0.0039
     },
     {
       "date": "2026-11-23",
@@ -6092,7 +6064,7 @@
       "observedMin": 1.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~32 匹 14~32cm 10m",
-      "probability": 0.0037
+      "probability": 0.0024
     },
     {
       "date": "2026-11-24",
@@ -6120,7 +6092,7 @@
       "observedMin": 11.0,
       "observedMax": 47.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 11~47 匹 14~32cm 10m",
-      "probability": 0.0054
+      "probability": 0.0059
     },
     {
       "date": "2026-11-26",
@@ -6134,7 +6106,7 @@
       "observedMin": 8.0,
       "observedMax": 45.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 8~45 匹 14~32cm 10m",
-      "probability": 0.0059
+      "probability": 0.0037
     },
     {
       "date": "2026-11-27",
@@ -6148,7 +6120,7 @@
       "observedMin": 7.0,
       "observedMax": 53.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~53 匹 14~32cm 10m",
-      "probability": 0.0032
+      "probability": 0.0054
     },
     {
       "date": "2026-11-28",
@@ -6176,7 +6148,7 @@
       "observedMin": 5.0,
       "observedMax": 43.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~43 匹 14~32cm 10m",
-      "probability": 0.0015
+      "probability": 0.0007
     },
     {
       "date": "2026-11-30",
@@ -6190,7 +6162,7 @@
       "observedMin": 3.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~34 匹 14~32cm 10m",
-      "probability": 0.0068
+      "probability": 0.0081
     },
     {
       "date": "2026-12-01",
@@ -6204,7 +6176,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0562
+      "probability": 0.0552
     },
     {
       "date": "2026-12-02",
@@ -6218,7 +6190,7 @@
       "observedMin": 8.0,
       "observedMax": 47.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 8~47 匹 14~32cm 10m",
-      "probability": 0.0833
+      "probability": 0.0776
     },
     {
       "date": "2026-12-03",
@@ -6232,7 +6204,7 @@
       "observedMin": 0.0,
       "observedMax": 45.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~45 匹 14~32cm 10m",
-      "probability": 0.032
+      "probability": 0.0344
     },
     {
       "date": "2026-12-04",
@@ -6246,7 +6218,7 @@
       "observedMin": 4.0,
       "observedMax": 43.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~43 匹 14~32cm 10m",
-      "probability": 0.0105
+      "probability": 0.0098
     },
     {
       "date": "2026-12-05",
@@ -6274,7 +6246,7 @@
       "observedMin": 3.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~28 匹 14~32cm 10m",
-      "probability": 0.0037
+      "probability": 0.0056
     },
     {
       "date": "2026-12-07",
@@ -6288,7 +6260,7 @@
       "observedMin": 1.0,
       "observedMax": 43.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~43 匹 14~32cm 10m",
-      "probability": 0.0044
+      "probability": 0.0056
     },
     {
       "date": "2026-12-08",
@@ -6302,7 +6274,7 @@
       "observedMin": 1.0,
       "observedMax": 39.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~39 匹 14~32cm 10m",
-      "probability": 0.0063
+      "probability": 0.0059
     },
     {
       "date": "2026-12-09",
@@ -6316,7 +6288,7 @@
       "observedMin": 6.0,
       "observedMax": 31.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~31 匹 14~34cm 10m",
-      "probability": 0.0042
+      "probability": 0.0054
     },
     {
       "date": "2026-12-10",
@@ -6330,7 +6302,7 @@
       "observedMin": 4.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~34 匹 14~32cm 10m",
-      "probability": 0.0081
+      "probability": 0.0083
     },
     {
       "date": "2026-12-11",
@@ -6344,7 +6316,7 @@
       "observedMin": 5.0,
       "observedMax": 41.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 5~41 匹 14~34cm 10m",
-      "probability": 0.0081
+      "probability": 0.0071
     },
     {
       "date": "2026-12-12",
@@ -6358,7 +6330,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0054
+      "probability": 0.0046
     },
     {
       "date": "2026-12-13",
@@ -6372,7 +6344,7 @@
       "observedMin": 6.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~36 匹 14~34cm 10m",
-      "probability": 0.0142
+      "probability": 0.0144
     },
     {
       "date": "2026-12-14",
@@ -6400,7 +6372,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0542
+      "probability": 0.05
     },
     {
       "date": "2026-12-16",
@@ -6414,7 +6386,7 @@
       "observedMin": 3.0,
       "observedMax": 32.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~32 匹 14~34cm 10m",
-      "probability": 0.0247
+      "probability": 0.032
     },
     {
       "date": "2026-12-17",
@@ -6428,7 +6400,7 @@
       "observedMin": 6.0,
       "observedMax": 35.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~35 匹 14~34cm 10m",
-      "probability": 0.0127
+      "probability": 0.0105
     },
     {
       "date": "2026-12-18",
@@ -6442,7 +6414,7 @@
       "observedMin": 1.0,
       "observedMax": 34.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~34 匹 14~32cm 10m",
-      "probability": 0.0049
+      "probability": 0.0034
     },
     {
       "date": "2026-12-19",
@@ -6456,7 +6428,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-12-20",
@@ -6470,7 +6442,7 @@
       "observedMin": 2.0,
       "observedMax": 41.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~41 匹 14~34cm 10m",
-      "probability": 0.0007
+      "probability": 0.0005
     },
     {
       "date": "2026-12-21",
@@ -6484,7 +6456,7 @@
       "observedMin": 0.0,
       "observedMax": 49.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~49 匹 14~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0002
     },
     {
       "date": "2026-12-22",
@@ -6498,7 +6470,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-12-23",
@@ -6554,7 +6526,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-12-27",
@@ -6568,7 +6540,7 @@
       "observedMin": 1.0,
       "observedMax": 40.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~40 匹 14~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0
     },
     {
       "date": "2026-12-28",
@@ -6582,7 +6554,7 @@
       "observedMin": 0.0,
       "observedMax": 36.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~36 匹 14~32cm 10m",
-      "probability": 0.0012
+      "probability": 0.0002
     },
     {
       "date": "2026-12-29",
@@ -6596,7 +6568,7 @@
       "observedMin": 4.0,
       "observedMax": 40.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~40 匹 14~32cm 10m",
-      "probability": 0.0029
+      "probability": 0.002
     },
     {
       "date": "2026-12-30",
@@ -6610,7 +6582,7 @@
       "observedMin": 1.0,
       "observedMax": 30.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~30 匹 14~32cm 10m",
-      "probability": 0.0017
+      "probability": 0.0024
     },
     {
       "date": "2026-12-31",
@@ -6624,7 +6596,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0061
+      "probability": 0.0056
     },
     {
       "date": "2027-01-01",
@@ -6652,7 +6624,7 @@
       "observedMin": 1.0,
       "observedMax": 27.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~27 匹 14~34cm 10m",
-      "probability": 0.0012
+      "probability": 0.0007
     },
     {
       "date": "2027-01-03",
@@ -6666,7 +6638,7 @@
       "observedMin": 2.0,
       "observedMax": 16.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~16 匹 14~32cm 10m",
-      "probability": 0.0017
+      "probability": 0.0012
     },
     {
       "date": "2027-01-04",
@@ -6680,7 +6652,7 @@
       "observedMin": 0.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~24 匹 14~32cm 10m",
-      "probability": 0.0071
+      "probability": 0.0085
     },
     {
       "date": "2027-01-05",
@@ -6694,7 +6666,7 @@
       "observedMin": 2.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~28 匹 14~32cm 10m",
-      "probability": 0.0042
+      "probability": 0.0032
     },
     {
       "date": "2027-01-06",
@@ -6708,7 +6680,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0083
+      "probability": 0.0073
     },
     {
       "date": "2027-01-07",
@@ -6722,7 +6694,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.009
+      "probability": 0.0117
     },
     {
       "date": "2027-01-08",
@@ -6736,7 +6708,7 @@
       "observedMin": 4.0,
       "observedMax": 19.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~19 匹 14~32cm 10m",
-      "probability": 0.002
+      "probability": 0.0042
     },
     {
       "date": "2027-01-09",
@@ -6750,7 +6722,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.002
+      "probability": 0.0015
     },
     {
       "date": "2027-01-10",
@@ -6764,7 +6736,7 @@
       "observedMin": 1.0,
       "observedMax": 15.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~15 匹 14~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0022
     },
     {
       "date": "2027-01-11",
@@ -6778,7 +6750,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.002
+      "probability": 0.0017
     },
     {
       "date": "2027-01-12",
@@ -6792,7 +6764,7 @@
       "observedMin": 0.0,
       "observedMax": 17.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~17 匹 14~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0015
     },
     {
       "date": "2027-01-13",
@@ -6806,7 +6778,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0007
     },
     {
       "date": "2027-01-14",
@@ -6820,7 +6792,7 @@
       "observedMin": 7.0,
       "observedMax": 45.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~45 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2027-01-15",
@@ -6834,7 +6806,7 @@
       "observedMin": 10.0,
       "observedMax": 28.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 10~28 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0017
     },
     {
       "date": "2027-01-16",
@@ -6848,7 +6820,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-01-17",
@@ -6862,7 +6834,7 @@
       "observedMin": 4.0,
       "observedMax": 39.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~39 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0007
     },
     {
       "date": "2027-01-18",
@@ -6918,7 +6890,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-01-22",
@@ -6974,7 +6946,7 @@
       "observedMin": 9.0,
       "observedMax": 25.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 9~25 匹 14~34cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-01-26",
@@ -7002,7 +6974,7 @@
       "observedMin": 4.0,
       "observedMax": 33.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 4~33 匹 14~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-01-28",
@@ -7016,7 +6988,7 @@
       "observedMin": 0.0,
       "observedMax": 11.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~11 匹 14~30cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-01-29",
@@ -7030,7 +7002,7 @@
       "observedMin": 6.0,
       "observedMax": 18.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~18 匹 14~34cm 10m",
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2027-01-30",
@@ -7044,7 +7016,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-01-31",
@@ -7058,7 +7030,7 @@
       "observedMin": 0.0,
       "observedMax": 15.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~15 匹 14~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-02-01",
@@ -7072,7 +7044,7 @@
       "observedMin": 2.0,
       "observedMax": 19.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~19 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2027-02-02",
@@ -7100,7 +7072,7 @@
       "observedMin": 1.0,
       "observedMax": 15.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~15 匹 14~34cm 10m",
-      "probability": 0.0012
+      "probability": 0.0032
     },
     {
       "date": "2027-02-04",
@@ -7114,7 +7086,7 @@
       "observedMin": 2.0,
       "observedMax": 17.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~17 匹 14~32cm 10m",
-      "probability": 0.0034
+      "probability": 0.0044
     },
     {
       "date": "2027-02-05",
@@ -7142,7 +7114,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.001
+      "probability": 0.0007
     },
     {
       "date": "2027-02-07",
@@ -7156,7 +7128,7 @@
       "observedMin": 1.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~24 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0017
     },
     {
       "date": "2027-02-08",
@@ -7170,7 +7142,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-02-09",
@@ -7184,7 +7156,7 @@
       "observedMin": 7.0,
       "observedMax": 45.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~45 匹 14~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-02-10",
@@ -7198,7 +7170,7 @@
       "observedMin": 1.0,
       "observedMax": 15.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~15 匹 14~40cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-02-11",
@@ -7310,7 +7282,7 @@
       "observedMin": 7.0,
       "observedMax": 18.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~18 匹 14~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-02-19",
@@ -7324,7 +7296,7 @@
       "observedMin": 1.0,
       "observedMax": 22.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 1~22 匹 14~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-02-20",
@@ -7380,7 +7352,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-02-24",
@@ -7464,7 +7436,7 @@
       "observedMin": 2.0,
       "observedMax": 24.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 2~24 匹 14~32cm 10m",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2027-03-02",
@@ -7520,7 +7492,7 @@
       "observedMin": 3.0,
       "observedMax": 22.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 3~22 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2027-03-06",
@@ -7534,7 +7506,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.002
     },
     {
       "date": "2027-03-07",
@@ -7548,7 +7520,7 @@
       "observedMin": 6.0,
       "observedMax": 23.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 6~23 匹 14~32cm 10m",
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2027-03-08",
@@ -7576,7 +7548,7 @@
       "observedMin": 7.0,
       "observedMax": 19.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 7~19 匹 14~32cm 10m",
-      "probability": 0.0007
+      "probability": 0.0
     },
     {
       "date": "2027-03-10",
@@ -7604,7 +7576,7 @@
       "observedMin": 0.0,
       "observedMax": 14.0,
       "observedText": "ふぐ 鴨居・大貫・下浦沖 0~14 匹 14~32cm 10m",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-03-12",
@@ -7674,7 +7646,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-03-17",
@@ -7702,7 +7674,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-03-19",
@@ -7716,7 +7688,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-03-20",
@@ -7730,7 +7702,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2027-03-21",
@@ -7762,9 +7734,9 @@
     },
     {
       "date": "2027-03-23",
-      "predictedMin": 0.89,
-      "predictedMax": 18.73,
-      "airTemp": 11.91,
+      "predictedMin": 0.88,
+      "predictedMax": 18.68,
+      "airTemp": 11.99,
       "seaTemp": 15.34,
       "moonAge": 15.46,
       "featureSource": "climatology",
@@ -7776,9 +7748,9 @@
     },
     {
       "date": "2027-03-24",
-      "predictedMin": 1.11,
-      "predictedMax": 18.18,
-      "airTemp": 11.98,
+      "predictedMin": 1.09,
+      "predictedMax": 18.07,
+      "airTemp": 12.14,
       "seaTemp": 15.4,
       "moonAge": 16.46,
       "featureSource": "climatology",
@@ -7790,10 +7762,10 @@
     },
     {
       "date": "2027-03-25",
-      "predictedMin": 1.67,
-      "predictedMax": 20.24,
-      "airTemp": 12.09,
-      "seaTemp": 15.52,
+      "predictedMin": 1.65,
+      "predictedMax": 20.07,
+      "airTemp": 12.18,
+      "seaTemp": 15.46,
       "moonAge": 17.46,
       "featureSource": "climatology",
       "observedDate": "2026-03-25",
@@ -7804,10 +7776,10 @@
     },
     {
       "date": "2027-03-26",
-      "predictedMin": 1.79,
-      "predictedMax": 19.54,
+      "predictedMin": 1.68,
+      "predictedMax": 18.46,
       "airTemp": 12.34,
-      "seaTemp": 15.61,
+      "seaTemp": 15.49,
       "moonAge": 18.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -7818,10 +7790,10 @@
     },
     {
       "date": "2027-03-27",
-      "predictedMin": 1.54,
-      "predictedMax": 18.06,
+      "predictedMin": 1.6,
+      "predictedMax": 16.78,
       "airTemp": 12.62,
-      "seaTemp": 15.69,
+      "seaTemp": 15.58,
       "moonAge": 19.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -7832,10 +7804,10 @@
     },
     {
       "date": "2027-03-28",
-      "predictedMin": 2.19,
-      "predictedMax": 19.77,
+      "predictedMin": 2.15,
+      "predictedMax": 19.46,
       "airTemp": 12.69,
-      "seaTemp": 15.77,
+      "seaTemp": 15.65,
       "moonAge": 20.46,
       "featureSource": "climatology",
       "observedDate": "2026-03-28",
@@ -7846,11 +7818,39 @@
     },
     {
       "date": "2027-03-29",
-      "predictedMin": 1.66,
-      "predictedMax": 20.62,
+      "predictedMin": 1.45,
+      "predictedMax": 17.52,
       "airTemp": 12.8,
-      "seaTemp": 15.87,
+      "seaTemp": 15.75,
       "moonAge": 21.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0
+    },
+    {
+      "date": "2027-03-30",
+      "predictedMin": 2.01,
+      "predictedMax": 18.83,
+      "airTemp": 12.98,
+      "seaTemp": 15.86,
+      "moonAge": 22.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0
+    },
+    {
+      "date": "2027-03-31",
+      "predictedMin": 1.25,
+      "predictedMax": 13.72,
+      "airTemp": 13.26,
+      "seaTemp": 15.99,
+      "moonAge": 23.46,
       "featureSource": "climatology",
       "observedDate": null,
       "observedMin": null,

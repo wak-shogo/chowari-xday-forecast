@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-29 14:44 JST",
-  "today": "2026-03-29",
+  "generatedAt": "2026-03-31 13:58 JST",
+  "today": "2026-03-31",
   "ship": {
     "id": "00297",
     "name": "池田丸",
@@ -18,8 +18,8 @@
     "to": "2025-10-29"
   },
   "forecastRange": {
-    "from": "2026-03-30",
-    "to": "2027-03-29"
+    "from": "2026-04-01",
+    "to": "2027-03-31"
   },
   "tripDays": 5,
   "positiveDays": 5,
@@ -35,326 +35,326 @@
     "samples": 4096,
     "maxSigma": 0.35,
     "maximaSamples": [
-      12.288,
-      12.32,
-      12.354,
-      12.389,
-      12.389,
-      12.397,
-      12.398,
+      12.307,
+      12.325,
+      12.332,
+      12.338,
+      12.356,
+      12.368,
+      12.376,
+      12.385,
+      12.385,
+      12.388,
+      12.395,
+      12.396,
+      12.399,
+      12.399,
       12.401,
+      12.403,
       12.404,
-      12.423,
-      12.423,
+      12.421,
+      12.425,
       12.426,
-      12.434,
+      12.428,
+      12.435,
       12.436,
-      12.436,
+      12.438,
+      12.438,
+      12.444,
       12.445,
-      12.445,
-      12.447,
-      12.447,
-      12.447,
-      12.447,
-      12.451,
-      12.451,
+      12.453,
+      12.453,
+      12.454,
+      12.456,
+      12.458,
+      12.459,
+      12.46,
       12.461,
-      12.464,
-      12.464,
-      12.466,
-      12.468,
+      12.462,
       12.469,
       12.469,
-      12.471,
-      12.471,
       12.472,
       12.476,
-      12.478,
       12.479,
+      12.48,
       12.481,
-      12.482,
-      12.482,
-      12.483,
-      12.483,
-      12.483,
+      12.481,
+      12.484,
       12.484,
       12.485,
-      12.485,
-      12.485,
-      12.488,
-      12.489,
-      12.491,
-      12.492,
-      12.492,
-      12.493,
-      12.494,
+      12.487,
+      12.495,
+      12.496,
       12.498,
-      12.506,
-      12.506,
-      12.507,
-      12.507,
-      12.509,
-      12.51,
+      12.499,
+      12.5,
+      12.501,
+      12.503,
       12.51,
       12.511,
       12.512,
-      12.512,
-      12.514,
-      12.515,
+      12.513,
+      12.516,
       12.517,
       12.518,
       12.519,
-      12.52,
       12.521,
-      12.524,
-      12.524,
-      12.528,
-      12.528,
+      12.523,
+      12.523,
+      12.525,
+      12.527,
       12.529,
-      12.53,
-      12.53,
-      12.532,
       12.532,
       12.533,
       12.534,
-      12.536,
+      12.535,
       12.538,
-      12.538,
+      12.539,
       12.54,
-      12.542,
-      12.545,
+      12.541,
+      12.544,
+      12.544,
       12.545,
       12.546,
+      12.546,
+      12.548,
+      12.548,
       12.549,
-      12.55,
-      12.553,
+      12.551,
+      12.552,
+      12.552,
+      12.552,
+      12.552,
+      12.552,
+      12.554,
+      12.555,
       12.556,
       12.556,
       12.558,
-      12.56,
-      12.56,
+      12.558,
+      12.559,
       12.56,
       12.561,
+      12.563,
+      12.564,
       12.566,
-      12.569,
+      12.567,
       12.571,
-      12.574,
-      12.575,
+      12.571,
+      12.571,
+      12.572,
+      12.576,
       12.576,
       12.577,
-      12.578,
-      12.579,
       12.58,
+      12.58,
+      12.581,
       12.581,
       12.583,
       12.583,
+      12.583,
+      12.584,
       12.586,
-      12.589,
+      12.586,
+      12.588,
+      12.588,
       12.59,
       12.59,
       12.593,
+      12.594,
       12.595,
       12.595,
       12.596,
       12.597,
       12.597,
       12.599,
-      12.601,
-      12.601,
-      12.601,
-      12.601,
-      12.601,
+      12.599,
+      12.599,
       12.602,
       12.602,
-      12.606,
-      12.607,
-      12.607,
+      12.604,
+      12.604,
+      12.605,
+      12.605,
+      12.609,
+      12.609,
+      12.61,
       12.613,
-      12.614,
-      12.614,
-      12.614,
       12.615,
       12.615,
       12.617,
+      12.617,
       12.619,
-      12.619,
-      12.62,
-      12.621,
-      12.621,
-      12.621,
       12.622,
       12.623,
       12.624,
-      12.626,
+      12.624,
       12.626,
       12.628,
-      12.63,
+      12.628,
       12.631,
-      12.632,
-      12.632,
+      12.631,
       12.633,
       12.634,
-      12.634,
-      12.634,
       12.635,
+      12.636,
+      12.636,
+      12.636,
       12.637,
-      12.637,
+      12.638,
+      12.639,
       12.64,
-      12.641,
-      12.641,
-      12.642,
-      12.643,
-      12.647,
+      12.645,
+      12.646,
+      12.646,
       12.648,
       12.65,
-      12.65,
-      12.651,
-      12.653,
+      12.652,
       12.655,
-      12.655,
-      12.655,
+      12.657,
+      12.657,
+      12.658,
+      12.659,
       12.66,
-      12.661,
+      12.66,
       12.662,
       12.662,
-      12.663,
-      12.663,
-      12.663,
-      12.663,
       12.664,
+      12.665,
       12.666,
-      12.667,
-      12.67,
-      12.672,
-      12.672,
-      12.672,
+      12.668,
+      12.671,
       12.673,
+      12.674,
+      12.674,
+      12.675,
+      12.676,
+      12.676,
       12.677,
+      12.679,
       12.679,
       12.681,
       12.682,
       12.683,
-      12.684,
-      12.684,
-      12.687,
-      12.687,
       12.687,
       12.688,
-      12.691,
-      12.691,
-      12.691,
+      12.689,
       12.692,
       12.693,
+      12.693,
+      12.694,
       12.696,
-      12.698,
-      12.7,
-      12.702,
-      12.702,
-      12.703,
+      12.697,
+      12.697,
+      12.699,
       12.703,
       12.704,
-      12.705,
-      12.707,
-      12.708,
-      12.709,
-      12.709,
-      12.711,
-      12.711,
+      12.706,
+      12.71,
+      12.712,
       12.716,
       12.717,
-      12.717,
+      12.719,
+      12.72,
       12.72,
       12.721,
       12.723,
-      12.726,
-      12.726,
-      12.728,
-      12.728,
-      12.728,
-      12.73,
-      12.732,
-      12.733,
+      12.723,
+      12.724,
+      12.731,
+      12.731,
       12.735,
-      12.736,
-      12.738,
-      12.739,
-      12.739,
-      12.739,
       12.74,
-      12.74,
-      12.74,
-      12.741,
+      12.742,
+      12.743,
       12.743,
       12.744,
       12.744,
-      12.753,
-      12.754,
+      12.744,
+      12.746,
+      12.747,
+      12.747,
+      12.748,
+      12.75,
+      12.752,
+      12.755,
       12.756,
-      12.757,
-      12.761,
-      12.767,
-      12.768,
-      12.768,
-      12.77,
-      12.771,
-      12.773,
-      12.773,
+      12.758,
+      12.758,
+      12.759,
+      12.762,
+      12.775,
+      12.776,
+      12.777,
       12.779,
+      12.781,
       12.783,
+      12.785,
       12.786,
-      12.789,
       12.79,
-      12.79,
-      12.794,
-      12.794,
+      12.793,
+      12.795,
       12.796,
-      12.796,
-      12.797,
-      12.797,
-      12.799,
-      12.806,
-      12.81,
-      12.812,
-      12.818,
+      12.804,
+      12.807,
+      12.807,
+      12.813,
+      12.813,
+      12.813,
+      12.816,
       12.819,
-      12.82,
-      12.829,
+      12.819,
+      12.819,
+      12.826,
+      12.827,
+      12.827,
+      12.827,
+      12.831,
       12.832,
-      12.835,
-      12.837,
-      12.838,
+      12.839,
+      12.84,
       12.844,
       12.849,
-      12.854,
+      12.858,
+      12.858,
+      12.858,
+      12.862,
+      12.863,
+      12.863,
+      12.864,
       12.865,
-      12.869,
-      12.876,
-      12.878,
-      12.885,
-      12.887,
-      12.894,
-      12.894,
-      12.895,
-      12.901,
-      12.902,
-      12.907,
-      12.919,
+      12.87,
+      12.871,
+      12.873,
+      12.875,
+      12.881,
+      12.89,
+      12.891,
+      12.893,
+      12.893,
+      12.897,
+      12.905,
+      12.909,
+      12.909,
+      12.914,
+      12.915,
+      12.918,
+      12.925,
+      12.925,
       12.926,
-      12.928,
-      12.935,
-      12.936,
-      12.937,
-      12.99,
-      13.025,
-      13.03,
-      13.037,
-      13.038,
-      13.064,
-      13.076,
-      13.091,
-      13.123,
-      13.125,
-      13.151
+      12.933,
+      12.939,
+      12.944,
+      12.954,
+      12.966,
+      12.971,
+      12.996,
+      12.997,
+      13.011,
+      13.044,
+      13.045,
+      13.061,
+      13.063
     ]
   },
   "featureRanges": {
@@ -362,13 +362,13 @@
       "min": 4.5,
       "max": 33.0,
       "step": 0.1,
-      "default": 17.0
+      "default": 15.9
     },
     "seaTemp": {
       "min": 15.0,
       "max": 29.0,
       "step": 0.1,
-      "default": 16.4
+      "default": 16.2
     },
     "moonAge": {
       "min": 0,
@@ -452,8 +452,8 @@
       "date": "2026-04-07",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 17.0,
-      "seaTemp": 16.38,
+      "airTemp": 15.9,
+      "seaTemp": 16.2,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -466,21 +466,21 @@
       "date": "2026-04-08",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 12.9,
-      "seaTemp": 16.45,
+      "airTemp": 16.5,
+      "seaTemp": 16.5,
       "moonAge": 20.83,
       "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0117
+      "probability": 0.0132
     },
     {
       "date": "2026-04-09",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 13.4,
+      "airTemp": 17.2,
       "seaTemp": 16.54,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -488,13 +488,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0103
+      "probability": 0.0105
     },
     {
       "date": "2026-04-10",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 15.3,
+      "airTemp": 17.7,
       "seaTemp": 16.63,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -502,44 +502,16 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0127
+      "probability": 0.0139
     }
   ],
   "predictions": [
     {
-      "date": "2026-03-30",
-      "predictedMin": 0.0,
-      "predictedMax": 0.07,
-      "airTemp": 14.7,
-      "seaTemp": 16.0,
-      "moonAge": 11.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0
-    },
-    {
-      "date": "2026-03-31",
-      "predictedMin": 0.0,
-      "predictedMax": 0.39,
-      "airTemp": 16.6,
-      "seaTemp": 15.9,
-      "moonAge": 12.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0
-    },
-    {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 0.69,
-      "airTemp": 15.5,
-      "seaTemp": 15.9,
+      "predictedMax": 0.66,
+      "airTemp": 15.4,
+      "seaTemp": 15.7,
       "moonAge": 13.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -551,9 +523,9 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 1.14,
-      "airTemp": 12.3,
-      "seaTemp": 15.8,
+      "predictedMax": 1.08,
+      "airTemp": 11.6,
+      "seaTemp": 15.6,
       "moonAge": 14.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -565,9 +537,9 @@
     {
       "date": "2026-04-03",
       "predictedMin": 0.0,
-      "predictedMax": 2.29,
-      "airTemp": 13.7,
-      "seaTemp": 15.8,
+      "predictedMax": 2.23,
+      "airTemp": 12.5,
+      "seaTemp": 15.5,
       "moonAge": 15.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -579,9 +551,9 @@
     {
       "date": "2026-04-04",
       "predictedMin": 0.0,
-      "predictedMax": 3.97,
-      "airTemp": 16.0,
-      "seaTemp": 15.8,
+      "predictedMax": 4.05,
+      "airTemp": 14.3,
+      "seaTemp": 15.7,
       "moonAge": 16.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -593,9 +565,9 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 5.95,
-      "airTemp": 18.7,
-      "seaTemp": 15.9,
+      "predictedMax": 5.92,
+      "airTemp": 19.0,
+      "seaTemp": 15.8,
       "moonAge": 17.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -607,9 +579,9 @@
     {
       "date": "2026-04-06",
       "predictedMin": 0.0,
-      "predictedMax": 9.81,
-      "airTemp": 16.3,
-      "seaTemp": 16.2,
+      "predictedMax": 9.51,
+      "airTemp": 17.4,
+      "seaTemp": 15.9,
       "moonAge": 18.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -622,8 +594,8 @@
       "date": "2026-04-07",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 17.0,
-      "seaTemp": 16.38,
+      "airTemp": 15.9,
+      "seaTemp": 16.2,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -636,21 +608,21 @@
       "date": "2026-04-08",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 12.9,
-      "seaTemp": 16.45,
+      "airTemp": 16.5,
+      "seaTemp": 16.5,
       "moonAge": 20.83,
       "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0117
+      "probability": 0.0132
     },
     {
       "date": "2026-04-09",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 13.4,
+      "airTemp": 17.2,
       "seaTemp": 16.54,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -658,13 +630,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0103
+      "probability": 0.0105
     },
     {
       "date": "2026-04-10",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 15.3,
+      "airTemp": 17.7,
       "seaTemp": 16.63,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -672,7 +644,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0127
+      "probability": 0.0139
     },
     {
       "date": "2026-04-11",
@@ -686,13 +658,13 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0117
+      "probability": 0.0105
     },
     {
       "date": "2026-04-12",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 16.9,
+      "airTemp": 16.5,
       "seaTemp": 16.78,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -700,30 +672,30 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0134
+      "probability": 0.012
     },
     {
       "date": "2026-04-13",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 15.39,
+      "airTemp": 15.2,
       "seaTemp": 16.86,
       "moonAge": 25.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0088
+      "probability": 0.0107
     },
     {
       "date": "2026-04-14",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 15.65,
+      "airTemp": 16.7,
       "seaTemp": 16.94,
       "moonAge": 26.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
@@ -742,7 +714,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.011
+      "probability": 0.0115
     },
     {
       "date": "2026-04-16",
@@ -756,7 +728,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0127
+      "probability": 0.0093
     },
     {
       "date": "2026-04-17",
@@ -770,7 +742,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0125
     },
     {
       "date": "2026-04-18",
@@ -1050,7 +1022,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0127
+      "probability": 0.0117
     },
     {
       "date": "2026-05-08",
@@ -1064,7 +1036,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.011
     },
     {
       "date": "2026-05-09",
@@ -1078,7 +1050,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.012
+      "probability": 0.0115
     },
     {
       "date": "2026-05-10",
@@ -1092,7 +1064,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0127
     },
     {
       "date": "2026-05-11",
@@ -1106,7 +1078,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.011
     },
     {
       "date": "2026-05-12",
@@ -1120,7 +1092,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.011
+      "probability": 0.0127
     },
     {
       "date": "2026-05-13",
@@ -1134,7 +1106,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.0122
     },
     {
       "date": "2026-05-14",
@@ -1148,7 +1120,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0122
+      "probability": 0.0107
     },
     {
       "date": "2026-05-15",
@@ -1176,7 +1148,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0044
+      "probability": 0.0061
     },
     {
       "date": "2026-05-17",
@@ -3584,7 +3556,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0129
     },
     {
       "date": "2026-11-05",
@@ -3598,7 +3570,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0134
+      "probability": 0.0117
     },
     {
       "date": "2026-11-06",
@@ -3612,7 +3584,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0105
     },
     {
       "date": "2026-11-07",
@@ -3626,7 +3598,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0122
+      "probability": 0.0105
     },
     {
       "date": "2026-11-08",
@@ -3640,7 +3612,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.0112
     },
     {
       "date": "2026-11-09",
@@ -3934,7 +3906,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0137
+      "probability": 0.0142
     },
     {
       "date": "2026-11-30",
@@ -3948,7 +3920,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.0132
     },
     {
       "date": "2026-12-01",
@@ -3962,7 +3934,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0137
+      "probability": 0.0107
     },
     {
       "date": "2026-12-02",
@@ -3976,7 +3948,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0125
+      "probability": 0.0095
     },
     {
       "date": "2026-12-03",
@@ -3990,7 +3962,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0098
+      "probability": 0.0103
     },
     {
       "date": "2026-12-04",
@@ -4004,7 +3976,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0093
+      "probability": 0.0103
     },
     {
       "date": "2026-12-05",
@@ -4018,7 +3990,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0144
+      "probability": 0.0117
     },
     {
       "date": "2026-12-06",
@@ -4032,7 +4004,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0103
+      "probability": 0.0156
     },
     {
       "date": "2026-12-07",
@@ -4046,7 +4018,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0105
+      "probability": 0.0107
     },
     {
       "date": "2026-12-08",
@@ -4060,7 +4032,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.0117
     },
     {
       "date": "2026-12-09",
@@ -4074,7 +4046,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.0107
     },
     {
       "date": "2026-12-10",
@@ -4088,7 +4060,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0105
+      "probability": 0.0129
     },
     {
       "date": "2026-12-11",
@@ -4340,7 +4312,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0095
+      "probability": 0.0139
     },
     {
       "date": "2026-12-29",
@@ -4354,7 +4326,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0117
+      "probability": 0.0122
     },
     {
       "date": "2026-12-30",
@@ -4368,7 +4340,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.0115
     },
     {
       "date": "2026-12-31",
@@ -4382,7 +4354,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.012
+      "probability": 0.0105
     },
     {
       "date": "2027-01-01",
@@ -4396,7 +4368,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.012
     },
     {
       "date": "2027-01-02",
@@ -4410,7 +4382,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0137
     },
     {
       "date": "2027-01-03",
@@ -4424,7 +4396,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.012
     },
     {
       "date": "2027-01-04",
@@ -4438,7 +4410,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0137
+      "probability": 0.012
     },
     {
       "date": "2027-01-05",
@@ -4452,7 +4424,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0107
+      "probability": 0.0071
     },
     {
       "date": "2027-01-06",
@@ -4466,7 +4438,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.012
+      "probability": 0.0129
     },
     {
       "date": "2027-01-07",
@@ -4480,7 +4452,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0156
+      "probability": 0.0105
     },
     {
       "date": "2027-01-08",
@@ -4494,7 +4466,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.012
+      "probability": 0.0132
     },
     {
       "date": "2027-01-09",
@@ -4508,7 +4480,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.01
     },
     {
       "date": "2027-01-10",
@@ -4746,7 +4718,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0125
+      "probability": 0.0151
     },
     {
       "date": "2027-01-27",
@@ -4760,7 +4732,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0127
+      "probability": 0.0137
     },
     {
       "date": "2027-01-28",
@@ -4774,7 +4746,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0117
     },
     {
       "date": "2027-01-29",
@@ -4788,7 +4760,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0112
+      "probability": 0.0149
     },
     {
       "date": "2027-01-30",
@@ -4802,7 +4774,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0154
+      "probability": 0.0122
     },
     {
       "date": "2027-01-31",
@@ -4816,7 +4788,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0098
+      "probability": 0.009
     },
     {
       "date": "2027-02-01",
@@ -4830,7 +4802,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0105
+      "probability": 0.0112
     },
     {
       "date": "2027-02-02",
@@ -4844,7 +4816,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0095
+      "probability": 0.0117
     },
     {
       "date": "2027-02-03",
@@ -4858,7 +4830,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0105
     },
     {
       "date": "2027-02-04",
@@ -4872,7 +4844,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.0117
     },
     {
       "date": "2027-02-05",
@@ -4886,7 +4858,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0129
+      "probability": 0.0137
     },
     {
       "date": "2027-02-06",
@@ -4900,7 +4872,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0139
+      "probability": 0.0137
     },
     {
       "date": "2027-02-07",
@@ -4914,7 +4886,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0159
     },
     {
       "date": "2027-02-08",
@@ -4928,7 +4900,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.01
+      "probability": 0.0132
     },
     {
       "date": "2027-02-09",
@@ -5166,7 +5138,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0168
+      "probability": 0.0105
     },
     {
       "date": "2027-02-26",
@@ -5180,7 +5152,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0125
+      "probability": 0.0129
     },
     {
       "date": "2027-02-27",
@@ -5194,7 +5166,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0144
+      "probability": 0.0129
     },
     {
       "date": "2027-02-28",
@@ -5208,7 +5180,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0146
+      "probability": 0.0132
     },
     {
       "date": "2027-03-01",
@@ -5222,7 +5194,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0154
+      "probability": 0.0132
     },
     {
       "date": "2027-03-02",
@@ -5236,7 +5208,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0117
+      "probability": 0.0103
     },
     {
       "date": "2027-03-03",
@@ -5250,7 +5222,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0154
+      "probability": 0.0115
     },
     {
       "date": "2027-03-04",
@@ -5264,7 +5236,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0139
+      "probability": 0.0127
     },
     {
       "date": "2027-03-05",
@@ -5278,7 +5250,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0132
+      "probability": 0.0107
     },
     {
       "date": "2027-03-06",
@@ -5292,7 +5264,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0125
+      "probability": 0.01
     },
     {
       "date": "2027-03-07",
@@ -5306,7 +5278,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0127
     },
     {
       "date": "2027-03-08",
@@ -5320,7 +5292,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.011
+      "probability": 0.0151
     },
     {
       "date": "2027-03-09",
@@ -5334,7 +5306,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0151
+      "probability": 0.0142
     },
     {
       "date": "2027-03-10",
@@ -5522,8 +5494,8 @@
       "date": "2027-03-23",
       "predictedMin": 0.0,
       "predictedMax": 1.7,
-      "airTemp": 11.27,
-      "seaTemp": 15.47,
+      "airTemp": 11.37,
+      "seaTemp": 15.48,
       "moonAge": 15.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -5536,8 +5508,8 @@
       "date": "2027-03-24",
       "predictedMin": 0.0,
       "predictedMax": 3.33,
-      "airTemp": 11.35,
-      "seaTemp": 15.48,
+      "airTemp": 11.55,
+      "seaTemp": 15.5,
       "moonAge": 16.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -5549,9 +5521,9 @@
     {
       "date": "2027-03-25",
       "predictedMin": 0.0,
-      "predictedMax": 6.13,
-      "airTemp": 11.42,
-      "seaTemp": 15.52,
+      "predictedMax": 6.11,
+      "airTemp": 11.56,
+      "seaTemp": 15.51,
       "moonAge": 17.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -5563,9 +5535,9 @@
     {
       "date": "2027-03-26",
       "predictedMin": 0.0,
-      "predictedMax": 10.63,
-      "airTemp": 11.67,
-      "seaTemp": 15.57,
+      "predictedMax": 10.65,
+      "airTemp": 11.72,
+      "seaTemp": 15.52,
       "moonAge": 18.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -5578,9 +5550,37 @@
       "date": "2027-03-27",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 12.0,
-      "seaTemp": 15.62,
+      "airTemp": 12.05,
+      "seaTemp": 15.57,
       "moonAge": 19.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0115
+    },
+    {
+      "date": "2027-03-28",
+      "predictedMin": 0.0,
+      "predictedMax": 11.8,
+      "airTemp": 12.16,
+      "seaTemp": 15.62,
+      "moonAge": 20.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0115
+    },
+    {
+      "date": "2027-03-29",
+      "predictedMin": 0.0,
+      "predictedMax": 11.8,
+      "airTemp": 12.28,
+      "seaTemp": 15.69,
+      "moonAge": 21.46,
       "featureSource": "climatology",
       "observedDate": null,
       "observedMin": null,
@@ -5589,32 +5589,32 @@
       "probability": 0.0117
     },
     {
-      "date": "2027-03-28",
+      "date": "2027-03-30",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 12.12,
-      "seaTemp": 15.68,
-      "moonAge": 20.46,
+      "airTemp": 12.47,
+      "seaTemp": 15.77,
+      "moonAge": 22.46,
       "featureSource": "climatology",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0134
+      "probability": 0.011
     },
     {
-      "date": "2027-03-29",
+      "date": "2027-03-31",
       "predictedMin": 0.0,
       "predictedMax": 11.8,
-      "airTemp": 12.23,
-      "seaTemp": 15.74,
-      "moonAge": 21.46,
+      "airTemp": 12.76,
+      "seaTemp": 15.86,
+      "moonAge": 23.46,
       "featureSource": "climatology",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0115
+      "probability": 0.0132
     }
   ]
 }

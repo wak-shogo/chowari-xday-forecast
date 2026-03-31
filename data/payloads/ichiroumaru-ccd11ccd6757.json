@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-03-29 14:47 JST",
-  "today": "2026-03-29",
+  "generatedAt": "2026-03-31 14:01 JST",
+  "today": "2026-03-31",
   "ship": {
     "id": "ichiroumaru",
     "name": "鴨居一郎丸",
-    "location": "鴨居・大貫・下浦沖",
+    "location": "鴨居・久里浜沖",
     "homeUrl": "https://www.ichiroumaru.jp/",
     "catchUrl": "https://www.ichiroumaru.jp/result/"
   },
@@ -18,8 +18,8 @@
     "to": "2025-11-12"
   },
   "forecastRange": {
-    "from": "2026-03-30",
-    "to": "2027-03-29"
+    "from": "2026-04-01",
+    "to": "2027-03-31"
   },
   "tripDays": 113,
   "positiveDays": 113,
@@ -27,7 +27,7 @@
   "xDayPeak": {
     "date": "2026-09-03",
     "predictedMax": 28.78,
-    "probability": 0.0681,
+    "probability": 0.0774,
     "unit": "匹"
   },
   "xDayModel": {
@@ -35,326 +35,326 @@
     "samples": 4096,
     "maxSigma": 7.1462,
     "maximaSamples": [
-      32.898,
-      33.713,
-      33.847,
-      34.054,
-      34.38,
-      34.686,
-      34.741,
-      34.988,
-      35.026,
-      35.233,
-      35.284,
-      35.36,
-      35.453,
-      35.464,
-      35.534,
-      35.561,
-      35.579,
-      35.676,
-      35.729,
-      35.77,
-      35.782,
-      35.789,
-      35.84,
-      35.843,
-      35.914,
-      35.941,
-      35.996,
-      36.059,
-      36.095,
-      36.124,
-      36.169,
-      36.224,
-      36.352,
-      36.391,
-      36.397,
-      36.414,
-      36.439,
-      36.468,
-      36.471,
-      36.506,
-      36.658,
-      36.673,
-      36.685,
-      36.698,
-      36.698,
-      36.719,
-      36.772,
-      36.802,
-      36.84,
-      36.852,
-      36.896,
-      36.898,
-      36.9,
-      36.921,
-      36.931,
-      36.961,
-      36.986,
-      37.034,
-      37.041,
-      37.083,
-      37.154,
-      37.189,
-      37.189,
-      37.204,
-      37.243,
-      37.25,
-      37.317,
-      37.342,
-      37.376,
-      37.559,
-      37.677,
-      37.717,
-      37.843,
-      37.853,
-      37.899,
+      32.925,
+      33.866,
+      33.882,
+      34.262,
+      34.706,
+      34.981,
+      35.014,
+      35.122,
+      35.205,
+      35.217,
+      35.239,
+      35.298,
+      35.394,
+      35.411,
+      35.414,
+      35.42,
+      35.485,
+      35.497,
+      35.578,
+      35.612,
+      35.644,
+      35.652,
+      35.758,
+      35.79,
+      35.841,
+      35.862,
+      35.878,
+      35.942,
+      36.005,
+      36.02,
+      36.023,
+      36.05,
+      36.055,
+      36.132,
+      36.194,
+      36.196,
+      36.234,
+      36.251,
+      36.275,
+      36.297,
+      36.457,
+      36.458,
+      36.473,
+      36.539,
+      36.572,
+      36.6,
+      36.606,
+      36.62,
+      36.67,
+      36.767,
+      36.871,
+      36.912,
+      36.941,
+      37.031,
+      37.078,
+      37.082,
+      37.114,
+      37.191,
+      37.219,
+      37.254,
+      37.263,
+      37.402,
+      37.41,
+      37.437,
+      37.472,
+      37.602,
+      37.621,
+      37.629,
+      37.63,
+      37.632,
+      37.633,
+      37.656,
+      37.66,
+      37.665,
+      37.711,
+      37.726,
+      37.765,
+      37.77,
+      37.786,
+      37.786,
+      37.792,
+      37.877,
+      37.879,
+      37.903,
       37.915,
-      37.948,
-      37.981,
-      37.987,
-      38.053,
-      38.057,
-      38.142,
-      38.152,
-      38.157,
-      38.176,
-      38.189,
-      38.2,
-      38.22,
-      38.221,
-      38.222,
-      38.241,
-      38.248,
-      38.268,
-      38.282,
-      38.363,
+      37.927,
+      37.94,
+      37.947,
+      37.963,
+      37.974,
+      38.033,
+      38.054,
+      38.072,
+      38.085,
+      38.117,
+      38.191,
+      38.329,
+      38.349,
+      38.357,
+      38.369,
       38.39,
-      38.403,
-      38.468,
-      38.472,
-      38.478,
-      38.491,
-      38.542,
-      38.547,
-      38.633,
-      38.645,
-      38.666,
-      38.692,
-      38.705,
-      38.711,
-      38.717,
-      38.729,
-      38.748,
-      38.766,
-      38.796,
-      38.874,
-      38.906,
-      38.941,
-      38.953,
-      38.979,
-      38.979,
-      38.992,
-      39.03,
-      39.052,
-      39.057,
-      39.103,
-      39.181,
-      39.211,
-      39.213,
-      39.218,
-      39.234,
-      39.249,
-      39.278,
-      39.287,
-      39.329,
-      39.374,
-      39.382,
-      39.497,
-      39.53,
-      39.536,
-      39.539,
-      39.56,
-      39.575,
-      39.606,
-      39.62,
-      39.659,
-      39.677,
-      39.703,
-      39.717,
-      39.717,
-      39.74,
-      39.817,
-      39.83,
-      39.912,
-      39.929,
-      39.936,
-      40.02,
-      40.056,
-      40.081,
-      40.083,
-      40.109,
-      40.112,
-      40.151,
-      40.157,
-      40.241,
-      40.248,
-      40.269,
-      40.28,
-      40.311,
-      40.314,
-      40.36,
-      40.361,
-      40.381,
-      40.387,
-      40.412,
-      40.474,
-      40.484,
-      40.494,
-      40.511,
-      40.542,
-      40.631,
-      40.673,
-      40.719,
-      40.731,
-      40.738,
-      40.783,
-      40.783,
-      40.814,
-      40.884,
-      40.888,
-      40.914,
-      40.915,
-      40.918,
-      40.923,
-      40.954,
-      40.955,
-      40.958,
-      40.98,
-      40.991,
-      41.05,
-      41.106,
-      41.133,
-      41.141,
-      41.173,
-      41.209,
-      41.223,
-      41.256,
-      41.257,
-      41.294,
-      41.303,
-      41.332,
-      41.413,
-      41.426,
-      41.427,
-      41.551,
-      41.559,
+      38.395,
+      38.415,
+      38.426,
+      38.457,
+      38.489,
+      38.59,
+      38.655,
+      38.69,
+      38.701,
+      38.732,
+      38.732,
+      38.779,
+      38.8,
+      38.805,
+      38.809,
+      38.818,
+      38.861,
+      38.863,
+      38.864,
+      38.896,
+      38.902,
+      38.925,
+      38.959,
+      38.962,
+      38.977,
+      39.026,
+      39.05,
+      39.094,
+      39.117,
+      39.119,
+      39.14,
+      39.142,
+      39.146,
+      39.156,
+      39.226,
+      39.233,
+      39.242,
+      39.261,
+      39.333,
+      39.345,
+      39.376,
+      39.429,
+      39.447,
+      39.55,
+      39.556,
+      39.567,
+      39.569,
+      39.577,
+      39.578,
+      39.586,
+      39.589,
+      39.676,
+      39.693,
+      39.759,
+      39.832,
+      39.876,
+      39.898,
+      39.9,
+      39.94,
+      39.94,
+      39.948,
+      39.958,
+      39.976,
+      40.016,
+      40.069,
+      40.102,
+      40.117,
+      40.164,
+      40.168,
+      40.215,
+      40.219,
+      40.272,
+      40.276,
+      40.284,
+      40.285,
+      40.285,
+      40.344,
+      40.349,
+      40.374,
+      40.504,
+      40.532,
+      40.571,
+      40.613,
+      40.634,
+      40.635,
+      40.667,
+      40.675,
+      40.709,
+      40.721,
+      40.734,
+      40.769,
+      40.804,
+      40.833,
+      40.838,
+      40.926,
+      40.975,
+      41.02,
+      41.025,
+      41.038,
+      41.077,
+      41.079,
+      41.091,
+      41.142,
+      41.199,
+      41.21,
+      41.293,
+      41.326,
+      41.364,
+      41.387,
+      41.418,
+      41.475,
+      41.519,
+      41.532,
+      41.567,
       41.59,
-      41.611,
-      41.613,
-      41.624,
-      41.66,
-      41.73,
-      41.786,
-      41.823,
-      41.872,
-      41.969,
-      41.977,
-      42.008,
-      42.01,
-      42.013,
-      42.028,
-      42.098,
-      42.175,
-      42.205,
-      42.231,
-      42.242,
-      42.245,
-      42.275,
-      42.284,
-      42.302,
-      42.304,
-      42.313,
-      42.315,
-      42.369,
-      42.373,
-      42.465,
-      42.482,
-      42.532,
-      42.594,
-      42.605,
-      42.654,
-      42.819,
-      42.824,
-      42.827,
-      42.917,
-      42.929,
-      42.989,
-      43.014,
-      43.058,
-      43.173,
-      43.217,
-      43.289,
+      41.6,
+      41.602,
+      41.644,
+      41.665,
+      41.706,
+      41.717,
+      41.775,
+      41.779,
+      41.801,
+      41.837,
+      41.865,
+      41.895,
+      41.898,
+      42.019,
+      42.034,
+      42.048,
+      42.05,
+      42.063,
+      42.064,
+      42.086,
+      42.11,
+      42.298,
+      42.327,
+      42.328,
+      42.437,
+      42.476,
+      42.488,
+      42.527,
+      42.562,
+      42.584,
+      42.658,
+      42.698,
+      42.707,
+      42.857,
+      42.88,
+      42.881,
+      42.901,
+      43.004,
+      43.031,
+      43.066,
+      43.111,
+      43.115,
+      43.253,
       43.33,
-      43.332,
-      43.356,
-      43.372,
-      43.384,
-      43.402,
-      43.442,
-      43.471,
-      43.472,
-      43.498,
-      43.543,
+      43.449,
+      43.602,
+      43.624,
       43.668,
-      43.679,
-      43.885,
-      43.962,
-      44.024,
-      44.15,
-      44.171,
-      44.179,
-      44.301,
-      44.309,
-      44.389,
+      43.721,
+      43.799,
+      43.824,
+      43.867,
+      43.918,
+      43.974,
+      44.096,
+      44.109,
+      44.124,
+      44.139,
+      44.204,
+      44.339,
+      44.34,
+      44.344,
+      44.39,
+      44.416,
       44.427,
-      44.454,
-      44.543,
-      44.603,
-      44.665,
-      44.901,
-      44.923,
-      45.026,
+      44.46,
+      44.488,
+      44.491,
+      44.638,
+      44.703,
       45.07,
-      45.243,
-      45.246,
-      45.363,
-      45.401,
-      45.442,
-      45.454,
-      45.462,
-      46.003,
-      46.029,
-      46.104,
-      46.211,
-      46.347,
-      46.503,
-      46.611,
-      46.79,
-      46.865,
-      46.872,
-      46.969,
-      47.427,
-      47.435,
-      47.512,
-      48.047,
-      48.07,
-      49.011,
-      49.215,
-      49.737,
-      51.143,
-      52.024
+      45.145,
+      45.227,
+      45.318,
+      45.437,
+      45.659,
+      45.86,
+      45.872,
+      45.874,
+      45.972,
+      46.0,
+      46.078,
+      46.228,
+      46.257,
+      46.294,
+      46.446,
+      46.488,
+      46.845,
+      46.956,
+      47.248,
+      47.331,
+      47.66,
+      47.721,
+      47.738,
+      47.966,
+      48.407,
+      48.742,
+      49.103,
+      49.252,
+      50.17,
+      50.849,
+      51.477,
+      51.632,
+      57.874
     ]
   },
   "featureRanges": {
@@ -1602,7 +1602,7 @@
       "observedMin": 2.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 2~20匹 70~100cm",
-      "probability": 0.0681
+      "probability": 0.0774
     },
     {
       "date": "2026-08-05",
@@ -1616,7 +1616,7 @@
       "observedMin": 5.0,
       "observedMax": 17.0,
       "observedText": "タチウオ 5~17匹 65~110cm",
-      "probability": 0.0508
+      "probability": 0.0564
     },
     {
       "date": "2026-09-05",
@@ -1630,7 +1630,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.042
+      "probability": 0.0488
     },
     {
       "date": "2026-09-04",
@@ -1644,44 +1644,16 @@
       "observedMin": 11.0,
       "observedMax": 22.0,
       "observedText": "タチウオ 11~22匹 70~124cm",
-      "probability": 0.0532
+      "probability": 0.0408
     }
   ],
   "predictions": [
     {
-      "date": "2026-03-30",
-      "predictedMin": 0.0,
-      "predictedMax": 0.06,
-      "airTemp": 14.7,
-      "seaTemp": 15.4,
-      "moonAge": 11.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0
-    },
-    {
-      "date": "2026-03-31",
-      "predictedMin": 0.0,
-      "predictedMax": 0.23,
-      "airTemp": 16.5,
-      "seaTemp": 15.6,
-      "moonAge": 12.83,
-      "featureSource": "forecast",
-      "observedDate": null,
-      "observedMin": null,
-      "observedMax": null,
-      "observedText": null,
-      "probability": 0.0
-    },
-    {
       "date": "2026-04-01",
       "predictedMin": 0.0,
-      "predictedMax": 0.45,
-      "airTemp": 15.4,
-      "seaTemp": 15.7,
+      "predictedMax": 0.4,
+      "airTemp": 15.1,
+      "seaTemp": 15.6,
       "moonAge": 13.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1693,9 +1665,9 @@
     {
       "date": "2026-04-02",
       "predictedMin": 0.0,
-      "predictedMax": 0.57,
-      "airTemp": 13.1,
-      "seaTemp": 15.5,
+      "predictedMax": 0.54,
+      "airTemp": 12.1,
+      "seaTemp": 15.4,
       "moonAge": 14.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1707,9 +1679,9 @@
     {
       "date": "2026-04-03",
       "predictedMin": 0.0,
-      "predictedMax": 0.83,
-      "airTemp": 14.9,
-      "seaTemp": 15.6,
+      "predictedMax": 0.72,
+      "airTemp": 14.1,
+      "seaTemp": 15.4,
       "moonAge": 15.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1721,9 +1693,9 @@
     {
       "date": "2026-04-04",
       "predictedMin": 0.0,
-      "predictedMax": 1.03,
-      "airTemp": 16.4,
-      "seaTemp": 15.6,
+      "predictedMax": 1.05,
+      "airTemp": 15.8,
+      "seaTemp": 15.5,
       "moonAge": 16.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1735,9 +1707,9 @@
     {
       "date": "2026-04-05",
       "predictedMin": 0.0,
-      "predictedMax": 1.41,
-      "airTemp": 17.3,
-      "seaTemp": 15.7,
+      "predictedMax": 1.33,
+      "airTemp": 17.5,
+      "seaTemp": 15.6,
       "moonAge": 17.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1749,9 +1721,9 @@
     {
       "date": "2026-04-06",
       "predictedMin": 0.0,
-      "predictedMax": 1.99,
-      "airTemp": 16.3,
-      "seaTemp": 15.9,
+      "predictedMax": 1.87,
+      "airTemp": 17.0,
+      "seaTemp": 15.8,
       "moonAge": 18.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1763,9 +1735,9 @@
     {
       "date": "2026-04-07",
       "predictedMin": 0.0,
-      "predictedMax": 3.31,
-      "airTemp": 17.0,
-      "seaTemp": 16.78,
+      "predictedMax": 2.61,
+      "airTemp": 15.9,
+      "seaTemp": 16.1,
       "moonAge": 19.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1776,10 +1748,10 @@
     },
     {
       "date": "2026-04-08",
-      "predictedMin": 0.16,
-      "predictedMax": 4.33,
-      "airTemp": 12.9,
-      "seaTemp": 16.85,
+      "predictedMin": 0.01,
+      "predictedMax": 3.42,
+      "airTemp": 16.5,
+      "seaTemp": 16.4,
       "moonAge": 20.83,
       "featureSource": "forecast",
       "observedDate": null,
@@ -1790,9 +1762,9 @@
     },
     {
       "date": "2026-04-09",
-      "predictedMin": 0.31,
-      "predictedMax": 5.0,
-      "airTemp": 13.4,
+      "predictedMin": 0.26,
+      "predictedMax": 4.46,
+      "airTemp": 17.2,
       "seaTemp": 16.96,
       "moonAge": 21.83,
       "featureSource": "forecast",
@@ -1804,9 +1776,9 @@
     },
     {
       "date": "2026-04-10",
-      "predictedMin": 0.39,
-      "predictedMax": 5.31,
-      "airTemp": 15.3,
+      "predictedMin": 0.38,
+      "predictedMax": 5.0,
+      "airTemp": 17.7,
       "seaTemp": 17.07,
       "moonAge": 22.83,
       "featureSource": "forecast",
@@ -1833,8 +1805,8 @@
     {
       "date": "2026-04-12",
       "predictedMin": 0.44,
-      "predictedMax": 5.47,
-      "airTemp": 16.9,
+      "predictedMax": 5.54,
+      "airTemp": 16.5,
       "seaTemp": 17.25,
       "moonAge": 24.83,
       "featureSource": "forecast",
@@ -1847,11 +1819,11 @@
     {
       "date": "2026-04-13",
       "predictedMin": 0.45,
-      "predictedMax": 5.7,
-      "airTemp": 15.62,
+      "predictedMax": 5.8,
+      "airTemp": 15.2,
       "seaTemp": 17.33,
       "moonAge": 25.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
@@ -1860,12 +1832,12 @@
     },
     {
       "date": "2026-04-14",
-      "predictedMin": 0.41,
-      "predictedMax": 5.49,
-      "airTemp": 15.84,
+      "predictedMin": 0.42,
+      "predictedMax": 5.27,
+      "airTemp": 16.7,
       "seaTemp": 17.43,
       "moonAge": 26.83,
-      "featureSource": "climatology",
+      "featureSource": "forecast",
       "observedDate": null,
       "observedMin": null,
       "observedMax": null,
@@ -2164,7 +2136,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-05-06",
@@ -2612,7 +2584,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-06-07",
@@ -2626,7 +2598,7 @@
       "observedMin": 0.0,
       "observedMax": 2.0,
       "observedText": "タチウオ 0~2匹 70~118cm",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-06-08",
@@ -2640,7 +2612,7 @@
       "observedMin": 0.0,
       "observedMax": 5.0,
       "observedText": "タチウオ 0~5匹 70~110cm",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-06-09",
@@ -2668,7 +2640,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-06-11",
@@ -2696,7 +2668,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-06-13",
@@ -2710,7 +2682,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-06-14",
@@ -2724,7 +2696,7 @@
       "observedMin": 0.0,
       "observedMax": 5.0,
       "observedText": "タチウオ 0~5匹 70~123cm",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-06-15",
@@ -2892,7 +2864,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-06-27",
@@ -2934,7 +2906,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0005
     },
     {
       "date": "2026-06-30",
@@ -2976,7 +2948,7 @@
       "observedMin": 4.0,
       "observedMax": 14.0,
       "observedText": "タチウオ 4~14匹 60~120cm",
-      "probability": 0.0002
+      "probability": 0.001
     },
     {
       "date": "2026-07-03",
@@ -2990,7 +2962,7 @@
       "observedMin": 2.0,
       "observedMax": 17.0,
       "observedText": "タチウオ 2~17匹 60~115cm",
-      "probability": 0.0002
+      "probability": 0.0005
     },
     {
       "date": "2026-07-04",
@@ -3004,7 +2976,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.0017
     },
     {
       "date": "2026-07-05",
@@ -3018,7 +2990,7 @@
       "observedMin": 3.0,
       "observedMax": 21.0,
       "observedText": "タチウオ 3~21匹 60~100cm",
-      "probability": 0.0012
+      "probability": 0.0015
     },
     {
       "date": "2026-07-06",
@@ -3032,7 +3004,7 @@
       "observedMin": 1.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 1~23匹 70~105cm",
-      "probability": 0.001
+      "probability": 0.0015
     },
     {
       "date": "2026-07-07",
@@ -3046,7 +3018,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-07-08",
@@ -3060,7 +3032,7 @@
       "observedMin": 4.0,
       "observedMax": 11.0,
       "observedText": "タチウオ 4~11匹 70~105cm",
-      "probability": 0.0027
+      "probability": 0.0022
     },
     {
       "date": "2026-07-09",
@@ -3088,7 +3060,7 @@
       "observedMin": 1.0,
       "observedMax": 15.0,
       "observedText": "タチウオ 1~15匹 70~118cm",
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-07-11",
@@ -3102,7 +3074,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-07-12",
@@ -3116,7 +3088,7 @@
       "observedMin": 4.0,
       "observedMax": 29.0,
       "observedText": "タチウオ 4~29匹 65~105cm",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-07-13",
@@ -3214,7 +3186,7 @@
       "observedMin": 4.0,
       "observedMax": 27.0,
       "observedText": "タチウオ 4~27匹 65~110cm",
-      "probability": 0.0015
+      "probability": 0.001
     },
     {
       "date": "2026-07-20",
@@ -3228,7 +3200,7 @@
       "observedMin": 6.0,
       "observedMax": 25.0,
       "observedText": "タチウオ 6~25匹 65~115cm",
-      "probability": 0.0042
+      "probability": 0.0044
     },
     {
       "date": "2026-07-21",
@@ -3256,7 +3228,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.0015
     },
     {
       "date": "2026-07-23",
@@ -3270,7 +3242,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0042
+      "probability": 0.0037
     },
     {
       "date": "2026-07-24",
@@ -3284,7 +3256,7 @@
       "observedMin": 2.0,
       "observedMax": 15.0,
       "observedText": "タチウオ 2~15匹 65~123cm",
-      "probability": 0.0039
+      "probability": 0.0029
     },
     {
       "date": "2026-07-25",
@@ -3298,7 +3270,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0027
+      "probability": 0.0015
     },
     {
       "date": "2026-07-26",
@@ -3312,7 +3284,7 @@
       "observedMin": 2.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 2~20匹 70~118cm",
-      "probability": 0.0005
+      "probability": 0.0015
     },
     {
       "date": "2026-07-27",
@@ -3326,7 +3298,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.0015
     },
     {
       "date": "2026-07-28",
@@ -3340,7 +3312,7 @@
       "observedMin": 5.0,
       "observedMax": 25.0,
       "observedText": "タチウオ 5~25匹 65~100cm",
-      "probability": 0.0007
+      "probability": 0.0015
     },
     {
       "date": "2026-07-29",
@@ -3354,7 +3326,7 @@
       "observedMin": 5.0,
       "observedMax": 42.0,
       "observedText": "タチウオ 5~42匹 65~120cm",
-      "probability": 0.0005
+      "probability": 0.001
     },
     {
       "date": "2026-07-30",
@@ -3368,7 +3340,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0024
+      "probability": 0.0007
     },
     {
       "date": "2026-07-31",
@@ -3382,7 +3354,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0032
+      "probability": 0.0029
     },
     {
       "date": "2026-08-01",
@@ -3396,7 +3368,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0098
+      "probability": 0.0076
     },
     {
       "date": "2026-08-02",
@@ -3410,7 +3382,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0168
+      "probability": 0.0156
     },
     {
       "date": "2026-08-03",
@@ -3424,7 +3396,7 @@
       "observedMin": 3.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 3~23匹 65~115cm",
-      "probability": 0.0251
+      "probability": 0.0283
     },
     {
       "date": "2026-08-04",
@@ -3438,7 +3410,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.032
+      "probability": 0.0396
     },
     {
       "date": "2026-08-05",
@@ -3452,7 +3424,7 @@
       "observedMin": 5.0,
       "observedMax": 17.0,
       "observedText": "タチウオ 5~17匹 65~110cm",
-      "probability": 0.0508
+      "probability": 0.0564
     },
     {
       "date": "2026-08-06",
@@ -3466,7 +3438,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.033
+      "probability": 0.0315
     },
     {
       "date": "2026-08-07",
@@ -3480,7 +3452,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0134
+      "probability": 0.0176
     },
     {
       "date": "2026-08-08",
@@ -3494,7 +3466,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0168
+      "probability": 0.0125
     },
     {
       "date": "2026-08-09",
@@ -3508,7 +3480,7 @@
       "observedMin": 4.0,
       "observedMax": 31.0,
       "observedText": "タチウオ 4~31匹 65~100cm",
-      "probability": 0.0022
+      "probability": 0.0044
     },
     {
       "date": "2026-08-10",
@@ -3522,7 +3494,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0015
+      "probability": 0.0029
     },
     {
       "date": "2026-08-11",
@@ -3536,7 +3508,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0012
+      "probability": 0.0007
     },
     {
       "date": "2026-08-12",
@@ -3564,7 +3536,7 @@
       "observedMin": 6.0,
       "observedMax": 25.0,
       "observedText": "タチウオ 6~25匹 65~125cm",
-      "probability": 0.002
+      "probability": 0.0012
     },
     {
       "date": "2026-08-14",
@@ -3578,7 +3550,7 @@
       "observedMin": 2.0,
       "observedMax": 44.0,
       "observedText": "タチウオ 2~44匹 65~115cm",
-      "probability": 0.0017
+      "probability": 0.001
     },
     {
       "date": "2026-08-15",
@@ -3592,7 +3564,7 @@
       "observedMin": 5.0,
       "observedMax": 40.0,
       "observedText": "タチウオ 5~40匹 65~115cm",
-      "probability": 0.0012
+      "probability": 0.0007
     },
     {
       "date": "2026-08-16",
@@ -3606,7 +3578,7 @@
       "observedMin": 5.0,
       "observedMax": 24.0,
       "observedText": "タチウオ 5~24匹 65~110cm",
-      "probability": 0.001
+      "probability": 0.0027
     },
     {
       "date": "2026-08-17",
@@ -3620,7 +3592,7 @@
       "observedMin": 2.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 2~23匹 65~100cm",
-      "probability": 0.0029
+      "probability": 0.0059
     },
     {
       "date": "2026-08-18",
@@ -3634,7 +3606,7 @@
       "observedMin": 5.0,
       "observedMax": 40.0,
       "observedText": "タチウオ 5~40匹 65~120cm",
-      "probability": 0.009
+      "probability": 0.0061
     },
     {
       "date": "2026-08-19",
@@ -3648,7 +3620,7 @@
       "observedMin": 7.0,
       "observedMax": 16.0,
       "observedText": "タチウオ 7~16匹 65~127cm",
-      "probability": 0.0078
+      "probability": 0.0088
     },
     {
       "date": "2026-08-20",
@@ -3662,7 +3634,7 @@
       "observedMin": 3.0,
       "observedMax": 22.0,
       "observedText": "タチウオ 3~22匹 65~110cm",
-      "probability": 0.0237
+      "probability": 0.0205
     },
     {
       "date": "2026-08-21",
@@ -3676,7 +3648,7 @@
       "observedMin": 3.0,
       "observedMax": 15.0,
       "observedText": "タチウオ 3~15匹 70~110cm",
-      "probability": 0.0166
+      "probability": 0.0168
     },
     {
       "date": "2026-08-22",
@@ -3690,7 +3662,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0122
+      "probability": 0.0115
     },
     {
       "date": "2026-08-23",
@@ -3704,7 +3676,7 @@
       "observedMin": 3.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 3~23匹 65~110cm",
-      "probability": 0.0073
+      "probability": 0.0046
     },
     {
       "date": "2026-08-24",
@@ -3718,7 +3690,7 @@
       "observedMin": 0.0,
       "observedMax": 5.0,
       "observedText": "タチウオ 0~5匹 70~115cm",
-      "probability": 0.0071
+      "probability": 0.0061
     },
     {
       "date": "2026-08-25",
@@ -3732,7 +3704,7 @@
       "observedMin": 1.0,
       "observedMax": 9.0,
       "observedText": "タチウオ 1~9匹 65~100cm",
-      "probability": 0.009
+      "probability": 0.0071
     },
     {
       "date": "2026-08-26",
@@ -3746,7 +3718,7 @@
       "observedMin": 4.0,
       "observedMax": 22.0,
       "observedText": "タチウオ 4~22匹 65~115cm",
-      "probability": 0.0061
+      "probability": 0.0044
     },
     {
       "date": "2026-08-27",
@@ -3760,7 +3732,7 @@
       "observedMin": 1.0,
       "observedMax": 8.0,
       "observedText": "タチウオ 1~8匹 70~100cm",
-      "probability": 0.0034
+      "probability": 0.0042
     },
     {
       "date": "2026-08-28",
@@ -3774,7 +3746,7 @@
       "observedMin": 2.0,
       "observedMax": 14.0,
       "observedText": "タチウオ 2~14匹 65~105cm",
-      "probability": 0.0024
+      "probability": 0.0027
     },
     {
       "date": "2026-08-29",
@@ -3788,7 +3760,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0066
+      "probability": 0.0083
     },
     {
       "date": "2026-08-30",
@@ -3802,7 +3774,7 @@
       "observedMin": 3.0,
       "observedMax": 18.0,
       "observedText": "タチウオ 3~18匹 70~105cm",
-      "probability": 0.0061
+      "probability": 0.0071
     },
     {
       "date": "2026-08-31",
@@ -3816,7 +3788,7 @@
       "observedMin": 0.0,
       "observedMax": 21.0,
       "observedText": "タチウオ 0~21匹 65~110cm",
-      "probability": 0.0161
+      "probability": 0.0144
     },
     {
       "date": "2026-09-01",
@@ -3830,7 +3802,7 @@
       "observedMin": 1.0,
       "observedMax": 9.0,
       "observedText": "タチウオ 1~9匹 70~105cm",
-      "probability": 0.0251
+      "probability": 0.0295
     },
     {
       "date": "2026-09-02",
@@ -3844,7 +3816,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0325
+      "probability": 0.0315
     },
     {
       "date": "2026-09-03",
@@ -3858,7 +3830,7 @@
       "observedMin": 2.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 2~20匹 70~100cm",
-      "probability": 0.0681
+      "probability": 0.0774
     },
     {
       "date": "2026-09-04",
@@ -3872,7 +3844,7 @@
       "observedMin": 11.0,
       "observedMax": 22.0,
       "observedText": "タチウオ 11~22匹 70~124cm",
-      "probability": 0.0532
+      "probability": 0.0408
     },
     {
       "date": "2026-09-05",
@@ -3886,7 +3858,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.042
+      "probability": 0.0488
     },
     {
       "date": "2026-09-06",
@@ -3900,7 +3872,7 @@
       "observedMin": 4.0,
       "observedMax": 16.0,
       "observedText": "タチウオ 4~16匹 70~100cm",
-      "probability": 0.0327
+      "probability": 0.03
     },
     {
       "date": "2026-09-07",
@@ -3914,7 +3886,7 @@
       "observedMin": 0.0,
       "observedMax": 11.0,
       "observedText": "タチウオ 0~11匹 70~110cm",
-      "probability": 0.021
+      "probability": 0.0203
     },
     {
       "date": "2026-09-08",
@@ -3928,7 +3900,7 @@
       "observedMin": 11.0,
       "observedMax": 24.0,
       "observedText": "タチウオ 11~24匹 70~90cm",
-      "probability": 0.002
+      "probability": 0.0024
     },
     {
       "date": "2026-09-09",
@@ -3942,7 +3914,7 @@
       "observedMin": 3.0,
       "observedMax": 13.0,
       "observedText": "タチウオ 3~13匹 70~100cm",
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2026-09-10",
@@ -3956,7 +3928,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-09-11",
@@ -3970,7 +3942,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-09-12",
@@ -3984,7 +3956,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0007
+      "probability": 0.0
     },
     {
       "date": "2026-09-13",
@@ -3998,7 +3970,7 @@
       "observedMin": 1.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 1~20匹 70~105cm",
-      "probability": 0.0012
+      "probability": 0.0027
     },
     {
       "date": "2026-09-14",
@@ -4012,7 +3984,7 @@
       "observedMin": 0.0,
       "observedMax": 13.0,
       "observedText": "タチウオ 0~13匹 70~122cm",
-      "probability": 0.0017
+      "probability": 0.0029
     },
     {
       "date": "2026-09-15",
@@ -4026,7 +3998,7 @@
       "observedMin": 11.0,
       "observedMax": 30.0,
       "observedText": "タチウオ 11~30匹 70~100cm",
-      "probability": 0.0051
+      "probability": 0.0042
     },
     {
       "date": "2026-09-16",
@@ -4040,7 +4012,7 @@
       "observedMin": 10.0,
       "observedMax": 32.0,
       "observedText": "タチウオ 10~32匹 70~105cm",
-      "probability": 0.0095
+      "probability": 0.0078
     },
     {
       "date": "2026-09-17",
@@ -4054,7 +4026,7 @@
       "observedMin": 7.0,
       "observedMax": 27.0,
       "observedText": "タチウオ 7~27匹 70~120cm",
-      "probability": 0.0071
+      "probability": 0.0073
     },
     {
       "date": "2026-09-18",
@@ -4068,7 +4040,7 @@
       "observedMin": 1.0,
       "observedMax": 8.0,
       "observedText": "タチウオ 1~8匹 70~120cm",
-      "probability": 0.0142
+      "probability": 0.0149
     },
     {
       "date": "2026-09-19",
@@ -4082,7 +4054,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0122
+      "probability": 0.0103
     },
     {
       "date": "2026-09-20",
@@ -4110,7 +4082,7 @@
       "observedMin": 0.0,
       "observedMax": 5.0,
       "observedText": "タチウオ 0~5匹 75~122cm",
-      "probability": 0.0046
+      "probability": 0.0066
     },
     {
       "date": "2026-09-22",
@@ -4124,7 +4096,7 @@
       "observedMin": 8.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 8~20匹 70~115cm",
-      "probability": 0.0029
+      "probability": 0.0046
     },
     {
       "date": "2026-09-23",
@@ -4138,7 +4110,7 @@
       "observedMin": 0.0,
       "observedMax": 11.0,
       "observedText": "タチウオ 0~11匹 70~123cm",
-      "probability": 0.0017
+      "probability": 0.001
     },
     {
       "date": "2026-09-24",
@@ -4152,7 +4124,7 @@
       "observedMin": 9.0,
       "observedMax": 31.0,
       "observedText": "タチウオ 9~31匹 70~113cm",
-      "probability": 0.0012
+      "probability": 0.001
     },
     {
       "date": "2026-09-25",
@@ -4166,7 +4138,7 @@
       "observedMin": 1.0,
       "observedMax": 14.0,
       "observedText": "タチウオ 1~14匹 70~110cm",
-      "probability": 0.0007
+      "probability": 0.0
     },
     {
       "date": "2026-09-26",
@@ -4208,7 +4180,7 @@
       "observedMin": 7.0,
       "observedMax": 24.0,
       "observedText": "タチウオ 7~24匹 70~127cm",
-      "probability": 0.0042
+      "probability": 0.0054
     },
     {
       "date": "2026-09-29",
@@ -4236,7 +4208,7 @@
       "observedMin": 10.0,
       "observedMax": 35.0,
       "observedText": "タチウオ 10~35匹 70~105cm",
-      "probability": 0.0251
+      "probability": 0.0237
     },
     {
       "date": "2026-10-01",
@@ -4250,7 +4222,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0171
+      "probability": 0.0183
     },
     {
       "date": "2026-10-02",
@@ -4264,7 +4236,7 @@
       "observedMin": 2.0,
       "observedMax": 13.0,
       "observedText": "タチウオ 2~13匹 70~115cm",
-      "probability": 0.0178
+      "probability": 0.0188
     },
     {
       "date": "2026-10-03",
@@ -4278,7 +4250,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0261
+      "probability": 0.0298
     },
     {
       "date": "2026-10-04",
@@ -4292,7 +4264,7 @@
       "observedMin": 1.0,
       "observedMax": 11.0,
       "observedText": "タチウオ 1~11匹 70~115cm",
-      "probability": 0.0337
+      "probability": 0.0215
     },
     {
       "date": "2026-10-05",
@@ -4306,7 +4278,7 @@
       "observedMin": 7.0,
       "observedMax": 16.0,
       "observedText": "タチウオ 7~16匹 70~121cm",
-      "probability": 0.031
+      "probability": 0.0237
     },
     {
       "date": "2026-10-06",
@@ -4320,7 +4292,7 @@
       "observedMin": 4.0,
       "observedMax": 10.0,
       "observedText": "タチウオ 4~10匹 70~120cm",
-      "probability": 0.0159
+      "probability": 0.0186
     },
     {
       "date": "2026-10-07",
@@ -4334,7 +4306,7 @@
       "observedMin": 4.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 4~20匹 70~123cm",
-      "probability": 0.0112
+      "probability": 0.0134
     },
     {
       "date": "2026-10-08",
@@ -4348,7 +4320,7 @@
       "observedMin": 5.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 5~23匹 70~110cm",
-      "probability": 0.0039
+      "probability": 0.0051
     },
     {
       "date": "2026-10-09",
@@ -4362,7 +4334,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0034
+      "probability": 0.0024
     },
     {
       "date": "2026-10-10",
@@ -4390,7 +4362,7 @@
       "observedMin": 18.0,
       "observedMax": 26.0,
       "observedText": "タチウオ 18~26匹 70~110cm",
-      "probability": 0.0015
+      "probability": 0.002
     },
     {
       "date": "2026-10-12",
@@ -4404,7 +4376,7 @@
       "observedMin": 5.0,
       "observedMax": 28.0,
       "observedText": "タチウオ 5~28匹 70~105cm",
-      "probability": 0.0056
+      "probability": 0.0027
     },
     {
       "date": "2026-10-13",
@@ -4418,7 +4390,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.0029
     },
     {
       "date": "2026-10-14",
@@ -4432,7 +4404,7 @@
       "observedMin": 4.0,
       "observedMax": 38.0,
       "observedText": "タチウオ 4~38匹 70~105cm",
-      "probability": 0.0015
+      "probability": 0.001
     },
     {
       "date": "2026-10-15",
@@ -4446,7 +4418,7 @@
       "observedMin": 7.0,
       "observedMax": 44.0,
       "observedText": "タチウオ 7~44匹 70~105cm",
-      "probability": 0.0005
+      "probability": 0.001
     },
     {
       "date": "2026-10-16",
@@ -4460,7 +4432,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.001
+      "probability": 0.0007
     },
     {
       "date": "2026-10-17",
@@ -4474,7 +4446,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-10-18",
@@ -4488,7 +4460,7 @@
       "observedMin": 3.0,
       "observedMax": 25.0,
       "observedText": "タチウオ 3~25匹 70~110cm",
-      "probability": 0.001
+      "probability": 0.0002
     },
     {
       "date": "2026-10-19",
@@ -4502,7 +4474,7 @@
       "observedMin": 4.0,
       "observedMax": 25.0,
       "observedText": "タチウオ 4~25匹 70~100cm",
-      "probability": 0.0005
+      "probability": 0.0
     },
     {
       "date": "2026-10-20",
@@ -4516,7 +4488,7 @@
       "observedMin": 16.0,
       "observedMax": 23.0,
       "observedText": "タチウオ 16~23匹 70~120cm",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-10-21",
@@ -4530,7 +4502,7 @@
       "observedMin": 15.0,
       "observedMax": 27.0,
       "observedText": "タチウオ 15~27匹 70~100cm",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-10-22",
@@ -4558,7 +4530,7 @@
       "observedMin": 5.0,
       "observedMax": 20.0,
       "observedText": "タチウオ 5~20匹 70~105cm",
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-10-24",
@@ -4572,7 +4544,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-10-25",
@@ -4586,7 +4558,7 @@
       "observedMin": 2.0,
       "observedMax": 15.0,
       "observedText": "タチウオ 2~15匹 70~100cm",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-10-26",
@@ -4600,7 +4572,7 @@
       "observedMin": 1.0,
       "observedMax": 26.0,
       "observedText": "タチウオ 1~26匹 70~100cm",
-      "probability": 0.0007
+      "probability": 0.0005
     },
     {
       "date": "2026-10-27",
@@ -4614,7 +4586,7 @@
       "observedMin": 2.0,
       "observedMax": 24.0,
       "observedText": "タチウオ 2~24匹 70~100cm",
-      "probability": 0.0005
+      "probability": 0.0012
     },
     {
       "date": "2026-10-28",
@@ -4628,7 +4600,7 @@
       "observedMin": 0.0,
       "observedMax": 15.0,
       "observedText": "タチウオ 0~15匹 70~100cm",
-      "probability": 0.0007
+      "probability": 0.001
     },
     {
       "date": "2026-10-29",
@@ -4642,7 +4614,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0017
+      "probability": 0.0015
     },
     {
       "date": "2026-10-30",
@@ -4656,7 +4628,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0022
     },
     {
       "date": "2026-10-31",
@@ -4670,7 +4642,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0012
     },
     {
       "date": "2026-11-01",
@@ -4684,7 +4656,7 @@
       "observedMin": 1.0,
       "observedMax": 10.0,
       "observedText": "タチウオ 1~10匹 70~100cm",
-      "probability": 0.0005
+      "probability": 0.0017
     },
     {
       "date": "2026-11-02",
@@ -4698,7 +4670,7 @@
       "observedMin": 2.0,
       "observedMax": 10.0,
       "observedText": "タチウオ 2~10匹 70~115cm",
-      "probability": 0.0027
+      "probability": 0.0034
     },
     {
       "date": "2026-11-03",
@@ -4712,7 +4684,7 @@
       "observedMin": 1.0,
       "observedMax": 10.0,
       "observedText": "タチウオ 1~10匹 70~100cm",
-      "probability": 0.0078
+      "probability": 0.0049
     },
     {
       "date": "2026-11-04",
@@ -4726,7 +4698,7 @@
       "observedMin": 0.0,
       "observedMax": 9.0,
       "observedText": "タチウオ 0~9匹 70~100cm",
-      "probability": 0.0059
+      "probability": 0.0076
     },
     {
       "date": "2026-11-05",
@@ -4740,7 +4712,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0066
+      "probability": 0.0095
     },
     {
       "date": "2026-11-06",
@@ -4754,7 +4726,7 @@
       "observedMin": 0.0,
       "observedMax": 10.0,
       "observedText": "タチウオ 0~10匹 70~116cm",
-      "probability": 0.0071
+      "probability": 0.0056
     },
     {
       "date": "2026-11-07",
@@ -4782,7 +4754,7 @@
       "observedMin": 2.0,
       "observedMax": 8.0,
       "observedText": "タチウオ 2~8匹 70~100cm",
-      "probability": 0.002
+      "probability": 0.0015
     },
     {
       "date": "2026-11-09",
@@ -4796,7 +4768,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.001
+      "probability": 0.0005
     },
     {
       "date": "2026-11-10",
@@ -4824,7 +4796,7 @@
       "observedMin": 2.0,
       "observedMax": 8.0,
       "observedText": "タチウオ 2~8匹 70~100cm",
-      "probability": 0.0002
+      "probability": 0.001
     },
     {
       "date": "2026-11-12",
@@ -4838,7 +4810,7 @@
       "observedMin": 2.0,
       "observedMax": 5.0,
       "observedText": "タチウオ 2~5匹 70~90cm",
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-11-13",
@@ -5118,7 +5090,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-12-03",
@@ -5132,7 +5104,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0005
+      "probability": 0.0002
     },
     {
       "date": "2026-12-04",
@@ -5146,7 +5118,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0
+      "probability": 0.0002
     },
     {
       "date": "2026-12-05",
@@ -5160,7 +5132,7 @@
       "observedMin": null,
       "observedMax": null,
       "observedText": null,
-      "probability": 0.0002
+      "probability": 0.0
     },
     {
       "date": "2026-12-06",
@@ -6664,7 +6636,7 @@
       "date": "2027-03-23",
       "predictedMin": 0.0,
       "predictedMax": 0.64,
-      "airTemp": 11.91,
+      "airTemp": 11.99,
       "seaTemp": 15.34,
       "moonAge": 15.46,
       "featureSource": "climatology",
@@ -6678,7 +6650,7 @@
       "date": "2027-03-24",
       "predictedMin": 0.0,
       "predictedMax": 0.95,
-      "airTemp": 11.98,
+      "airTemp": 12.14,
       "seaTemp": 15.4,
       "moonAge": 16.46,
       "featureSource": "climatology",
@@ -6691,9 +6663,9 @@
     {
       "date": "2027-03-25",
       "predictedMin": 0.0,
-      "predictedMax": 1.36,
-      "airTemp": 12.09,
-      "seaTemp": 15.52,
+      "predictedMax": 1.31,
+      "airTemp": 12.18,
+      "seaTemp": 15.46,
       "moonAge": 17.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -6705,9 +6677,9 @@
     {
       "date": "2027-03-26",
       "predictedMin": 0.0,
-      "predictedMax": 1.79,
+      "predictedMax": 1.69,
       "airTemp": 12.34,
-      "seaTemp": 15.61,
+      "seaTemp": 15.49,
       "moonAge": 18.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -6719,9 +6691,9 @@
     {
       "date": "2027-03-27",
       "predictedMin": 0.0,
-      "predictedMax": 2.27,
+      "predictedMax": 2.15,
       "airTemp": 12.62,
-      "seaTemp": 15.69,
+      "seaTemp": 15.58,
       "moonAge": 19.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -6733,9 +6705,9 @@
     {
       "date": "2027-03-28",
       "predictedMin": 0.0,
-      "predictedMax": 2.74,
+      "predictedMax": 2.61,
       "airTemp": 12.69,
-      "seaTemp": 15.77,
+      "seaTemp": 15.65,
       "moonAge": 20.46,
       "featureSource": "climatology",
       "observedDate": null,
@@ -6747,10 +6719,38 @@
     {
       "date": "2027-03-29",
       "predictedMin": 0.0,
-      "predictedMax": 3.23,
+      "predictedMax": 3.08,
       "airTemp": 12.8,
-      "seaTemp": 15.87,
+      "seaTemp": 15.75,
       "moonAge": 21.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0
+    },
+    {
+      "date": "2027-03-30",
+      "predictedMin": 0.0,
+      "predictedMax": 3.61,
+      "airTemp": 12.98,
+      "seaTemp": 15.86,
+      "moonAge": 22.46,
+      "featureSource": "climatology",
+      "observedDate": null,
+      "observedMin": null,
+      "observedMax": null,
+      "observedText": null,
+      "probability": 0.0
+    },
+    {
+      "date": "2027-03-31",
+      "predictedMin": 0.07,
+      "predictedMax": 4.02,
+      "airTemp": 13.26,
+      "seaTemp": 15.99,
+      "moonAge": 23.46,
       "featureSource": "climatology",
       "observedDate": null,
       "observedMin": null,

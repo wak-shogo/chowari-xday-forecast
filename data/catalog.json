@@ -1,7 +1,96 @@
 {
-  "generatedAt": "2026-03-29 14:47 JST",
-  "today": "2026-03-29",
+  "generatedAt": "2026-03-31 14:03 JST",
+  "today": "2026-03-31",
   "ships": [
+    {
+      "id": "00307",
+      "name": "一之瀬丸",
+      "location": "神奈川県 横浜市 金沢八景洲崎",
+      "homeUrl": "https://www.chowari.jp/ship/00307/",
+      "catchUrl": "https://www.chowari.jp/ship/00307/catch/",
+      "species": [
+        {
+          "id": "8da213faed93",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 30,
+          "tripDays": 30,
+          "file": "data/payloads/00307-8da213faed93.json"
+        },
+        {
+          "id": "97ca582102ed",
+          "label": "マゴチ",
+          "unit": "匹",
+          "positiveDays": 20,
+          "tripDays": 20,
+          "file": "data/payloads/00307-97ca582102ed.json"
+        },
+        {
+          "id": "e78d7dd0b4d2",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 16,
+          "tripDays": 16,
+          "file": "data/payloads/00307-e78d7dd0b4d2.json"
+        },
+        {
+          "id": "7569c6156b43",
+          "label": "ヤリイカ",
+          "unit": "匹",
+          "positiveDays": 13,
+          "tripDays": 13,
+          "file": "data/payloads/00307-7569c6156b43.json"
+        },
+        {
+          "id": "69f28217b4f1",
+          "label": "マダコ",
+          "unit": "匹",
+          "positiveDays": 12,
+          "tripDays": 12,
+          "file": "data/payloads/00307-69f28217b4f1.json"
+        },
+        {
+          "id": "edfac8ae9837",
+          "label": "スルメイカ",
+          "unit": "匹",
+          "positiveDays": 11,
+          "tripDays": 11,
+          "file": "data/payloads/00307-edfac8ae9837.json"
+        },
+        {
+          "id": "fd949369b5bc",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 10,
+          "tripDays": 10,
+          "file": "data/payloads/00307-fd949369b5bc.json"
+        },
+        {
+          "id": "bc73ef351416",
+          "label": "トラフグ",
+          "unit": "匹",
+          "positiveDays": 9,
+          "tripDays": 9,
+          "file": "data/payloads/00307-bc73ef351416.json"
+        },
+        {
+          "id": "a70de04b4edc",
+          "label": "イサキ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/00307-a70de04b4edc.json"
+        },
+        {
+          "id": "caabd145da2d",
+          "label": "カワハギ",
+          "unit": "匹",
+          "positiveDays": 6,
+          "tripDays": 6,
+          "file": "data/payloads/00307-caabd145da2d.json"
+        }
+      ]
+    },
     {
       "id": "00296",
       "name": "佐島海楽園",
@@ -13,17 +102,9 @@
           "id": "d414c8da78ca",
           "label": "イサキ",
           "unit": "匹",
-          "positiveDays": 25,
-          "tripDays": 25,
+          "positiveDays": 23,
+          "tripDays": 23,
           "file": "data/payloads/00296-d414c8da78ca.json"
-        },
-        {
-          "id": "b21cbad6f0b8",
-          "label": "アジ",
-          "unit": "匹",
-          "positiveDays": 16,
-          "tripDays": 16,
-          "file": "data/payloads/00296-b21cbad6f0b8.json"
         },
         {
           "id": "8545d07384df",
@@ -32,6 +113,14 @@
           "positiveDays": 15,
           "tripDays": 15,
           "file": "data/payloads/00296-8545d07384df.json"
+        },
+        {
+          "id": "b21cbad6f0b8",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 13,
+          "tripDays": 13,
+          "file": "data/payloads/00296-b21cbad6f0b8.json"
         },
         {
           "id": "a9a8a36dce4e",
@@ -53,17 +142,9 @@
           "id": "eeea38cf345c",
           "label": "メジナ",
           "unit": "匹",
-          "positiveDays": 7,
-          "tripDays": 7,
+          "positiveDays": 6,
+          "tripDays": 6,
           "file": "data/payloads/00296-eeea38cf345c.json"
-        },
-        {
-          "id": "dd2714633d2e",
-          "label": "ヒラメ",
-          "unit": "匹",
-          "positiveDays": 5,
-          "tripDays": 5,
-          "file": "data/payloads/00296-dd2714633d2e.json"
         },
         {
           "id": "776d6d4d6bf6",
@@ -92,6 +173,153 @@
       ]
     },
     {
+      "id": "00300",
+      "name": "弁天屋",
+      "location": "神奈川県 横浜市 金沢八景瀬戸橋",
+      "homeUrl": "https://www.chowari.jp/ship/00300/",
+      "catchUrl": "https://www.chowari.jp/ship/00300/catch/",
+      "species": [
+        {
+          "id": "4c971074fe85",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 45,
+          "tripDays": 45,
+          "file": "data/payloads/00300-4c971074fe85.json"
+        },
+        {
+          "id": "02cbd246265b",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 44,
+          "tripDays": 44,
+          "file": "data/payloads/00300-02cbd246265b.json"
+        },
+        {
+          "id": "580aba397da4",
+          "label": "カワハギ",
+          "unit": "匹",
+          "positiveDays": 24,
+          "tripDays": 24,
+          "file": "data/payloads/00300-580aba397da4.json"
+        },
+        {
+          "id": "ec7802d9eb92",
+          "label": "シロギス",
+          "unit": "匹",
+          "positiveDays": 22,
+          "tripDays": 22,
+          "file": "data/payloads/00300-ec7802d9eb92.json"
+        },
+        {
+          "id": "892c5644f8e1",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/00300-892c5644f8e1.json"
+        },
+        {
+          "id": "56ff906f47f5",
+          "label": "アマダイ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 5,
+          "file": "data/payloads/00300-56ff906f47f5.json"
+        },
+        {
+          "id": "ec785c6eaad0",
+          "label": "マゴチ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 4,
+          "file": "data/payloads/00300-ec785c6eaad0.json"
+        }
+      ]
+    },
+    {
+      "id": "00703",
+      "name": "忠彦丸",
+      "location": "神奈川県 横浜市 金沢漁港",
+      "homeUrl": "https://www.chowari.jp/ship/00703/",
+      "catchUrl": "https://www.chowari.jp/ship/00703/catch/",
+      "species": [
+        {
+          "id": "c7b50fb6ced7",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 17,
+          "tripDays": 17,
+          "file": "data/payloads/00703-c7b50fb6ced7.json"
+        },
+        {
+          "id": "7f40b945473a",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 15,
+          "tripDays": 15,
+          "file": "data/payloads/00703-7f40b945473a.json"
+        },
+        {
+          "id": "1eb57ee246c9",
+          "label": "トラフグ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 4,
+          "file": "data/payloads/00703-1eb57ee246c9.json"
+        }
+      ]
+    },
+    {
+      "id": "01580",
+      "name": "村本海事",
+      "location": "神奈川県 横浜市 金沢八景乙舳",
+      "homeUrl": "https://www.chowari.jp/ship/01580/",
+      "catchUrl": "https://www.chowari.jp/ship/01580/catch/",
+      "species": [
+        {
+          "id": "8ef0bf54451e",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 28,
+          "tripDays": 28,
+          "file": "data/payloads/01580-8ef0bf54451e.json"
+        },
+        {
+          "id": "fdcf45ec7094",
+          "label": "タコ",
+          "unit": "匹",
+          "positiveDays": 9,
+          "tripDays": 9,
+          "file": "data/payloads/01580-fdcf45ec7094.json"
+        },
+        {
+          "id": "a8f77cbcadf0",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/01580-a8f77cbcadf0.json"
+        },
+        {
+          "id": "b6a5bb6256a9",
+          "label": "アオリイカ",
+          "unit": "匹",
+          "positiveDays": 5,
+          "tripDays": 5,
+          "file": "data/payloads/01580-b6a5bb6256a9.json"
+        },
+        {
+          "id": "0df0bbc76b6b",
+          "label": "アマダイ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 4,
+          "file": "data/payloads/01580-0df0bbc76b6b.json"
+        }
+      ]
+    },
+    {
       "id": "00297",
       "name": "池田丸",
       "location": "神奈川県 鎌倉市 腰越漁港",
@@ -99,20 +327,20 @@
       "catchUrl": "https://www.chowari.jp/ship/00297/catch/",
       "species": [
         {
-          "id": "01232f14d822",
-          "label": "アマダイ",
-          "unit": "匹",
-          "positiveDays": 23,
-          "tripDays": 23,
-          "file": "data/payloads/00297-01232f14d822.json"
-        },
-        {
           "id": "7d7eddaf1250",
           "label": "イナダ",
           "unit": "匹",
           "positiveDays": 23,
           "tripDays": 23,
           "file": "data/payloads/00297-7d7eddaf1250.json"
+        },
+        {
+          "id": "01232f14d822",
+          "label": "アマダイ",
+          "unit": "匹",
+          "positiveDays": 22,
+          "tripDays": 22,
+          "file": "data/payloads/00297-01232f14d822.json"
         },
         {
           "id": "d1dc7b4cca53",
@@ -134,17 +362,9 @@
           "id": "e986de83f75b",
           "label": "フグ",
           "unit": "匹",
-          "positiveDays": 15,
-          "tripDays": 15,
+          "positiveDays": 14,
+          "tripDays": 14,
           "file": "data/payloads/00297-e986de83f75b.json"
-        },
-        {
-          "id": "2a95f79b0bfa",
-          "label": "シロアマダイ",
-          "unit": "匹",
-          "positiveDays": 12,
-          "tripDays": 12,
-          "file": "data/payloads/00297-2a95f79b0bfa.json"
         },
         {
           "id": "2fa81fc2c8d7",
@@ -155,11 +375,19 @@
           "file": "data/payloads/00297-2fa81fc2c8d7.json"
         },
         {
-          "id": "b14eb371f2ad",
-          "label": "ハナダイ",
+          "id": "2a95f79b0bfa",
+          "label": "シロアマダイ",
           "unit": "匹",
           "positiveDays": 11,
           "tripDays": 11,
+          "file": "data/payloads/00297-2a95f79b0bfa.json"
+        },
+        {
+          "id": "b14eb371f2ad",
+          "label": "ハナダイ",
+          "unit": "匹",
+          "positiveDays": 10,
+          "tripDays": 10,
           "file": "data/payloads/00297-b14eb371f2ad.json"
         },
         {
@@ -174,8 +402,8 @@
           "id": "1722afa8f32d",
           "label": "イトヨリ",
           "unit": "匹",
-          "positiveDays": 7,
-          "tripDays": 7,
+          "positiveDays": 6,
+          "tripDays": 6,
           "file": "data/payloads/00297-1722afa8f32d.json"
         },
         {
@@ -197,9 +425,190 @@
       ]
     },
     {
+      "id": "00836",
+      "name": "米元釣船店",
+      "location": "神奈川県 横浜市 金沢八景平潟",
+      "homeUrl": "https://www.chowari.jp/ship/00836/",
+      "catchUrl": "https://www.chowari.jp/ship/00836/catch/",
+      "species": [
+        {
+          "id": "1f6951b0ae97",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 25,
+          "tripDays": 25,
+          "file": "data/payloads/00836-1f6951b0ae97.json"
+        },
+        {
+          "id": "ec6c750d12bf",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 18,
+          "tripDays": 18,
+          "file": "data/payloads/00836-ec6c750d12bf.json"
+        },
+        {
+          "id": "7dfe43d1e503",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 13,
+          "tripDays": 13,
+          "file": "data/payloads/00836-7dfe43d1e503.json"
+        },
+        {
+          "id": "15d8142e300c",
+          "label": "クロダイ",
+          "unit": "匹",
+          "positiveDays": 8,
+          "tripDays": 8,
+          "file": "data/payloads/00836-15d8142e300c.json"
+        },
+        {
+          "id": "6c24a2a0fe8f",
+          "label": "イサキ",
+          "unit": "匹",
+          "positiveDays": 4,
+          "tripDays": 4,
+          "file": "data/payloads/00836-6c24a2a0fe8f.json"
+        }
+      ]
+    },
+    {
+      "id": "00007",
+      "name": "荒川屋",
+      "location": "神奈川県 横浜市 金沢八景平潟",
+      "homeUrl": "https://www.chowari.jp/ship/00007/",
+      "catchUrl": "https://www.chowari.jp/ship/00007/catch/",
+      "species": [
+        {
+          "id": "2e345587ee6c",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 25,
+          "tripDays": 25,
+          "file": "data/payloads/00007-2e345587ee6c.json"
+        },
+        {
+          "id": "5fed4093d120",
+          "label": "シロギス",
+          "unit": "匹",
+          "positiveDays": 22,
+          "tripDays": 22,
+          "file": "data/payloads/00007-5fed4093d120.json"
+        },
+        {
+          "id": "1c1928aabee2",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 9,
+          "tripDays": 9,
+          "file": "data/payloads/00007-1c1928aabee2.json"
+        }
+      ]
+    },
+    {
+      "id": "00834",
+      "name": "野毛屋釣船店",
+      "location": "神奈川県 横浜市 金沢八景平潟",
+      "homeUrl": "https://www.chowari.jp/ship/00834/",
+      "catchUrl": "https://www.chowari.jp/ship/00834/catch/",
+      "species": [
+        {
+          "id": "6b6fd8702770",
+          "label": "フグ",
+          "unit": "匹",
+          "positiveDays": 13,
+          "tripDays": 13,
+          "file": "data/payloads/00834-6b6fd8702770.json"
+        },
+        {
+          "id": "8b6146f8c31b",
+          "label": "マアジ",
+          "unit": "匹",
+          "positiveDays": 11,
+          "tripDays": 11,
+          "file": "data/payloads/00834-8b6146f8c31b.json"
+        },
+        {
+          "id": "adb20ced91d0",
+          "label": "トラフグ",
+          "unit": "匹",
+          "positiveDays": 8,
+          "tripDays": 8,
+          "file": "data/payloads/00834-adb20ced91d0.json"
+        },
+        {
+          "id": "80e6b1432ce7",
+          "label": "マダイ",
+          "unit": "匹",
+          "positiveDays": 7,
+          "tripDays": 7,
+          "file": "data/payloads/00834-80e6b1432ce7.json"
+        }
+      ]
+    },
+    {
+      "id": "00150",
+      "name": "金沢八景 黒川丸",
+      "location": "神奈川県 横浜市 金沢八景平潟",
+      "homeUrl": "https://www.chowari.jp/ship/00150/",
+      "catchUrl": "https://www.chowari.jp/ship/00150/catch/",
+      "species": [
+        {
+          "id": "717a88f21ff6",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 55,
+          "tripDays": 55,
+          "file": "data/payloads/00150-717a88f21ff6.json"
+        },
+        {
+          "id": "e08eaf7858f5",
+          "label": "イシモチ",
+          "unit": "匹",
+          "positiveDays": 29,
+          "tripDays": 29,
+          "file": "data/payloads/00150-e08eaf7858f5.json"
+        },
+        {
+          "id": "71ebee71292e",
+          "label": "シロギス",
+          "unit": "匹",
+          "positiveDays": 23,
+          "tripDays": 23,
+          "file": "data/payloads/00150-71ebee71292e.json"
+        },
+        {
+          "id": "0f5dcdabe026",
+          "label": "タチウオ",
+          "unit": "匹",
+          "positiveDays": 14,
+          "tripDays": 14,
+          "file": "data/payloads/00150-0f5dcdabe026.json"
+        }
+      ]
+    },
+    {
+      "id": "00689",
+      "name": "青田丸",
+      "location": "神奈川県 横浜市 金沢漁港",
+      "homeUrl": "https://www.chowari.jp/ship/00689/",
+      "catchUrl": "https://www.chowari.jp/ship/00689/catch/",
+      "species": [
+        {
+          "id": "22daf1465c72",
+          "label": "アジ",
+          "unit": "匹",
+          "positiveDays": 37,
+          "tripDays": 37,
+          "file": "data/payloads/00689-22daf1465c72.json"
+        }
+      ]
+    },
+    {
       "id": "ichiroumaru",
       "name": "鴨居一郎丸",
-      "location": "鴨居・大貫・下浦沖",
+      "location": "鴨居・久里浜沖",
       "homeUrl": "https://www.ichiroumaru.jp/",
       "catchUrl": "https://www.ichiroumaru.jp/result/",
       "species": [
