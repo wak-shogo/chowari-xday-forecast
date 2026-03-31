@@ -1,4 +1,4 @@
-const APP_VERSION = "20260401-seasonal1";
+const APP_VERSION = "20260401-seasonal2";
 
 const probChart = document.getElementById("probChart");
 const minChart = document.getElementById("minChart");
@@ -29,6 +29,10 @@ const simulatorNodes = {
   moonAge: {
     input: document.getElementById("moonSlider"),
     value: document.getElementById("moonValue"),
+  },
+  dayOfYear: {
+    input: document.getElementById("yearSlider"),
+    value: document.getElementById("yearValue"),
   },
 };
 
@@ -100,9 +104,27 @@ function amountText(value, unit) {
   return `${value.toFixed(1)}${unit}`;
 }
 
+function phaseDateParts(dayOfYear) {
+  const normalized = clamp(Math.round(dayOfYear || 1), 1, 365);
+  const date = new Date(Date.UTC(2025, 0, normalized));
+  return {
+    dayOfYear: normalized,
+    month: date.getUTCMonth() + 1,
+    day: date.getUTCDate(),
+  };
+}
+
+function formatPhaseValue(dayOfYear) {
+  const { month, day } = phaseDateParts(dayOfYear);
+  return `${month}月${day}日相当`;
+}
+
 function formatControlValue(key, value) {
   if (key === "moonAge") {
     return `${value.toFixed(1)}日`;
+  }
+  if (key === "dayOfYear") {
+    return formatPhaseValue(value);
   }
   return `${value.toFixed(1)}℃`;
 }
@@ -546,8 +568,21 @@ function getSimulatorRawFeatures() {
     airTemp: Number(simulatorNodes.airTemp.input.value),
     seaTemp: Number(simulatorNodes.seaTemp.input.value),
     moonAge: Number(simulatorNodes.moonAge.input.value),
-    dayOfYear: payloadState && payloadState.simulatorContext ? payloadState.simulatorContext.dayOfYear : 1,
+    dayOfYear: Number(simulatorNodes.dayOfYear.input.value),
   };
+}
+
+function getSimulatorConfig(payload, key) {
+  if (key === "dayOfYear") {
+    const defaultDay = payload && payload.simulatorContext ? payload.simulatorContext.dayOfYear : 1;
+    return {
+      min: 1,
+      max: 365,
+      step: 1,
+      default: clamp(Math.round(defaultDay || 1), 1, 365),
+    };
+  }
+  return payload && payload.featureRanges ? payload.featureRanges[key] : null;
 }
 
 function populateTopDays(payload) {
@@ -804,6 +839,7 @@ function drawSurfaceMap(payload) {
   const moonConfig = payload.featureRanges.moonAge;
   const seaConfig = payload.featureRanges.seaTemp;
   const airTemp = Number(simulatorNodes.airTemp.input.value);
+  const dayOfYear = Number(simulatorNodes.dayOfYear.input.value);
   const currentSea = Number(simulatorNodes.seaTemp.input.value);
   const currentMoon = Number(simulatorNodes.moonAge.input.value);
   const columns = clamp(Math.floor(width / 9), 48, 110);
@@ -819,7 +855,7 @@ function drawSurfaceMap(payload) {
     const line = [];
     for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
       const moonAge = moonConfig.min + (columnIndex / Math.max(columns - 1, 1)) * (moonConfig.max - moonConfig.min);
-      const value = simulate({ airTemp, seaTemp, moonAge }, payload).predictedMax;
+      const value = simulate({ airTemp, seaTemp, moonAge, dayOfYear }, payload).predictedMax;
       line.push(value);
       minValue = Math.min(minValue, value);
       maxValue = Math.max(maxValue, value);
@@ -903,12 +939,9 @@ function drawSurfaceMap(payload) {
   ctx.fillText(amountText(maxValue, payload.species.unit), legendX + legendWidth - 42, legendY + 24);
   ctx.fillText("海水温", 10, margin.top - 8);
   ctx.fillText("月齢", margin.left + width - 24, margin.top + height + 44);
-  const referenceDate = payload.simulatorContext && payload.simulatorContext.referenceDate ? formatDate(payload.simulatorContext.referenceDate) : null;
   setText(
     "surfaceMeta",
-    referenceDate
-      ? `気温 ${airTemp.toFixed(1)}℃ で固定 / 年内位相 ${referenceDate} 相当 / 色は予測上限`
-      : `気温 ${airTemp.toFixed(1)}℃ で固定 / 色は予測上限`,
+    `気温 ${airTemp.toFixed(1)}℃ で固定 / 年内位相 ${formatPhaseValue(dayOfYear)} / 色は予測上限`,
   );
   surfaceState = {
     margin,
@@ -917,6 +950,7 @@ function drawSurfaceMap(payload) {
     moonConfig,
     seaConfig,
     airTemp,
+    dayOfYear,
     minValue,
     maxValue,
   };
@@ -955,12 +989,16 @@ function configureSimulator(payload, options = {}) {
     if (!node.input) {
       return;
     }
-    const config = payload.featureRanges[key];
+    const config = getSimulatorConfig(payload, key);
+    if (!config) {
+      return;
+    }
     node.input.min = config.min;
     node.input.max = config.max;
     node.input.step = config.step;
     const currentValue = Number(node.input.value);
-    const nextValue = preserveValues && Number.isFinite(currentValue) ? clamp(currentValue, config.min, config.max) : config.default;
+    const boundedValue = preserveValues && Number.isFinite(currentValue) ? clamp(currentValue, config.min, config.max) : config.default;
+    const nextValue = key === "dayOfYear" ? Math.round(boundedValue) : boundedValue;
     node.input.value = nextValue;
   });
 
@@ -1006,7 +1044,7 @@ function showSurfaceTooltip(clientX, clientY, options = {}) {
   const rect = surfaceMap.getBoundingClientRect();
   const x = clientX - rect.left;
   const y = clientY - rect.top;
-  const { margin, width, height, moonConfig, seaConfig, airTemp } = surfaceState;
+  const { margin, width, height, moonConfig, seaConfig, airTemp, dayOfYear } = surfaceState;
   const withinX = x >= margin.left && x <= margin.left + width;
   const withinY = y >= margin.top && y <= margin.top + height;
 
@@ -1022,7 +1060,7 @@ function showSurfaceTooltip(clientX, clientY, options = {}) {
   if (commitSelection) {
     syncSimulatorToSurfacePoint(seaTemp, moonAge);
   }
-  const result = simulate({ airTemp, seaTemp, moonAge }, payloadState);
+  const result = simulate({ airTemp, seaTemp, moonAge, dayOfYear }, payloadState);
   const aggregateMode = payloadState.scope && payloadState.scope.mode === "aggregate";
   const maxLabel = aggregateMode ? "平均予測上限" : "予測上限";
   const minLabel = aggregateMode ? "平均予測下限" : "予測下限";
@@ -1032,6 +1070,7 @@ function showSurfaceTooltip(clientX, clientY, options = {}) {
     <span>${minLabel} ${amountText(result.predictedMin, payloadState.species.unit)}</span>
     <span>海水温 ${seaTemp.toFixed(1)}℃ / 月齢 ${moonAge.toFixed(1)}日</span>
     <span>気温 ${airTemp.toFixed(1)}℃ で固定</span>
+    <span>年内位相 ${formatPhaseValue(dayOfYear)}</span>
   `;
   surfaceTooltip.hidden = false;
 

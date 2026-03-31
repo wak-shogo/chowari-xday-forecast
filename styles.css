@@ -338,6 +338,8 @@ h1 {
 
 .surface-controls {
   margin-top: 14px;
+  display: grid;
+  gap: 12px;
 }
 
 .map-slider-card {
