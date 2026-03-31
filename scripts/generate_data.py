@@ -1079,16 +1079,16 @@ def build_hybrid_model(rows, neighbor_count, bandwidth, spec_key=DEFAULT_FEATURE
     }
 
 
-def candidate_thresholds(values):
+def candidate_thresholds(values, threshold_steps=RANDOM_FOREST_THRESHOLD_STEPS):
     unique_values = sorted(set(values))
     if len(unique_values) <= 1:
         return []
-    if len(unique_values) <= RANDOM_FOREST_THRESHOLD_STEPS:
+    if len(unique_values) <= threshold_steps:
         return [(left + right) * 0.5 for left, right in zip(unique_values, unique_values[1:])]
 
     thresholds = []
-    for step in range(1, RANDOM_FOREST_THRESHOLD_STEPS):
-        ratio = step / RANDOM_FOREST_THRESHOLD_STEPS
+    for step in range(1, threshold_steps):
+        ratio = step / threshold_steps
         index = min(max(1, int(round((len(unique_values) - 1) * ratio))), len(unique_values) - 1)
         left = unique_values[index - 1]
         right = unique_values[index]
@@ -1111,7 +1111,7 @@ def mean_squared_error(values, weights=None):
     return sum(weight * (value - mean) ** 2 for value, weight in zip(values, weights))
 
 
-def build_tree_node(samples, feature_keys, rng, depth, max_depth, min_leaf, max_features):
+def build_tree_node(samples, feature_keys, rng, depth, max_depth, min_leaf, max_features, threshold_steps):
     targets = [sample["target"] for sample in samples]
     weights = [sample["weight"] for sample in samples]
     total_weight = sum(weights)
@@ -1132,7 +1132,7 @@ def build_tree_node(samples, feature_keys, rng, depth, max_depth, min_leaf, max_
         if feature not in candidate_features:
             continue
         values = [sample["features"][feature_index] for sample in samples]
-        for threshold in candidate_thresholds(values):
+        for threshold in candidate_thresholds(values, threshold_steps=threshold_steps):
             left = [sample for sample in samples if sample["features"][feature_index] <= threshold]
             right = [sample for sample in samples if sample["features"][feature_index] > threshold]
             if len(left) < min_leaf or len(right) < min_leaf:
@@ -1159,8 +1159,26 @@ def build_tree_node(samples, feature_keys, rng, depth, max_depth, min_leaf, max_
     return {
         "f": best_split["featureIndex"],
         "t": round(best_split["threshold"], 6),
-        "l": build_tree_node(best_split["left"], feature_keys, rng, depth + 1, max_depth, min_leaf, max_features),
-        "r": build_tree_node(best_split["right"], feature_keys, rng, depth + 1, max_depth, min_leaf, max_features),
+        "l": build_tree_node(
+            best_split["left"],
+            feature_keys,
+            rng,
+            depth + 1,
+            max_depth,
+            min_leaf,
+            max_features,
+            threshold_steps,
+        ),
+        "r": build_tree_node(
+            best_split["right"],
+            feature_keys,
+            rng,
+            depth + 1,
+            max_depth,
+            min_leaf,
+            max_features,
+            threshold_steps,
+        ),
     }
 
 
@@ -1186,22 +1204,25 @@ def bootstrap_samples(feature_rows, targets, sample_weights, rng):
     return samples
 
 
+def build_random_forest_tree(feature_rows, targets, feature_keys, config, seed_key, tree_index, sample_weights=None):
+    rng = random.Random(f"{seed_key}:{tree_index}")
+    samples = bootstrap_samples(feature_rows, targets, sample_weights, rng)
+    return build_tree_node(
+        samples,
+        feature_keys,
+        rng,
+        depth=0,
+        max_depth=config.get("max_depth", RANDOM_FOREST_MAX_DEPTH),
+        min_leaf=config.get("min_leaf", RANDOM_FOREST_MIN_LEAF),
+        max_features=config.get("max_features", RANDOM_FOREST_MAX_FEATURES),
+        threshold_steps=config.get("threshold_steps", RANDOM_FOREST_THRESHOLD_STEPS),
+    )
+
+
 def train_random_forest(feature_rows, targets, feature_keys, config, seed_key, sample_weights=None):
     forest = []
     for tree_index in range(config.get("tree_count", RANDOM_FOREST_TREE_COUNT)):
-        rng = random.Random(f"{seed_key}:{tree_index}")
-        samples = bootstrap_samples(feature_rows, targets, sample_weights, rng)
-        forest.append(
-            build_tree_node(
-                samples,
-                feature_keys,
-                rng,
-                depth=0,
-                max_depth=config.get("max_depth", RANDOM_FOREST_MAX_DEPTH),
-                min_leaf=config.get("min_leaf", RANDOM_FOREST_MIN_LEAF),
-                max_features=config.get("max_features", RANDOM_FOREST_MAX_FEATURES),
-            )
-        )
+        forest.append(build_random_forest_tree(feature_rows, targets, feature_keys, config, seed_key, tree_index, sample_weights))
     return forest
 
 
@@ -1212,14 +1233,100 @@ def predict_tree(tree, feature_row):
     return node["v"]
 
 
-def fit_random_forest_model(rows, config, seed_key, sample_weights=None):
+def mean_weighted_error(points, weights=None):
+    if not points:
+        return 0.0
+    if not weights:
+        return sum(weighted_error(point, point) for point in points) / len(points)
+    total_weight = sum(weights)
+    if total_weight <= 0:
+        return 0.0
+    return sum(weight * weighted_error(point, point) for point, weight in zip(points, weights)) / total_weight
+
+
+def score_random_forest_validation(running_min_scores, running_max_scores, tree_count, validation_rows, count_ceiling, weights=None):
+    points = []
+    for index, row in enumerate(validation_rows):
+        predicted_min = decode_measure(running_min_scores[index] / tree_count, count_ceiling)
+        predicted_max = max(predicted_min, decode_measure(running_max_scores[index] / tree_count, count_ceiling))
+        points.append(
+            {
+                "catchMin": row["catchMin"],
+                "catchMax": row["catchMax"],
+                "predictedMin": predicted_min,
+                "predictedMax": predicted_max,
+            }
+        )
+    return mean_weighted_error(points, weights=weights)
+
+
+def fit_random_forest_model(rows, config, seed_key, sample_weights=None, validation_rows=None, validation_weights=None):
     feature_keys = tuple(config.get("featureKeys") or feature_spec(RANDOM_FOREST_FEATURE_SPEC)["featureKeys"])
     feature_rows = [[row.get(key, 0.0) for key in feature_keys] for row in rows]
     min_targets = [math.log1p(row["catchMin"]) for row in rows]
     max_targets = [math.log1p(row["catchMax"]) for row in rows]
     count_ceiling = max(row["catchMax"] for row in rows) * 1.35 + 1.0
-    min_forest = train_random_forest(feature_rows, min_targets, feature_keys, config, f"{seed_key}:min", sample_weights)
-    max_forest = train_random_forest(feature_rows, max_targets, feature_keys, config, f"{seed_key}:max", sample_weights)
+    configured_tree_count = config.get("tree_count", RANDOM_FOREST_TREE_COUNT)
+    selected_tree_count = configured_tree_count
+
+    if validation_rows:
+        validation_feature_rows = [[row.get(key, 0.0) for key in feature_keys] for row in validation_rows]
+        min_forest = []
+        max_forest = []
+        running_min_scores = [0.0 for _ in validation_rows]
+        running_max_scores = [0.0 for _ in validation_rows]
+        best_score = None
+        best_tree_count = 0
+        patience = config.get("early_stopping_patience", 0)
+        min_delta = config.get("early_stopping_min_delta", 0.0)
+
+        for tree_index in range(configured_tree_count):
+            min_tree = build_random_forest_tree(
+                feature_rows,
+                min_targets,
+                feature_keys,
+                config,
+                f"{seed_key}:min",
+                tree_index,
+                sample_weights,
+            )
+            max_tree = build_random_forest_tree(
+                feature_rows,
+                max_targets,
+                feature_keys,
+                config,
+                f"{seed_key}:max",
+                tree_index,
+                sample_weights,
+            )
+            min_forest.append(min_tree)
+            max_forest.append(max_tree)
+            for index, feature_row in enumerate(validation_feature_rows):
+                running_min_scores[index] += predict_tree(min_tree, feature_row)
+                running_max_scores[index] += predict_tree(max_tree, feature_row)
+
+            score = score_random_forest_validation(
+                running_min_scores,
+                running_max_scores,
+                tree_index + 1,
+                validation_rows,
+                count_ceiling,
+                weights=validation_weights,
+            )
+            if best_score is None or score < best_score - min_delta:
+                best_score = score
+                best_tree_count = tree_index + 1
+            if patience and best_tree_count and tree_index + 1 - best_tree_count >= patience:
+                break
+
+        selected_tree_count = max(best_tree_count, 1)
+        min_forest = min_forest[:selected_tree_count]
+        max_forest = max_forest[:selected_tree_count]
+    else:
+        train_config = {**config, "tree_count": config.get("selected_tree_count", configured_tree_count)}
+        min_forest = train_random_forest(feature_rows, min_targets, feature_keys, train_config, f"{seed_key}:min", sample_weights)
+        max_forest = train_random_forest(feature_rows, max_targets, feature_keys, train_config, f"{seed_key}:max", sample_weights)
+        selected_tree_count = train_config.get("tree_count", configured_tree_count)
 
     return {
         "type": "random_forest",
@@ -1234,9 +1341,13 @@ def fit_random_forest_model(rows, config, seed_key, sample_weights=None):
         "forest": {
             "targetType": "log_measure",
             "featureKeys": list(feature_keys),
-            "treeCount": config.get("tree_count", RANDOM_FOREST_TREE_COUNT),
+            "treeCount": selected_tree_count,
             "catchMin": min_forest,
             "catchMax": max_forest,
+        },
+        "training": {
+            "configuredTreeCount": configured_tree_count,
+            "selectedTreeCount": selected_tree_count,
         },
     }
 
@@ -1832,14 +1943,30 @@ def build_global_model_candidates(model_space):
             "weight_decay": 0.00008,
         },
         {
-            "id": "balanced_context_rf_8",
+            "id": "balanced_context_rf_128",
             "modelType": "random_forest",
             "label": "ランダムフォレスト",
             "featureKeys": rich_context_keys,
-            "tree_count": 8,
-            "max_depth": 6,
-            "min_leaf": 2,
-            "max_features": 8,
+            "tree_count": 128,
+            "max_depth": 10,
+            "min_leaf": 1,
+            "max_features": 16,
+            "threshold_steps": 18,
+            "early_stopping_patience": 18,
+            "early_stopping_min_delta": 0.002,
+        },
+        {
+            "id": "balanced_context_rf_224",
+            "modelType": "random_forest",
+            "label": "ランダムフォレスト",
+            "featureKeys": rich_context_keys,
+            "tree_count": 224,
+            "max_depth": 12,
+            "min_leaf": 1,
+            "max_features": 24,
+            "threshold_steps": 28,
+            "early_stopping_patience": 28,
+            "early_stopping_min_delta": 0.001,
         },
     )
 
@@ -1895,11 +2022,18 @@ def summarize_context_evaluations(summaries):
     }
 
 
-def fit_global_model(rows, config, seed_key, sample_weights=None):
+def fit_global_model(rows, config, seed_key, sample_weights=None, validation_rows=None, validation_weights=None):
     if config["modelType"] == "neural_network":
         return fit_neural_model(rows, config, seed_key=seed_key, sample_weights=sample_weights)
     if config["modelType"] == "random_forest":
-        return fit_random_forest_model(rows, config, seed_key=seed_key, sample_weights=sample_weights)
+        return fit_random_forest_model(
+            rows,
+            config,
+            seed_key=seed_key,
+            sample_weights=sample_weights,
+            validation_rows=validation_rows,
+            validation_weights=validation_weights,
+        )
     raise RuntimeError(f'Unsupported model config type: {config["modelType"]}')
 
 
@@ -1911,9 +2045,17 @@ def select_global_model_config(contexts, model_space):
 
     best_config = None
     best_summary = None
+    validation_weights = compute_balanced_row_weights(validation_rows)
     for config in candidates:
         row_weights = compute_balanced_row_weights(train_rows)
-        model = fit_global_model(train_rows, config, seed_key=f'global:{config["id"]}:selection', sample_weights=row_weights)
+        model = fit_global_model(
+            train_rows,
+            config,
+            seed_key=f'global:{config["id"]}:selection',
+            sample_weights=row_weights,
+            validation_rows=validation_rows,
+            validation_weights=validation_weights,
+        )
         context_summaries = []
         all_points = []
         for context in split_contexts:
@@ -1950,18 +2092,28 @@ def select_global_model_config(contexts, model_space):
             best_summary["global"]["score"],
             best_summary["global"]["maxMae"],
         ):
-            best_config = config
+            best_config = {
+                **config,
+                "selected_tree_count": model.get("training", {}).get("selectedTreeCount", config.get("tree_count")),
+            }
             best_summary = summary
     return best_config or candidates[0]
 
 
 def build_global_evaluations(contexts, config):
-    split_contexts, train_rows, _ = split_global_training_rows(contexts)
+    split_contexts, train_rows, validation_rows = split_global_training_rows(contexts)
     if not train_rows:
         return {}, {}
 
     row_weights = compute_balanced_row_weights(train_rows)
-    evaluation_model = fit_global_model(train_rows, config, seed_key=f'global:{config["id"]}:evaluation', sample_weights=row_weights)
+    evaluation_model = fit_global_model(
+        train_rows,
+        config,
+        seed_key=f'global:{config["id"]}:evaluation',
+        sample_weights=row_weights,
+        validation_rows=validation_rows,
+        validation_weights=compute_balanced_row_weights(validation_rows),
+    )
     ship_evaluations = {}
     aggregate_groups = {}
 
