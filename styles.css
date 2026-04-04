@@ -43,6 +43,7 @@ body {
 }
 
 .hero,
+.promo-banner,
 .chooser,
 .chart-panel,
 .top-days,
@@ -100,6 +101,50 @@ h1 {
 .chooser {
   margin-top: 18px;
   padding: 18px;
+}
+
+.promo-banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 18px 20px;
+  background:
+    linear-gradient(135deg, rgba(104, 209, 255, 0.18), rgba(26, 167, 255, 0.08)),
+    var(--panel);
+}
+
+.promo-label {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.promo-copy strong,
+.promo-copy p {
+  display: block;
+}
+
+.promo-copy strong {
+  font-size: 1.05rem;
+}
+
+.promo-copy p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.promo-copy a {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
 }
 
 .tab-row {
@@ -508,6 +553,10 @@ canvas {
   #surfaceMap {
     height: 500px;
   }
+
+  .promo-banner {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 720px) {
@@ -517,6 +566,7 @@ canvas {
   }
 
   .hero,
+  .promo-banner,
   .chooser,
   .chart-panel,
   .top-days,

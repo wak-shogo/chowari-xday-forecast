@@ -20,6 +20,8 @@ CATALOG_PATH = DATA_DIR / "catalog.json"
 
 CHOWARI_ROOT = "https://www.chowari.jp"
 ICHIROUMARU_ROOT = "https://www.ichiroumaru.jp"
+MANEIMARU_HOME = "https://www.maneimaru.jp/"
+MANEIMARU_PAGE_API = "https://www.maneimaru.jp/api/getTopDataListPage/"
 OPEN_METEO_ARCHIVE = "https://archive-api.open-meteo.com/v1/archive"
 OPEN_METEO_FORECAST = "https://api.open-meteo.com/v1/forecast"
 OPEN_METEO_MARINE = "https://marine-api.open-meteo.com/v1/marine"
@@ -32,6 +34,7 @@ DEFAULT_SHIP_IDS = [
     "00296",
     "00297",
     "ichiroumaru",
+    "maneimaru",
     "00007",
     "00834",
     "00307",
@@ -188,6 +191,17 @@ ICHIROUMARU_SHIP_CONFIG = {
     "latitude": ICHIROUMARU_COORDINATES[0],
     "longitude": ICHIROUMARU_COORDINATES[1],
 }
+MANEIMARU_COORDINATES = (35.114, 139.835)
+MANEIMARU_SHIP_CONFIG = {
+    "id": "maneimaru",
+    "source": "maneimaru",
+    "name": "萬栄丸",
+    "location": "千葉県館山市洲崎栄ノ浦港",
+    "homeUrl": MANEIMARU_HOME,
+    "catchUrl": MANEIMARU_HOME,
+    "latitude": MANEIMARU_COORDINATES[0],
+    "longitude": MANEIMARU_COORDINATES[1],
+}
 FULLWIDTH_TRANSLATION = str.maketrans("０１２３４５６７８９．〜～－ｃｍＣＭｋｇＫＧｇ", "0123456789.~~-cmCMkgKGg")
 MEASUREMENT_UNIT_PATTERN = r"[^\d\s/・,，。、()（）]+"
 COUNT_MEASUREMENT_UNITS = {"匹", "杯", "尾", "本", "枚", "羽", "人"}
@@ -318,6 +332,8 @@ def parse_available_month_codes(page_html):
 def parse_ship_meta(ship_id):
     if ship_id == ICHIROUMARU_SHIP_CONFIG["id"]:
         return parse_ichiroumaru_meta()
+    if ship_id == MANEIMARU_SHIP_CONFIG["id"]:
+        return parse_maneimaru_meta()
 
     url = f"{CHOWARI_ROOT}/ship/{ship_id}/"
     page_html = fetch_text(url)
@@ -362,6 +378,25 @@ def parse_ichiroumaru_meta():
         "latitude": latitude,
         "longitude": longitude,
         "source": "ichiroumaru",
+    }
+
+
+def parse_maneimaru_meta():
+    page_html = fetch_text(MANEIMARU_HOME)
+    title_match = re.search(r"<title>([^<]+)</title>", page_html)
+    title = clean_fragment(title_match.group(1)) if title_match else MANEIMARU_SHIP_CONFIG["name"]
+    name = MANEIMARU_SHIP_CONFIG["name"]
+    if title and MANEIMARU_SHIP_CONFIG["name"] not in title:
+        name = title.split("【", 1)[0].strip() or MANEIMARU_SHIP_CONFIG["name"]
+    return {
+        "id": MANEIMARU_SHIP_CONFIG["id"],
+        "name": name,
+        "location": MANEIMARU_SHIP_CONFIG["location"],
+        "homeUrl": MANEIMARU_SHIP_CONFIG["homeUrl"],
+        "catchUrl": MANEIMARU_SHIP_CONFIG["catchUrl"],
+        "latitude": MANEIMARU_SHIP_CONFIG["latitude"],
+        "longitude": MANEIMARU_SHIP_CONFIG["longitude"],
+        "source": "maneimaru",
     }
 
 
@@ -568,9 +603,128 @@ def parse_ichiroumaru_detail(page_html, ship_meta, source_url):
     }
 
 
+def parse_maneimaru_count(text):
+    cleaned = fullwidth_to_ascii(clean_fragment(text))
+    range_match = re.search(r"(\d+(?:\.\d+)?)\s*[-〜~]\s*(\d+(?:\.\d+)?)\s*匹", cleaned)
+    if range_match:
+        return {
+            "min": float(range_match.group(1)),
+            "max": float(range_match.group(2)),
+            "unit": "匹",
+            "raw": cleaned,
+        }
+    single_match = re.search(r"(\d+(?:\.\d+)?)\s*匹", cleaned)
+    if single_match:
+        value = float(single_match.group(1))
+        return {
+            "min": value,
+            "max": value,
+            "unit": "匹",
+            "raw": cleaned,
+        }
+    return None
+
+
+def parse_maneimaru_posts(page_html):
+    posts = []
+    for block in re.split(r'<div class="blog">', page_html)[1:]:
+        date_match = re.search(r'<h2 class="date">(\d{4}年\d{2}月\d{2}日)</h2>', block)
+        title_match = re.search(r'<h3 class="title"><a href="([^"]+)"[^>]*>([^<]+)</a>', block)
+        fish_match = re.search(r'<span class="fish-name">([^<]+)</span>', block)
+        fish_num_match = re.search(r'<span class="fish-num">(.*?)</span>', block, re.S)
+        if not (date_match and title_match and fish_match and fish_num_match):
+            continue
+        fish_name = normalize_species_name(fish_match.group(1))
+        if fish_name != "トラフグ":
+            continue
+        measurement = parse_maneimaru_count(fish_num_match.group(1))
+        if not measurement:
+            continue
+        posts.append(
+            {
+                "date": datetime.strptime(date_match.group(1), "%Y年%m月%d日").date(),
+                "sourceUrl": urllib.parse.urljoin(MANEIMARU_HOME, title_match.group(1)),
+                "location": MANEIMARU_SHIP_CONFIG["location"],
+                "airTemp": None,
+                "seaTemp": None,
+                "moonAge": None,
+                "species": {"トラフグ": {"匹": measurement}},
+            }
+        )
+    return posts
+
+
+def extract_maneimaru_page_dates(page_html):
+    return [datetime.strptime(raw, "%Y年%m月%d日").date() for raw in re.findall(r'<h2 class="date">(\d{4}年\d{2}月\d{2}日)</h2>', page_html)]
+
+
+def collect_maneimaru_reports(ship_meta, training_start, today):
+    daily = {}
+    seen_urls = set()
+    for page_number in range(1, 241):
+        if page_number == 1:
+            page_html = fetch_text(MANEIMARU_HOME)
+        else:
+            page_html = fetch_text(MANEIMARU_PAGE_API, {"p": page_number})
+        stripped = page_html.strip()
+        if not stripped or stripped.startswith("nodata"):
+            break
+
+        page_dates = extract_maneimaru_page_dates(page_html)
+        page_posts = parse_maneimaru_posts(page_html)
+        if not page_posts:
+            if page_dates and min(page_dates) < training_start:
+                break
+            continue
+
+        for post in page_posts:
+            if post["sourceUrl"] in seen_urls:
+                continue
+            seen_urls.add(post["sourceUrl"])
+            if not (training_start <= post["date"] <= today):
+                continue
+
+            key = post["date"].isoformat()
+            current = daily.get(key)
+            if not current:
+                current = {
+                    "date": post["date"],
+                    "location": post["location"],
+                    "airTemp": post["airTemp"],
+                    "seaTemp": post["seaTemp"],
+                    "moonAge": post["moonAge"],
+                    "sourceUrls": [post["sourceUrl"]],
+                    "tripCount": 0,
+                    "species": {},
+                }
+                daily[key] = current
+
+            current["tripCount"] += 1
+            if post["sourceUrl"] not in current["sourceUrls"]:
+                current["sourceUrls"].append(post["sourceUrl"])
+
+            for species_name, units in post["species"].items():
+                species_bucket = current["species"].setdefault(species_name, {})
+                for unit, measurement in units.items():
+                    unit_bucket = species_bucket.get(unit)
+                    if not unit_bucket:
+                        species_bucket[unit] = dict(measurement)
+                    else:
+                        unit_bucket["min"] = min(unit_bucket["min"], measurement["min"])
+                        unit_bucket["max"] = max(unit_bucket["max"], measurement["max"])
+                        unit_bucket["raw"] = measurement["raw"]
+
+        if page_dates and min(page_dates) < training_start:
+            break
+
+    return [daily[key] for key in sorted(daily.keys())]
+
+
 def collect_ship_reports(ship_meta, training_start, today):
     if ship_meta.get("source") == "ichiroumaru":
         return collect_ichiroumaru_reports(ship_meta, training_start, today)
+    if ship_meta.get("source") == "maneimaru":
+        return collect_maneimaru_reports(ship_meta, training_start, today)
 
     index_html = fetch_text(ship_meta["catchUrl"])
     available_months = parse_available_month_codes(index_html)
@@ -909,6 +1063,10 @@ def compute_base_stats(rows, feature_keys):
     return stats
 
 
+def serialized_scale(value):
+    return max(round(value, 6), 1e-6)
+
+
 def scale_features(raw_features, stats, feature_keys):
     feature_map = build_feature_map(
         raw_features["airTemp"],
@@ -1085,7 +1243,7 @@ def fit_baseline_models(rows, spec_key=DEFAULT_FEATURE_SPEC):
         },
         "stats": {
             "means": {key: round(stats["means"][key], 6) for key in spec["featureKeys"]},
-            "scales": {key: round(stats["scales"][key], 6) for key in spec["featureKeys"]},
+            "scales": {key: serialized_scale(stats["scales"][key]) for key in spec["featureKeys"]},
         },
         "countCeiling": round(count_ceiling, 3),
         "baseline": {
@@ -1596,7 +1754,7 @@ def fit_neural_model(rows, config, seed_key, sample_weights=None):
         "input": {
             "featureKeys": list(feature_keys),
             "means": {key: round(stats["means"][key], 6) for key in feature_keys},
-            "scales": {key: round(stats["scales"][key], 6) for key in feature_keys},
+            "scales": {key: serialized_scale(stats["scales"][key]) for key in feature_keys},
         },
         "network": {
             "activation": "tanh",

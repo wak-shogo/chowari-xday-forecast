@@ -653,6 +653,23 @@
           "file": "data/payloads/ichiroumaru-1dc2bcc3219d.json"
         }
       ]
+    },
+    {
+      "id": "maneimaru",
+      "name": "萬栄丸",
+      "location": "千葉県館山市洲崎栄ノ浦港",
+      "homeUrl": "https://www.maneimaru.jp/",
+      "catchUrl": "https://www.maneimaru.jp/",
+      "species": [
+        {
+          "id": "2e9f0701349a",
+          "label": "トラフグ",
+          "unit": "匹",
+          "positiveDays": 58,
+          "tripDays": 59,
+          "file": "data/payloads/maneimaru-2e9f0701349a.json"
+        }
+      ]
     }
   ],
   "aggregateSpecies": [
